@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../assets/texweave_Logo_1.png';
+import logo from '../../assets/texweave_Logo_1.png';
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
