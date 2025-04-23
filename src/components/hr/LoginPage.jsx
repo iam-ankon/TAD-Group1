@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/texweave_Logo_1.png';
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -8,7 +9,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const logoImage = "assets/texweave_Logo_1.png";
+  // const logoImage = "assets/texweave_Logo_1.png";
 
 
   // // const handleLogin = async (e) => {
@@ -206,7 +207,7 @@ const LoginPage = () => {
       </style>
 
       <div className="header">
-        <img src={logoImage} alt="Logo" style={{ width: "150px", position: "absolute", top: "20px", left: "20px" }} />
+        <img src={logo} alt="Logo" style={{ width: "150px", position: "absolute", top: "20px", left: "20px" }} />
 
         <div className="login-container">
           <h2>Login</h2>
