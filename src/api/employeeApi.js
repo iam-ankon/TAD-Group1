@@ -9,7 +9,7 @@ const getBaseUrl = () => {
   if (hostname === '192.168.0.163') {
     return 'https://tad-group.onrender.com/api/hrms/api/';
   } else if (hostname === '0.0.0.0') {
-    return 'http://0.0.0.0:8000/api/hrms/api/';
+    return 'https://tad-group.onrender.com/api/hrms/api/';
   } else {
     return 'https://tad-group.onrender.com/api/hrms/api/'; // Fallback for localhost
   }
