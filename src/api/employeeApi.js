@@ -11,7 +11,7 @@ const getBaseUrl = () => {
   } else if (hostname === '0.0.0.0') {
     return 'http://0.0.0.0:8000/api/hrms/api/';
   } else {
-    return 'http://localhost:8000/api/hrms/api/'; // Fallback for localhost
+    return 'https://tad-group.onrender.com/api/hrms/api/'; // Fallback for localhost
   }
 };
 
