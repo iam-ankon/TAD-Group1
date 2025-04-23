@@ -1,17 +1,18 @@
 
+
 import axios from 'axios';
 
 // Auto-detect API base URL depending on where frontend is accessed from
 const getBaseUrl = () => {
   const hostname = window.location.hostname;
 
-  if (hostname === 'localhost' || hostname.startsWith('192.168.')) {
-    // Local development
-    return 'http://localhost:8000/api/hrms/api/';
+  if (hostname === '192.168.0.163') {
+    return 'https://tad-group.onrender.com/api/hrms/api/';
+  } else if (hostname === '0.0.0.0') {
+    return 'http://0.0.0.0:8000/api/hrms/api/';
+  } else {
+    return 'http://localhost:8000/api/hrms/api/'; // Fallback for localhost
   }
-
-  // Production (deployed frontend like Vercel)
-  return 'https://tad-group.onrender.com/api/hrms/api/';
 };
 
 const api = axios.create({
@@ -19,7 +20,6 @@ const api = axios.create({
 });
 
 export { api };
-
 
 // ========== COMPANY ==========
 export const getCompanies = () => api.get('companies/');
