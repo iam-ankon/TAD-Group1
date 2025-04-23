@@ -14,7 +14,7 @@ const EmployeeLeave = () => {
     const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
-        axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leaves/')
+        axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leaves/')
             .then((response) => {
                 setLeaves(response.data);
                 setFilteredLeaves(response.data);
@@ -51,7 +51,7 @@ const EmployeeLeave = () => {
     }, [nameSearch, startDate, endDate, leaves]);
 
     const handleDelete = (id) => {
-        axios.delete(`http://192.168.0.163:8000/api/hrms/api/employee_leaves/${id}/`)
+        axios.delete(`https://tad-group.onrender.com/api/hrms/api/employee_leaves/${id}/`)
             .then(() => {
                 setLeaves(leaves.filter(leave => leave.id !== id));
             })

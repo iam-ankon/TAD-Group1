@@ -42,7 +42,7 @@ const AddLetterPage = () => {
   const addLetterSend = async (formData) => {
     try {
       const response = await axios.post(
-        "http://192.168.0.163:8000/api/hrms/api/letter_send/",
+        "https://tad-group.onrender.com/api/hrms/api/letter_send/",
         formData,
         {
           headers: {

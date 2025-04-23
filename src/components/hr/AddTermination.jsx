@@ -17,7 +17,7 @@ const AddTermination = () => {
 
     // Fetch the list of companies from the TAD group
     useEffect(() => {
-        axios.get("http://192.168.0.163:8000/api/hrms/api/tad_groups/")  // Replace this URL with your API for TAD group companies
+        axios.get("https://tad-group.onrender.com/api/hrms/api/tad_groups/")  // Replace this URL with your API for TAD group companies
             .then((response) => {
                 setCompanies(response.data);
             })
@@ -32,7 +32,7 @@ const AddTermination = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://192.168.0.163:8000/api/hrms/api/employee_termination/", formData)
+        axios.post("https://tad-group.onrender.com/api/hrms/api/employee_termination/", formData)
             .then(() => {
                 alert("Employee added successfully!");
                 navigate("/employee-termination");

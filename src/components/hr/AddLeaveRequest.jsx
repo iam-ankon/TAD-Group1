@@ -43,9 +43,9 @@ const AddLeaveRequest = () => {
   useEffect(() => {
     // Fetch employees, companies, and leave balances
     Promise.all([
-      axios.get('http://192.168.0.163:8000/api/hrms/api/employees/'),
-      axios.get('http://192.168.0.163:8000/api/hrms/api/tad_groups/'),
-      axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leave_balances/'),
+      axios.get('https://tad-group.onrender.com/api/hrms/api/employees/'),
+      axios.get('https://tad-group.onrender.com/api/hrms/api/tad_groups/'),
+      axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leave_balances/'),
     ])
       .then(([empRes, compRes, balRes]) => {
         setEmployees(empRes.data);
@@ -113,7 +113,7 @@ const AddLeaveRequest = () => {
       actual_date_of_joining: formatDate(newLeave.actual_date_of_joining),
     };
 
-    axios.post('http://192.168.0.163:8000/api/hrms/api/employee_leaves/', updatedLeave)
+    axios.post('https://tad-group.onrender.com/api/hrms/api/employee_leaves/', updatedLeave)
       .then(() => {
         navigate('/employee_leave');
       })

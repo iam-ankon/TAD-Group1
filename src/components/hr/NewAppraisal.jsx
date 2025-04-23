@@ -51,7 +51,7 @@ const NewAppraisal = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://192.168.0.163:8000/api/hrms/api/performanse_appraisals/",
+        "https://tad-group.onrender.com/api/hrms/api/performanse_appraisals/",
         formData
       );
       alert("Appraisal Added Successfully!");

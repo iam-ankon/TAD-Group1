@@ -13,7 +13,7 @@ const EmployeeLeaveTypes = () => {
 
     const fetchLeaveTypes = async () => {
         try {
-            const response = await axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leave_types/');
+            const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leave_types/');
             setLeaveTypes(response.data);
         } catch (error) {
             console.error('Error fetching leave types:', error);
@@ -36,7 +36,7 @@ const EmployeeLeaveTypes = () => {
             };
 
             await axios.put(
-                `http://192.168.0.163:8000/api/hrms/api/employee_leave_types/${editingField.id}/`,
+                `https://tad-group.onrender.com/api/hrms/api/employee_leave_types/${editingField.id}/`,
                 updatedLeave
             );
 

@@ -44,7 +44,7 @@ const AddEmployee = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const response = await axios.get("http://192.168.0.163:8000/api/hrms/api/tad_groups/");
+                const response = await axios.get("https://tad-group.onrender.com/api/hrms/api/tad_groups/");
                 setCompanies(response.data);
             } catch (error) {
                 console.error("Error fetching companies:", error);
@@ -53,7 +53,7 @@ const AddEmployee = () => {
 
         const fetchCustomers = async () => {
             try {
-                const response = await axios.get("http://192.168.0.163:8000/api/hrms/api/customers/");
+                const response = await axios.get("https://tad-group.onrender.com/api/hrms/api/customers/");
                 setCustomers(response.data);
                 console.log("Customers data:", response.data);
             } catch (error) {
@@ -111,7 +111,7 @@ const AddEmployee = () => {
         });
 
         try {
-            const response = await axios.post("http://192.168.0.163:8000/api/hrms/api/employees/", employeeFormData, {
+            const response = await axios.post("https://tad-group.onrender.com/api/hrms/api/employees/", employeeFormData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             setSuccessMessage("Employee saved successfully!");

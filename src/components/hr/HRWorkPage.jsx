@@ -19,7 +19,7 @@ const HRWorkPage = () => {
   useEffect(() => {
     const fetchEmployeeCount = async () => {
       try {
-        const response = await axios.get('http://192.168.0.163:8000/api/hrms/api/employees/');
+        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/employees/');
         setEmployeeCount(response.data.length || 0);
       } catch (err) {
         console.error('Fetch error:', err);
@@ -31,7 +31,7 @@ const HRWorkPage = () => {
 
     const fetchInterviews = async () => {
       try {
-        const response = await axios.get('http://192.168.0.163:8000/api/hrms/api/interviews/');
+        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/interviews/');
         setUpcomingInterviews(response.data);
       } catch (error) {
         console.error('Error fetching interviews:', error);
@@ -40,7 +40,7 @@ const HRWorkPage = () => {
 
     const fetchLeaveRequests = async () => {
       try {
-        const response = await axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leaves/');
+        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leaves/');
         setLeaveRequests(response.data);
         console.log("Leave Requests:", response.data)
       } catch (error) {
@@ -50,7 +50,7 @@ const HRWorkPage = () => {
 
     const fetchCVCount = async () => {
       try {
-        const response = await axios.get('http://192.168.0.163:8000/api/hrms/api/CVAdd/');
+        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/CVAdd/');
         setCvCount(response.data.length || 0);
       } catch (error) {
         console.error('Error fetching CV count:', error)

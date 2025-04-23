@@ -19,7 +19,7 @@ const MailMdSir = () => {
   const handleSendMail = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://192.168.0.163:8000/api/hrms/api/mdsir/", {
+      const response = await fetch("https://tad-group.onrender.com/api/hrms/api/mdsir/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

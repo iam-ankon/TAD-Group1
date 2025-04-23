@@ -25,7 +25,7 @@ const EditCVPage = () => {
     const fetchCV = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.163:8000/api/hrms/api/letter_send/${cvId}/`
+          `https://tad-group.onrender.com/api/hrms/api/letter_send/${cvId}/`
         );
         setCvData(response.data);
       } catch (error) {
@@ -55,7 +55,7 @@ const EditCVPage = () => {
   const updateCVManagement = async (formData) => {
     try {
       const response = await axios.put(
-        `http://192.168.0.163:8000/api/hrms/api/letter_send/${cvId}/`,
+        `https://tad-group.onrender.com/api/hrms/api/letter_send/${cvId}/`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

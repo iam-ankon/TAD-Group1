@@ -38,9 +38,9 @@ const EditEmployeePage = () => {
     const fetchData = async () => {
       try {
         const [employeeRes, companiesRes, customersRes] = await Promise.all([
-          axios.get(`http://192.168.0.163:8000/api/hrms/api/employees/${id}/`),
-          axios.get("http://192.168.0.163:8000/api/hrms/api/tad_groups/"),
-          axios.get("http://192.168.0.163:8000/api/hrms/api/customers/")
+          axios.get(`https://tad-group.onrender.com/api/hrms/api/employees/${id}/`),
+          axios.get("https://tad-group.onrender.com/api/hrms/api/tad_groups/"),
+          axios.get("https://tad-group.onrender.com/api/hrms/api/customers/")
         ]);
 
         const emp = employeeRes.data;
@@ -118,14 +118,14 @@ const EditEmployeePage = () => {
 
       // First update the employee
       await axios.put(
-        `http://192.168.0.163:8000/api/hrms/api/employees/${id}/`,
+        `https://tad-group.onrender.com/api/hrms/api/employees/${id}/`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
       // Then update customers separately
       await axios.patch(
-        `http://192.168.0.163:8000/api/hrms/api/employees/${id}/update_customers/`,
+        `https://tad-group.onrender.com/api/hrms/api/employees/${id}/update_customers/`,
         { customers: employee.customer }
       );
 

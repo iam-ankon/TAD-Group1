@@ -26,9 +26,9 @@ const LeaveRequestDetails = () => {
 
                 // Fetch all required data
                 const [leaveRes, balancesRes, typesRes] = await Promise.all([
-                    axios.get(`http://192.168.0.163:8000/api/hrms/api/employee_leaves/${id}/`),
-                    axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leave_balances/'),
-                    axios.get('http://192.168.0.163:8000/api/hrms/api/employee_leave_types/')
+                    axios.get(`https://tad-group.onrender.com/api/hrms/api/employee_leaves/${id}/`),
+                    axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leave_balances/'),
+                    axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leave_types/')
                 ]);
 
                 setLeave(leaveRes.data);
