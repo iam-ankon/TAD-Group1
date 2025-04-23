@@ -12,23 +12,21 @@ const EmployeeDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 10;
 
-  const fetchEmployees = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await getEmployees();
-      setEmployees(response.data);
-    } catch (err) {
-      console.error("Error fetching employees", err);
-      setError("Failed to load employees. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        setLoading(true);
+        const response = await getEmployees();
+        setEmployees(response.data);
+      } catch (error) {
+        console.error("Error fetching employees", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchEmployees();
-  }, [fetchEmployees]);
+  }, []);
 
   const handleRowClick = (id) => {
     navigate(`/employee/${id}`);
@@ -119,27 +117,8 @@ const EmployeeDetails = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) {
-    return (
-      <div className="loading-overlay">
-        <div className="loading-content">
-          <FaSpinner className="spinner-icon" />
-          <p>Loading employee data...</p>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div className="loading-spinner">Loading...</div>;
 
-  if (error) {
-    return (
-      <div className="error-message">
-        <p>{error}</p>
-        <button onClick={fetchEmployees} className="btn-retry">
-          Retry
-        </button>
-      </div>
-    );
-  }
   return (
     <div className="employee-list-container">
       <div className="sidebar-wrapper">
