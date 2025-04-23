@@ -64,7 +64,7 @@ const EmployeeLeave = () => {
         navigate(`/leave-request-details/${id}`);
     };
 
-    if (loading) return <div style={{ padding: '20px' }}>Loading...</div>;
+    
 
     return (
         <div style={styles.container}>

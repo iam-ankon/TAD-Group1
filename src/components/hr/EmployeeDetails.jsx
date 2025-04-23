@@ -117,7 +117,7 @@ const EmployeeDetails = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) return <div className="loading-spinner">Loading...</div>;
+  
 
   return (
     <div className="employee-list-container">
