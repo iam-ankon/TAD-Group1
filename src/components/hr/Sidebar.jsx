@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMenu } from "react-icons/fi";
 import { FiUsers, FiCalendar, FiMail, FiFileText, FiDollarSign, FiTerminal, FiSend, FiLogOut, FiPieChart, FiBriefcase, FiClock, FiHome } from 'react-icons/fi';
+import logo from '../../assets/texweave_Logo_1.png';
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state (open/close)
@@ -62,7 +63,7 @@ const Sidebar = () => {
         <div className="sidebar-header">
           {/* Logo Section */}
           <div className="logo">
-            <img src="/public/texweave_Logo_1.png" alt="Logo" className="logo-image" />
+            <img src={logo} alt="Logo" className="logo-image" />
           </div>
           <button onClick={handleDashboardClick} className="sidebar-title">
             Dashboard
