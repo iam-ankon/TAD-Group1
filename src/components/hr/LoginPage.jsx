@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const logoImage = "https://tad-group.vercel.app/public/texweave_Logo_1.png";
+  const logoImage = "https://tad-group.vercel.app/texweave_Logo_1.png";
 
 
   // // const handleLogin = async (e) => {
