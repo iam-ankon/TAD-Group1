@@ -12,37 +12,6 @@ const LoginPage = () => {
   // const logoImage = "assets/texweave_Logo_1.png";
 
 
-  // // const handleLogin = async (e) => {
-  // //   e.preventDefault();
-  // //   setError("");
-  // //   setLoading(true);
-
-  // //   try {
-  // //     const response = await fetch("http://127.0.0.1:8000/users/login/", {
-  // //       method: "POST",
-  // //       headers: {
-  // //         "Content-Type": "application/json",
-  // //       },
-  // //       body: JSON.stringify({ username, password }),
-  // //     });
-
-  // //     const data = await response.json();
-
-  // //     if (response.ok) {
-  // //       localStorage.setItem("token", data.token);
-  // //       setUsername("");
-  // //       setPassword("");
-  // //       navigate("/dashboard");
-  // //     } else {
-  // //       setError(data.error || "Login failed. Please try again.");
-  // //     }
-  // //   } catch (err) {
-  // //     setError("An error occurred. Please try again later.");
-  // //   } finally {
-  // //     setLoading(false);
-  // //   }
-  // // };
-
   const getBackendURL = () => {
     return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
       ? "http://127.0.0.1:8000"
