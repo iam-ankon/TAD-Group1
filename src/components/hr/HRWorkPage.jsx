@@ -1,8 +1,10 @@
+
+
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiUsers, FiCalendar, FiMail, FiFileText, FiDollarSign, FiTerminal, FiSend, FiLogOut, FiPieChart, FiBriefcase, FiClock, FiHome, FiVoicemail } from 'react-icons/fi';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 import Sidebars from './sidebars';
 
 const HRWorkPage = () => {
@@ -10,11 +12,11 @@ const HRWorkPage = () => {
   const [employeeCount, setEmployeeCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('dashboard');
+
   const [upcomingInterviews, setUpcomingInterviews] = useState([]);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [cvCount, setCvCount] = useState(0);
-  const [recentActivities, setRecentActivities] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]);
 
   useEffect(() => {
     const fetchEmployeeCount = async () => {
@@ -57,72 +59,23 @@ const HRWorkPage = () => {
       }
     }
 
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/attendance/');
+        console.log("Attendance Data Response:", response.data);
+        setAttendanceData(response.data);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
     fetchEmployeeCount();
     fetchInterviews();
     fetchLeaveRequests();
     fetchCVCount();
+    fetchAttendanceData();
   }, []);
-  useEffect(() => {
-    const trackablePages = ['/employees', '/interviews', '/employee_leave', '/cv-list', '/attendance'];
 
-    if (trackablePages.includes(location.pathname)) {
-      trackActivity(location.pathname);
-      // Retrieve recent activities only if it's a trackable page
-      const storedActivities = JSON.parse(localStorage.getItem('recentActivities')) || [];
-      setRecentActivities(storedActivities);
-    } else {
-      //if it is not a trackable page, still try to retrieve from local storage.
-      const storedActivities = JSON.parse(localStorage.getItem('recentActivities')) || [];
-      setRecentActivities(storedActivities);
-    }
-
-  }, [location.pathname]);
-
-  const trackActivity = (page) => {
-    const newActivity = {
-      page: page,
-      timestamp: new Date().toISOString(),
-    };
-
-    const storedActivities = JSON.parse(localStorage.getItem('recentActivities')) || [];
-    const updatedActivities = [newActivity, ...storedActivities.slice(0, 4)]; // Keep last 5
-
-    localStorage.setItem('recentActivities', JSON.stringify(updatedActivities));
-  };
-
-  const getActivityDescription = (page) => {
-    switch (page) {
-      case '/employees':
-        return 'Visited Employees Page';
-      case '/interviews':
-        return 'Visited Interviews Page';
-      case '/employee_leave':
-        return 'Visited Leave Management Page';
-      case '/cv-list':
-        return 'Visited CV list Page';
-      case '/attendance':
-        return 'Visited Attendance Page';
-      default:
-        return `Visited ${page}`;
-    }
-  };
-
-  const getActivityIcon = (page) => {
-    switch (page) {
-      case '/employees':
-        return <FiUsers />;
-      case '/interviews':
-        return <FiBriefcase />;
-      case '/employee_leave':
-        return <FiCalendar />;
-      case '/cv-list':
-        return <FiFileText />;
-      case '/attendance':
-        return <FiClock />;
-      default:
-        return <FiMail />;
-    }
-  }
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -144,8 +97,20 @@ const HRWorkPage = () => {
     { title: 'Process Payroll', icon: <FiDollarSign size={20} />, link: '/finance-provision' },
     { title: 'Send Announcement', icon: <FiSend size={20} />, link: '/letter-send' },
   ];
+
+  // Get today's attendance data
+  const todayAttendance = attendanceData.filter(record => {
+    const recordDate = new Date(record.date);
+    return (
+      recordDate.getDate() === today.getDate() &&
+      recordDate.getMonth() === today.getMonth() &&
+      recordDate.getFullYear() === today.getFullYear()
+    );
+  });
+
+
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f9fafb' }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f4f7fc' }}>
       {/* Sidebar */}
       <div style={{ display: 'flex' }}>
         <Sidebars />
@@ -244,8 +209,9 @@ const HRWorkPage = () => {
             </div>
           </div>
 
-          {/* Pending Leave Requests */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+          {/* Pending Leave Requests and Today's Attendance */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+            {/* Pending Leave Requests */}
             <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
               <div style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
                 <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Pending Leave Requests</h2>
@@ -280,29 +246,40 @@ const HRWorkPage = () => {
               </div>
             </div>
 
-            {/* Recent Activities */}
+            {/* Today's Attendance */}
             <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
               <div style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
-                <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Recent Activities</h2>
+                <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Today's Attendance</h2>
               </div>
-              <div style={{ borderTop: '1px solid #e5e7eb' }}>
-                {recentActivities.map((activity, index) => (
-                  <div key={index} style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ marginRight: '0.75rem', padding: '0.5rem', backgroundColor: '#dcfce7', borderRadius: '0.375rem', color: '#16a34a' }}>
-                        {getActivityIcon(activity.page)}
-                      </div>
+              <div style={{ borderTop: '1px solid #e5e7eb', maxHeight: todayAttendance.length > 1 ? '200px' : 'auto', overflowY: todayAttendance.length > 1 ? 'auto' : 'hidden' }}>
+              
+                {todayAttendance.slice(0, todayAttendance.length > 1 ? 1 : undefined).map((record, index) => (
+                  <div key={record.id} style={{ padding: '1rem', borderBottom: index < (todayAttendance.length > 1 ? 1 : todayAttendance.length) - 1 ? '1px solid #e5e7eb' : undefined, cursor: 'pointer', ':hover': { backgroundColor: '#f9fafb' } }} onClick={() => navigate(`/attendance/${record.id}`)}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
-                        <p style={{ fontWeight: 500 }}>{getActivityDescription(activity.page)}</p>
-                        <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>{new Date(activity.timestamp).toLocaleString()}</p>
+                        <h3 style={{ fontWeight: 500 }}>{record.employee_name}</h3>
+                        <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>ID: {record.id}</p>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <p style={{ fontWeight: 500 }}>Check-in: {record.check_in || '--:--'}</p>
+                        <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>Check-out: {record.check_out || '--:--'}</p>
                       </div>
                     </div>
                   </div>
                 ))}
+                {todayAttendance.length === 0 && (
+                  <div style={{ padding: '1rem', textAlign: 'center', color: '#6b7280' }}>
+                    No attendance records for today
+                  </div>
+                )}
+                
               </div>
-
+              <div style={{ padding: '1rem', borderTop: '1px solid #e5e7eb', textAlign: 'right' }}>
+                <Link to="/attendance" style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 500, ':hover': { color: '#1d4ed8' } }}>
+                  View All Attendance Records →
+                </Link>
+              </div>
             </div>
-
           </div>
         </main>
       </div>
