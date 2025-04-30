@@ -184,6 +184,7 @@ const EmployeeTermination = () => {
               <th style={styles.th}>Designation</th>
               <th style={styles.th}>Department</th>
               <th style={styles.th}>Company</th>
+              <th style={styles.th}>Customers</th>
               <th style={styles.th}>Actions</th>
             </tr>
           </thead>
@@ -208,6 +209,7 @@ const EmployeeTermination = () => {
                 <td style={styles.td}>{employee.designation}</td>
                 <td style={styles.td}>{employee.department}</td>
                 <td style={styles.td}>{employee.company_name}</td>
+                <td style={styles.td}>{employee.customers}</td>
                 <td style={{ ...styles.td, display: "flex", gap: "5px" }}>
                   <button
                     style={{

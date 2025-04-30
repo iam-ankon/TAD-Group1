@@ -164,6 +164,7 @@ const EmployeeDetails = () => {
                     <th>Designation</th>
                     <th>Department</th>
                     <th>Company</th>
+                    <th>Customers</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -180,6 +181,7 @@ const EmployeeDetails = () => {
                         <td>{employee.designation}</td>
                         <td>{employee.department}</td>
                         <td>{employee.company_name}</td>
+                        <td>{employee.customers ? employee.customers.join(", ") : "N/A"}</td>
                         <td className="action-buttons-cell">
                           <button
                             onClick={(e) => {
