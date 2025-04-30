@@ -10,7 +10,7 @@ const EmployeeDetails = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const employeesPerPage = 5;
+  const employeesPerPage = 4;
 
   useEffect(() => {
     const fetchEmployees = async () => {
