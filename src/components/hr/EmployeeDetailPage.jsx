@@ -108,7 +108,7 @@ const EmployeeDetailPage = () => {
                 </div>
                 <div className="detail-row">
                   <span>Salary:</span>
-                  <span>${employee.salary}</span>
+                  <span>৳{employee.salary}</span>
                 </div>
                 <div className="detail-row">
                   <span>Joining Date:</span>
@@ -126,7 +126,7 @@ const EmployeeDetailPage = () => {
 
               <div className="detail-section">
                 <h4><FaEnvelope /> Contact Information</h4>
-                <div className="detail-row">
+                <div className="detail-row email-row">
                   <span>Email:</span>
                   <span>{employee.email}</span>
                 </div>
@@ -350,12 +350,15 @@ const EmployeeDetailPage = () => {
         .detail-row span:first-child {
           font-weight: 600;
           color: #34495e;
-          min-width: 150px;
+          min-width: 120px;
+          width: 120px;
         }
 
         .detail-row span:last-child {
           color: #2c3e50;
           flex: 1;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
         }
 
         .loading-spinner {
