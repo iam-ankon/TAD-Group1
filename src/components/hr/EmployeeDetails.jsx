@@ -32,6 +32,37 @@ const EmployeeDetails = () => {
     navigate(`/employee/${id}`);
   };
 
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [employeesResponse, customersResponse] = await Promise.all([
+          getEmployees(),
+          getCustomers() // You'll need to create this API function
+        ]);
+        setEmployees(employeesResponse.data);
+        setCustomers(customersResponse.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  const getCustomerNames = (customerIds) => {
+    if (!customerIds || !Array.isArray(customerIds)) return "N/A";
+    
+    return customerIds.map(id => {
+      const customer = customers.find(c => c.id === id);
+      return customer ? customer.name : `Unknown (ID: ${id})`;
+    }).join(", ");
+  };
+
   const handleDelete = async (id, e) => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this employee?")) {
@@ -181,7 +212,7 @@ const EmployeeDetails = () => {
                         <td>{employee.designation}</td>
                         <td>{employee.department}</td>
                         <td>{employee.company_name}</td>
-                        <td>{employee.customer ? employee.customer.join(", ") : "N/A"}</td>
+                        <td>{getCustomerNames(employee.customer)}</td>
                         <td className="action-buttons-cell">
                           <button
                             onClick={(e) => {
