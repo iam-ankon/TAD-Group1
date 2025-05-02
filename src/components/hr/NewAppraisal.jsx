@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebars from "./sidebars"; // Adjust the import path as necessary
 
 const NewAppraisal = () => {
+  const [employees, setEmployees] = useState([]);
   const [formData, setFormData] = useState({
     employee_id: "",
     name: "",
@@ -43,6 +44,48 @@ const NewAppraisal = () => {
     proposed_designation: "",
   });
 
+  // Fetch employees when component mounts
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/employee/details/api/employees/");
+        setEmployees(response.data);
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      }
+    };
+    fetchEmployees();
+  }, []);
+
+  const handleEmployeeSelect = async (e) => {
+    const selectedEmployeeId = e.target.value;
+    if (!selectedEmployeeId) return;
+
+    try {
+      // Find the selected employee from the employees list
+      const selectedEmployee = employees.find(emp => emp.employee_id === selectedEmployeeId);
+
+      if (selectedEmployee) {
+        // Update form data with employee details
+        setFormData(prev => ({
+          ...prev,
+          employee_id: selectedEmployee.employee_id,
+          name: selectedEmployee.name,
+          designation: selectedEmployee.designation,
+          joining_date: selectedEmployee.joining_date,
+          department: selectedEmployee.department || "",
+          present_designation: selectedEmployee.designation,
+          present_salary: selectedEmployee.salary || "",
+          // Add other fields as needed
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
+  };
+
+
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -55,7 +98,7 @@ const NewAppraisal = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "https://tad-group.onrender.com/api/hrms/api/performanse_appraisals/",
+        "http://127.0.0.1:8000/api/employee/details/api/performanse_appraisals/",
         formData
       );
       alert("Appraisal Added Successfully!");
@@ -105,12 +148,7 @@ const NewAppraisal = () => {
     }
   };
 
-  // const containerStyle = {
-  //   display: "flex",
-  //   minHeight: "100vh",
-  //   backgroundColor: "#f9fafb",
-  //   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  // };
+
 
   const mainContentStyle = {
     flex: 1,
@@ -154,7 +192,7 @@ const NewAppraisal = () => {
     fontSize: "16px",
     fontWeight: "bold",
     color: "#333",
-    
+
     marginBottom: "15px",
     paddingBottom: "5px",
     borderBottom: "1px solid #eee",
@@ -265,22 +303,60 @@ const NewAppraisal = () => {
                         />
                       </div>
                     </div>
-                    <div style={fieldContainerStyle}>
-                      <div style={labelContainerStyle}>
-                        <label htmlFor="name" style={labelStyle}>
-                          NAME
+                    <div style={{ marginBottom: "20px" }}>
+                      <div style={{ marginBottom: "8px" }}>
+                        <label
+                          htmlFor="employee-select"
+                          style={{
+                            display: "block",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            color: "#374151",
+                            marginBottom: "4px"
+                          }}
+                        >
+                          Employee Name
                         </label>
                       </div>
-                      <div style={inputContainerStyle}>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          style={inputStyle}
-                        />
+                      <div style={{ position: "relative" }}>
+                        <select
+                          id="employee-select"
+                          onChange={handleEmployeeSelect}
+                          style={{
+                            width: "100%",
+                            padding: "10px 12px",
+                            fontSize: "14px",
+                            border: "1px solid #d1d5db",
+                            borderRadius: "6px",
+                            backgroundColor: "#fff",
+                            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                            transition: "all 0.2s ease",
+                            appearance: "none",
+                            backgroundImage: "url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e\")",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "right 10px center",
+                            backgroundSize: "16px",
+                            cursor: "pointer",
+                            ":hover": {
+                              borderColor: "#9ca3af"
+                            },
+                            ":focus": {
+                              outline: "none",
+                              borderColor: "#3b82f6",
+                              boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1)"
+                            }
+                          }}
+                        >
+                          <option value="">-- Select Employee --</option>
+                          {employees.map((employee) => (
+                            <option
+                              key={employee.employee_id}
+                              value={employee.employee_id}
+                            >
+                              {employee.name} ({employee.employee_id}) - {employee.designation}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <div style={fieldContainerStyle}>
@@ -390,158 +466,158 @@ const NewAppraisal = () => {
                     </div>
                   </div>
                   {/* Performance and Salary Details Section */}
-                  
-                    <h3 style={sectionTitleStyle}>Performance and Salary Details</h3>
-                    <div style={formGridStyle}>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="performance" style={labelStyle}>
-                            PERFORMANCE
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="performance"
-                            name="performance"
-                            value={formData.performance}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
+
+                  <h3 style={sectionTitleStyle}>Performance and Salary Details</h3>
+                  <div style={formGridStyle}>
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="performance" style={labelStyle}>
+                          PERFORMANCE
+                        </label>
                       </div>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="expected_performance" style={labelStyle}>
-                            EXPECTED PERFORMANCE
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="expected_performance"
-                            name="expected_performance"
-                            value={formData.expected_performance}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
-                      </div>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="present_salary" style={labelStyle}>
-                            PRESENT SALARY
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="present_salary"
-                            name="present_salary"
-                            value={formData.present_salary}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
-                      </div>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="proposed_salary" style={labelStyle}>
-                            PROPOSED SALARY
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="proposed_salary"
-                            name="proposed_salary"
-                            value={formData.proposed_salary}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
-                      </div>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="present_designation" style={labelStyle}>
-                            PRESENT DESIGNATION
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="present_designation"
-                            name="present_designation"
-                            value={formData.present_designation}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
-                      </div>
-                      <div style={fieldContainerStyle}>
-                        <div style={labelContainerStyle}>
-                          <label htmlFor="proposed_designation" style={labelStyle}>
-                            PROPOSED DESIGNATION
-                          </label>
-                        </div>
-                        <div style={inputContainerStyle}>
-                          <input
-                            type="text"
-                            id="proposed_designation"
-                            name="proposed_designation"
-                            value={formData.proposed_designation}
-                            onChange={handleChange}
-                            style={inputStyle}
-                          />
-                        </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="performance"
+                          name="performance"
+                          value={formData.performance}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
                       </div>
                     </div>
-                    {/* Recommendations */}
-                    <div style={{ gridColumn: "span 2", marginTop: "20px" }}>
-                      <h3 style={{ marginBottom: "15px" }}>Recommendations</h3>
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "15px" }}>
-                        <div style={checkboxContainerStyle}>
-                          <input
-                            type="checkbox"
-                            id="promotion"
-                            name="promotion"
-                            checked={formData.promotion}
-                            onChange={handleCheckboxChange}
-                            style={checkboxStyle}
-                          />
-                          <label htmlFor="promotion" style={labelStyle}>
-                            Promotion
-                          </label>
-                        </div>
-                        <div style={checkboxContainerStyle}>
-                          <input
-                            type="checkbox"
-                            id="increment"
-                            name="increment"
-                            checked={formData.increment}
-                            onChange={handleCheckboxChange}
-                            style={checkboxStyle}
-                          />
-                          <label htmlFor="increment" style={labelStyle}>
-                            Increment
-                          </label>
-                        </div>
-                        <div style={checkboxContainerStyle}>
-                          <input
-                            type="checkbox"
-                            id="performance_reward"
-                            name="performance_reward"
-                            checked={formData.performance_reward}
-                            onChange={handleCheckboxChange}
-                            style={checkboxStyle}
-                          />
-                          <label htmlFor="performance_reward" style={labelStyle}>
-                            Performance Reward
-                          </label>
-                        </div>
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="expected_performance" style={labelStyle}>
+                          EXPECTED PERFORMANCE
+                        </label>
+                      </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="expected_performance"
+                          name="expected_performance"
+                          value={formData.expected_performance}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
                       </div>
                     </div>
-                 
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="present_salary" style={labelStyle}>
+                          PRESENT SALARY
+                        </label>
+                      </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="present_salary"
+                          name="present_salary"
+                          value={formData.present_salary}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
+                      </div>
+                    </div>
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="proposed_salary" style={labelStyle}>
+                          PROPOSED SALARY
+                        </label>
+                      </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="proposed_salary"
+                          name="proposed_salary"
+                          value={formData.proposed_salary}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
+                      </div>
+                    </div>
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="present_designation" style={labelStyle}>
+                          PRESENT DESIGNATION
+                        </label>
+                      </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="present_designation"
+                          name="present_designation"
+                          value={formData.present_designation}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
+                      </div>
+                    </div>
+                    <div style={fieldContainerStyle}>
+                      <div style={labelContainerStyle}>
+                        <label htmlFor="proposed_designation" style={labelStyle}>
+                          PROPOSED DESIGNATION
+                        </label>
+                      </div>
+                      <div style={inputContainerStyle}>
+                        <input
+                          type="text"
+                          id="proposed_designation"
+                          name="proposed_designation"
+                          value={formData.proposed_designation}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {/* Recommendations */}
+                  <div style={{ gridColumn: "span 2", marginTop: "20px" }}>
+                    <h3 style={{ marginBottom: "15px" }}>Recommendations</h3>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "15px" }}>
+                      <div style={checkboxContainerStyle}>
+                        <input
+                          type="checkbox"
+                          id="promotion"
+                          name="promotion"
+                          checked={formData.promotion}
+                          onChange={handleCheckboxChange}
+                          style={checkboxStyle}
+                        />
+                        <label htmlFor="promotion" style={labelStyle}>
+                          Promotion
+                        </label>
+                      </div>
+                      <div style={checkboxContainerStyle}>
+                        <input
+                          type="checkbox"
+                          id="increment"
+                          name="increment"
+                          checked={formData.increment}
+                          onChange={handleCheckboxChange}
+                          style={checkboxStyle}
+                        />
+                        <label htmlFor="increment" style={labelStyle}>
+                          Increment
+                        </label>
+                      </div>
+                      <div style={checkboxContainerStyle}>
+                        <input
+                          type="checkbox"
+                          id="performance_reward"
+                          name="performance_reward"
+                          checked={formData.performance_reward}
+                          onChange={handleCheckboxChange}
+                          style={checkboxStyle}
+                        />
+                        <label htmlFor="performance_reward" style={labelStyle}>
+                          Performance Reward
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
                 {/* Appraisal Details Section */}
@@ -909,7 +985,7 @@ const NewAppraisal = () => {
                       </div>
                     </div>
 
-                    
+
                   </div>
                 </div>
 
