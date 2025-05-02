@@ -217,7 +217,7 @@ const CVList = () => {
                         <tr>
                             <th style={styles.th}>Name</th>
                             <th style={styles.th}>Position For</th>
-                            <th style={styles.th}>Age</th>
+                            <th style={styles.th}>Date of Birth</th>
                             <th style={styles.th}>Email</th>
                             <th style={styles.th}>Phone</th>
                             <th style={styles.th}>Reference</th>
