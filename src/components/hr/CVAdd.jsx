@@ -155,7 +155,7 @@ const CVAdd = () => {
           </div>
           <div style={styles.formRow}>
             <div style={styles.formGroup}>
-              <label style={styles.label}>Age:</label>
+              <label style={styles.label}>Date of Birth:</label>
               <input type="number" name="age" value={formData.age} onChange={handleChange} required style={styles.inputField} />
             </div>
             <div style={styles.formGroup}>
