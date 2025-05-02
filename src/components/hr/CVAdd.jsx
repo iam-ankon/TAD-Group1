@@ -133,11 +133,11 @@ const CVAdd = () => {
   return (
     <div style={styles.appContainer}>
       <div style={{ display: 'flex' }}>
-                <Sidebars />
-                <div style={{ flex: 1, overflow: 'auto' }}>
-                    {/* Your page content here */}
-                </div>
-            </div>
+        <Sidebars />
+        <div style={{ flex: 1, overflow: 'auto' }}>
+          {/* Your page content here */}
+        </div>
+      </div>
 
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Add CV</h2>
