@@ -11,7 +11,7 @@ const EmployeeDetailPage = () => {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState(null);
   const [customerNames, setCustomerNames] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [ setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -254,7 +254,7 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
-  if (loading) return <div className="loading-spinner">Loading...</div>;
+ 
   if (!employee) return <p>Employee not found</p>;
 
   return (
