@@ -199,7 +199,7 @@ const CVList = () => {
                 <div style={styles.header}>
                     <h2>All CVs</h2>
                     <div style={styles.buttonContainer}>
-                        <Link to="/cv-add" style={styles.addButton}>Add CV</Link>
+                        <Link to="/cv-add" style={styles.addButton}>+ Add CV</Link>
                     </div>
                 </div>
                 <div style = {styles.searchInput}>
