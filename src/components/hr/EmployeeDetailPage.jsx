@@ -11,7 +11,7 @@ const EmployeeDetailPage = () => {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState(null);
   const [customerNames, setCustomerNames] = useState([]);
-  const [ setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -254,8 +254,7 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
- 
-  if (!employee) return <p>Employee not found</p>;
+
 
   return (
     <div className="employee-detail-container">
