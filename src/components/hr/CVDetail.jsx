@@ -143,7 +143,7 @@ const CVDetail = () => {
                         <div style={styles.details}>
                             <p style={styles.detailItem}><strong>Name:</strong> {cvDetails.name}</p>
                             <p style={styles.detailItem}><strong>Position:</strong> {cvDetails.position_for}</p>
-                            <p style={styles.detailItem}><strong>Age:</strong> {cvDetails.age}</p>
+                            <p style={styles.detailItem}><strong>Date of Birth:</strong> {cvDetails.age}</p>
                             <p style={styles.detailItem}><strong>Email:</strong> {cvDetails.email}</p>
                             <p style={styles.detailItem}><strong>Phone:</strong> {cvDetails.phone}</p>
                             <p style={styles.detailItem}><strong>Reference:</strong> {cvDetails.reference}</p>
@@ -157,7 +157,7 @@ const CVDetail = () => {
                         <div style={styles.qrContainer}>
                             <QRCodeCanvas
                                 ref={qrCodeRef}
-                                value={`http://192.168.0.163:5173/interviews/${id}`}
+                                value={`https://tad-group.vercel.app/interviews/${id}`}
                                 size={200}
                             />
                         </div>
