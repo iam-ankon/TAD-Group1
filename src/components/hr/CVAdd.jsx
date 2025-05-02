@@ -150,7 +150,7 @@ const CVAdd = () => {
             </div>
             <div style={styles.formGroup}>
               <label style={styles.label}>Position for:</label>
-              <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={styles.inputField} />
+              <input type="date" name="position_for" value={formData.position_for} onChange={handleChange} required style={styles.inputField} />
             </div>
           </div>
           <div style={styles.formRow}>
