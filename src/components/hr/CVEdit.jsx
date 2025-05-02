@@ -20,7 +20,7 @@ const CVEdit = () => {
   useEffect(() => {
     const fetchCV = async () => {
       try {
-        const response = await axios.get(`https://tad-group.onrender.com/api/hrms/api/CVAdd/${id}/`);
+        const response = await axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`);
         setCv(response.data);
         setFormData({
           name: response.data.name,
@@ -70,7 +70,7 @@ const CVEdit = () => {
     }
 
     try {
-      await axios.put(`https://tad-group.onrender.com/api/hrms/api/CVAdd/${id}/`, formDataToSubmit, {
+      await axios.put(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`, formDataToSubmit, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("CV updated successfully!");

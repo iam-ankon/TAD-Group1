@@ -10,7 +10,7 @@ const EmployeeLeaveBalance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://tad-group.onrender.com/api/hrms/api/employee_leave_balances/');
+        const response = await axios.get('https://tadbackend-5456.onrender.com/api/hrms/api/employee_leave_balances/');
         setBalances(response.data);
         setLoading(false);
       } catch (error) {

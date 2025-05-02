@@ -9,7 +9,7 @@ const AppraisalDetails = () => {
     const [appraisal, setAppraisal] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://tad-group.onrender.com/api/hrms/api/performanse_appraisals/${id}/`)
+        axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/performanse_appraisals/${id}/`)
             .then((res) => setAppraisal(res.data))
             .catch((err) => console.error("Error fetching data:", err));
     }, [id]);

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebars from './sidebars';
 
-const API_URL = "https://tad-group.onrender.com/api/hrms/api/interviews/";
+const API_URL = "https://tadbackend-5456.onrender.com/api/hrms/api/interviews/";
 
 const Interviews = () => {
   const location = useLocation();

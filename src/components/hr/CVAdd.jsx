@@ -39,7 +39,7 @@ const CVAdd = () => {
     }
 
     try {
-      await axios.post("https://tad-group.onrender.com/api/hrms/api/CVAdd/", uploadData, {
+      await axios.post("https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/", uploadData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

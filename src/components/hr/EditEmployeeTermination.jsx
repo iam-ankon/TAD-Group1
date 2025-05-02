@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-const API_URL = "https://tad-group.onrender.com/api/hrms/api/employee_termination/";
-const COMPANY_API_URL = "https://tad-group.onrender.com/api/hrms/api/tad_groups/";
+const API_URL = "https://tadbackend-5456.onrender.com/api/hrms/api/employee_termination/";
+const COMPANY_API_URL = "https://tadbackend-5456.onrender.com/api/hrms/api/tad_groups/";
 
 const EditEmployeeTermination = () => {
     const { id } = useParams();

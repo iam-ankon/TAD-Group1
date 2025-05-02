@@ -6,7 +6,7 @@ const TADGroups = () => {
 
   // Fetch TAD groups from the API
   useEffect(() => {
-    fetch('https://tad-group.onrender.com/api/hrms/api/tad_groups/')
+    fetch('https://tadbackend-5456.onrender.com/api/hrms/api/tad_groups/')
       .then(response => response.json())
       .then(data => setTadGroups(data))
       .catch(error => console.error('Error fetching data:', error));

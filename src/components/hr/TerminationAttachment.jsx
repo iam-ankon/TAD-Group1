@@ -67,7 +67,7 @@ const TerminationAttachment = () => {
 
     try {
       await axios.delete(
-        `https://tad-group.onrender.com/api/hrms/api/termination_attachment/${attachmentId}/`
+        `https://tadbackend-5456.onrender.com/api/hrms/api/termination_attachment/${attachmentId}/`
       );
       setAttachments(attachments.filter((attachment) => attachment.id !== attachmentId));
       alert("Termination file deleted successfully!");
@@ -79,7 +79,7 @@ const TerminationAttachment = () => {
   const handleEditDescription = (attachmentId, newDescription) => {
     axios
       .patch(
-        `https://tad-group.onrender.com/api/hrms/api/termination_attachment/${attachmentId}/`,
+        `https://tadbackend-5456.onrender.com/api/hrms/api/termination_attachment/${attachmentId}/`,
         { description: newDescription }
       )
       .then(() => {
@@ -125,7 +125,7 @@ const TerminationAttachment = () => {
               href={
                 attachment.file.startsWith("http")
                   ? attachment.file
-                  : `https://tad-group.onrender.com${attachment.file}`
+                  : `https://tadbackend-5456.onrender.com${attachment.file}`
               }
               target="_blank"
               rel="noopener noreferrer"

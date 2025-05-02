@@ -7,11 +7,11 @@ const getBaseUrl = () => {
   const hostname = window.location.hostname;
 
   if (hostname === '192.168.0.163') {
-    return 'https://tad-group.onrender.com/api/hrms/api/';
+    return 'https://tadbackend-5456.onrender.com/api/hrms/api/';
   } else if (hostname === '0.0.0.0') {
-    return 'https://tad-group.onrender.com/api/hrms/api/';
+    return 'https://tadbackend-5456.onrender.com/api/hrms/api/';
   } else {
-    return 'https://tad-group.onrender.com/api/hrms/api/'; // Fallback for localhost
+    return 'https://tadbackend-5456.onrender.com/api/hrms/api/'; // Fallback for localhost
   }
 };
 

@@ -14,7 +14,7 @@ const EmployeeAttachments = () => {
   const fetchAttachments = async () => {
     try {
       const response = await axios.get(
-        `https://tad-group.onrender.com/api/hrms/api/employee_attachments/?employee_id=${id}`
+        `https://tadbackend-5456.onrender.com/api/hrms/api/employee_attachments/?employee_id=${id}`
       );
       setAttachments(response.data);
     } catch (error) {
@@ -47,7 +47,7 @@ const EmployeeAttachments = () => {
 
     try {
       await axios.post(
-        "https://tad-group.onrender.com/api/hrms/api/employee_attachments/",
+        "https://tadbackend-5456.onrender.com/api/hrms/api/employee_attachments/",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -71,7 +71,7 @@ const EmployeeAttachments = () => {
 
     try {
       await axios.delete(
-        `https://tad-group.onrender.com/api/hrms/api/employee_attachments/${attachmentId}/`
+        `https://tadbackend-5456.onrender.com/api/hrms/api/employee_attachments/${attachmentId}/`
       );
       setAttachments(attachments.filter((attachment) => attachment.id !== attachmentId));
       alert("File deleted successfully!");
@@ -82,7 +82,7 @@ const EmployeeAttachments = () => {
 
   const handleEditDescription = (attachmentId, newDescription) => {
     axios.patch(
-      `https://tad-group.onrender.com/api/hrms/api/employee_attachments/${attachmentId}/`,
+      `https://tadbackend-5456.onrender.com/api/hrms/api/employee_attachments/${attachmentId}/`,
       { description: newDescription }
     )
       .then(() => {

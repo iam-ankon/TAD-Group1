@@ -35,7 +35,7 @@ const EmployeeDetailPage = () => {
         const names = [];
         for (const customerId of employee.customer) {
           try {
-            const response = await axios.get(`https://tad-group.onrender.com/api/hrms/api/customers/${customerId}/`);
+            const response = await axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/customers/${customerId}/`);
             names.push(response.data.customer_name);
           } catch (error) {
             console.error(`Error fetching customer ${customerId}`, error);

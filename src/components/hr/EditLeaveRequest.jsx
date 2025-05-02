@@ -37,7 +37,7 @@ const EditLeaveRequest = () => {
     });
 
     useEffect(() => {
-        axios.get(`https://tad-group.onrender.com/api/hrms/api/employee_leaves/${id}/`)
+        axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/employee_leaves/${id}/`)
             .then(res => setFormData(res.data))
             .catch(err => console.error(err));
     }, [id]);
@@ -48,7 +48,7 @@ const EditLeaveRequest = () => {
 
     const handleSubmit = () => {
         setLoading(true);
-        axios.put(`https://tad-group.onrender.com/api/hrms/api/employee_leaves/${id}/`, formData)
+        axios.put(`https://tadbackend-5456.onrender.com/api/hrms/api/employee_leaves/${id}/`, formData)
             .then(() => {
                 navigate('/employee_leave');
             })

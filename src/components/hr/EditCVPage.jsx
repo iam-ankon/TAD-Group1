@@ -25,7 +25,7 @@ const EditCVPage = () => {
     const fetchCV = async () => {
       try {
         const response = await axios.get(
-          `https://tad-group.onrender.com/api/hrms/api/letter_send/${cvId}/`
+          `https://tadbackend-5456.onrender.com/api/hrms/api/letter_send/${cvId}/`
         );
         setCvData(response.data);
       } catch (error) {
@@ -55,7 +55,7 @@ const EditCVPage = () => {
   const updateCVManagement = async (formData) => {
     try {
       const response = await axios.put(
-        `https://tad-group.onrender.com/api/hrms/api/letter_send/${cvId}/`,
+        `https://tadbackend-5456.onrender.com/api/hrms/api/letter_send/${cvId}/`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

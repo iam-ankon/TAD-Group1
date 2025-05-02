@@ -15,7 +15,7 @@ const LoginPage = () => {
   const getBackendURL = () => {
     return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
       ? "http://127.0.0.1:8000"
-      : "https://tad-group.onrender.com";
+      : "https://tadbackend-5456.onrender.com";
   };
 
   const handleLogin = async (e) => {
