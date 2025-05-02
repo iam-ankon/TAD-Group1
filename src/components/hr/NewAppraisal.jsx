@@ -48,7 +48,7 @@ const NewAppraisal = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/employee/details/api/employees/");
+        const response = await axios.get("https://tad-group.onrender.com/api/hrms/api/employees/");
         setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employees:", error);
@@ -98,7 +98,7 @@ const NewAppraisal = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/employee/details/api/performanse_appraisals/",
+        "https://tad-group.onrender.com/api/hrms/api/performanse_appraisals/",
         formData
       );
       alert("Appraisal Added Successfully!");
