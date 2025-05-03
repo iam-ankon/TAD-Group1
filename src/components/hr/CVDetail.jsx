@@ -255,12 +255,16 @@ const CVDetail = () => {
     
         try {
             setIsLoading(true);
+            
+            // 1. Get QR code as base64
             const qrCanvas = qrCodeRef.current;
             const qrCodeImage = qrCanvas.toDataURL("image/png");
             
+            // 2. Create FormData
             const formData = new FormData();
             formData.append('qr_code', qrCodeImage);
             
+            // 3. Make API request
             const response = await axios.post(
                 `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
                 formData,
@@ -273,9 +277,11 @@ const CVDetail = () => {
                 }
             );
     
+            // 4. Handle successful response
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             
+            // 5. Open PDF in new window
             const newWindow = window.open(url, '_blank');
             if (newWindow) {
                 newWindow.onload = () => {
@@ -294,22 +300,19 @@ const CVDetail = () => {
             console.error("Error updating CV with QR code:", error);
             let errorMessage = "An error occurred while processing your request";
             
+            // Enhanced error handling
             if (error.response) {
-                // Handle HTTP errors
-                if (error.response.status === 500) {
+                try {
+                    // Try to parse error response (might be JSON or text)
+                    const errorText = await error.response.data.text();
                     try {
-                        // Try to read the error message from the response
-                        const errorText = await error.response.data.text();
-                        try {
-                            const errorData = JSON.parse(errorText);
-                            errorMessage = errorData.error || errorData.details || errorMessage;
-                        } catch {
-                            errorMessage = errorText || errorMessage;
-                        }
-                    } catch (e) {
-                        console.error("Error parsing error response:", e);
-                        errorMessage = "Server error (500) - Could not parse response";
+                        const errorData = JSON.parse(errorText);
+                        errorMessage = errorData.error || errorData.details || errorText;
+                    } catch {
+                        errorMessage = errorText;
                     }
+                } catch (e) {
+                    errorMessage = `Server error (${error.response.status})`;
                 }
             } else if (error.code === 'ERR_NETWORK') {
                 errorMessage = "Network error. Please check your connection.";
@@ -322,6 +325,8 @@ const CVDetail = () => {
             setIsLoading(false);
         }
     };
+
+    
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
