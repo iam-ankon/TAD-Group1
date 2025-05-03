@@ -16,7 +16,7 @@ const CVEdit = () => {
     email: "",
     phone: "",
     cv_file: null,
-    existing_cv: null, // To track the existing CV file
+    existing_cv: null,
   });
 
   useEffect(() => {
@@ -31,8 +31,8 @@ const CVEdit = () => {
           reference: response.data.reference || "",
           email: response.data.email || "",
           phone: response.data.phone || "",
-          cv_file: null, // Initialize as null for new uploads
-          existing_cv: response.data.cv_file, // Store the existing file
+          cv_file: null,
+          existing_cv: response.data.cv_file,
         });
       } catch (error) {
         console.error("Error fetching CV:", error);
@@ -44,17 +44,11 @@ const CVEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      cv_file: e.target.files[0],
-    });
+    setFormData({ ...formData, cv_file: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
@@ -69,15 +63,8 @@ const CVEdit = () => {
     formDataToSubmit.append("email", formData.email);
     formDataToSubmit.append("phone", formData.phone);
 
-    // Only append the file if a new one was selected
     if (formData.cv_file instanceof File) {
       formDataToSubmit.append("cv_file", formData.cv_file);
-    } else if (formData.existing_cv) {
-      // If no new file was selected, ensure the existing file is preserved
-      // This might require backend support - some APIs handle this automatically
-      // If your backend requires the file to be resent, you might need to:
-      // 1. Fetch the existing file and append it
-      // 2. Or modify your backend to not require the file on updates
     }
 
     try {
@@ -100,7 +87,7 @@ const CVEdit = () => {
 
   if (!cv) return <div>Loading...</div>;
 
-  // Styles (same as before)
+  // --- Styling ---
   const containerStyle = {
     display: "flex",
     fontFamily: "Segoe UI, sans-serif",
@@ -108,26 +95,32 @@ const CVEdit = () => {
     minHeight: "100vh",
   };
 
-  const formContainerStyle = {
-    flex: 1,
-    padding: "20px",
+  const sidebarContainerStyle = {
+    width: "250px",
     backgroundColor: "#fff",
-    borderRadius: "8px",
-    margin: "20px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   };
 
-  // Updated to have 2 columns for side-by-side fields
+  const contentContainerStyle = {
+    flex: 1,
+    padding: "30px",
+  };
+
+  const formContainerStyle = {
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    padding: "20px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+  };
+
   const formGridStyle = {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr", // Two equal columns
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
     gap: "20px",
   };
 
   const formGroupStyle = {
     display: "flex",
     flexDirection: "column",
-    marginBottom: "15px",
   };
 
   const labelStyle = {
@@ -141,7 +134,6 @@ const CVEdit = () => {
     borderRadius: "5px",
     border: "1px solid #ccc",
     fontSize: "14px",
-    width: "100%", // Ensure inputs take full width of their container
   };
 
   const submitButtonStyle = {
@@ -156,60 +148,37 @@ const CVEdit = () => {
     transition: "background-color 0.3s",
   };
 
-  const submitButtonHoverStyle = {
-    backgroundColor: "#2b6cb0",
-  };
-
-  const buttonContainerStyle = {
-    display: "flex",
-    justifyContent: "flex-start",
-    marginTop: "20px",
-    gap: "10px",
+  const cancelButtonStyle = {
+    ...submitButtonStyle,
+    backgroundColor: "#ccc",
+    marginLeft: "10px",
   };
 
   return (
     <div style={containerStyle}>
-      <div style={{ display: 'flex' }}>
+      <div style={sidebarContainerStyle}>
         <Sidebars />
-        <div style={{ flex: 1, overflow: 'auto' }}>
-          <div style={formContainerStyle}>
-            <h2>Edit CV - {cv.name}</h2>
-            <form onSubmit={handleSubmit}>
-              <div style={formGridStyle}>
-                {/* Column 1 */}
-                <div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Name</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
-                  </div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Position for</label>
-                    <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
-                  </div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Date of Birth</label>
-                    <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
-                  </div>
+      </div>
+
+      <div style={contentContainerStyle}>
+        <div style={formContainerStyle}>
+          <h2>Edit CV - {cv.name}</h2>
+          <form onSubmit={handleSubmit}>
+            <div style={formGridStyle}>
+              {["name", "position_for", "age", "reference", "email", "phone"].map((field) => (
+                <div key={field} style={formGroupStyle}>
+                  <label style={labelStyle}>{field.replace("_", " ").replace(/\b\w/g, l => l.toUpperCase())}</label>
+                  <input
+                    type={field === "age" ? "number" : field === "email" ? "email" : "text"}
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    required={["name", "position_for", "age", "email", "phone"].includes(field)}
+                    style={inputStyle}
+                  />
                 </div>
-                
-                {/* Column 2 */}
-                <div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Reference</label>
-                    <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
-                  </div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Email</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
-                  </div>
-                  <div style={formGroupStyle}>
-                    <label style={labelStyle}>Phone</label>
-                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Full-width file input below the columns */}
+              ))}
+
               <div style={formGroupStyle}>
                 <label style={labelStyle}>CV File</label>
                 {formData.existing_cv && (
@@ -217,40 +186,40 @@ const CVEdit = () => {
                     Current file: {formData.existing_cv.split('/').pop()}
                   </p>
                 )}
-                <input 
-                  type="file" 
-                  name="cv_file" 
-                  onChange={handleFileChange} 
-                  style={inputStyle} 
-                  accept=".pdf,.doc,.docx" 
+                <input
+                  type="file"
+                  name="cv_file"
+                  onChange={handleFileChange}
+                  style={inputStyle}
+                  accept=".pdf,.doc,.docx"
                 />
                 <small style={{ color: '#666', marginTop: '5px' }}>
                   Leave empty to keep the existing file
                 </small>
               </div>
-              
-              <div style={buttonContainerStyle}>
-                <button 
-                  type="submit" 
-                  style={submitButtonStyle} 
-                  disabled={isSubmitting}
-                  onMouseEnter={(e) => (e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor)} 
-                  onMouseLeave={(e) => (e.target.style.backgroundColor = submitButtonStyle.backgroundColor)}
-                >
-                  {isSubmitting ? 'Saving...' : 'Save'}
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => navigate(-1)} 
-                  style={{ ...submitButtonStyle, backgroundColor: '#ccc' }} 
-                  onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')} 
-                  onMouseLeave={(e) => (e.target.style.backgroundColor = '#ccc')}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+
+            <div style={{ marginTop: "20px" }}>
+              <button
+                type="submit"
+                style={submitButtonStyle}
+                disabled={isSubmitting}
+                onMouseEnter={(e) => (e.target.style.backgroundColor = "#2b6cb0")}
+                onMouseLeave={(e) => (e.target.style.backgroundColor = "#3182ce")}
+              >
+                {isSubmitting ? "Saving..." : "Save"}
+              </button>
+              <button
+                type="button"
+                style={cancelButtonStyle}
+                onClick={() => navigate(-1)}
+                onMouseEnter={(e) => (e.target.style.backgroundColor = "#bbb")}
+                onMouseLeave={(e) => (e.target.style.backgroundColor = "#ccc")}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
