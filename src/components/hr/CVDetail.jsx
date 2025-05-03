@@ -280,24 +280,17 @@ const CVDetail = () => {
                 }
             );
     
-            // 4. Handle successful response
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            
-            // Check if response is actually a PDF
-            if (!blob.type.includes('pdf')) {
-                // Might be an error message
-                const errorText = await blob.text();
-                try {
-                    const errorData = JSON.parse(errorText);
-                    throw new Error(errorData.error || errorData.message || "Unknown error");
-                } catch {
-                    throw new Error(errorText || "Server returned non-PDF response");
-                }
+            // 4. Verify response type
+            if (!response.headers['content-type'].includes('pdf')) {
+                const errorText = await response.data.text();
+                throw new Error(errorText || "Server returned non-PDF response");
             }
     
+            // 5. Handle successful response
+            const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             
-            // 5. Open PDF in new window
+            // 6. Open PDF in new window
             const newWindow = window.open(url, '_blank');
             if (newWindow) {
                 newWindow.onload = () => {
@@ -318,7 +311,6 @@ const CVDetail = () => {
             
             if (error.response) {
                 try {
-                    // Try to parse error response (might be JSON or text)
                     const errorText = await error.response.data.text();
                     try {
                         const errorData = JSON.parse(errorText);
