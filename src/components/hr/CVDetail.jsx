@@ -29,37 +29,66 @@ const CVDetail = () => {
             const qrCodeImage = qrCanvas.toDataURL("image/png");
     
             try {
-                const response = await axios.post(
-                    `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
-                    { qr_code: qrCodeImage },
-                    { 
-                        responseType: "blob", // Expect binary response
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/pdf'
+                // First try with Accept: application/pdf
+                let response;
+                try {
+                    response = await axios.post(
+                        `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
+                        { qr_code: qrCodeImage },
+                        { 
+                            responseType: "blob",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/pdf'
+                            }
                         }
+                    );
+                } catch (pdfError) {
+                    // If PDF request fails, try without Accept header
+                    if (pdfError.response && pdfError.response.status === 406) {
+                        response = await axios.post(
+                            `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
+                            { qr_code: qrCodeImage },
+                            { 
+                                responseType: "blob",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                        );
+                    } else {
+                        throw pdfError;
                     }
-                );
+                }
     
-                // Create blob URL for the PDF
-                const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-                const pdfUrl = URL.createObjectURL(pdfBlob);
+                // Handle successful response
+                const pdfBlob = new Blob([response.data], { type: response.headers['content-type'] });
                 
-                // Open in new tab
-                const pdfWindow = window.open(pdfUrl, "_blank");
-                
-                // Optional: auto-print
-                pdfWindow.onload = () => {
-                    pdfWindow.print();
-                };
+                // Check if it's actually a PDF
+                if (pdfBlob.type.includes('pdf')) {
+                    const pdfUrl = URL.createObjectURL(pdfBlob);
+                    const pdfWindow = window.open(pdfUrl, "_blank");
+                    pdfWindow.onload = () => {
+                        pdfWindow.print();
+                    };
+                } else {
+                    // Handle case where server returned JSON error
+                    const errorText = await pdfBlob.text();
+                    const errorData = JSON.parse(errorText);
+                    console.error("Server error:", errorData);
+                    alert(`Error: ${errorData.error || errorData.detail || 'Unknown error'}`);
+                }
             } catch (error) {
                 console.error("Error updating CV with QR code:", error);
-                
-                // Handle JSON error responses if any
                 if (error.response && error.response.data instanceof Blob) {
                     const errorData = await error.response.data.text();
                     console.error("Error details:", errorData);
-                    alert(`Error: ${JSON.parse(errorData).error}`);
+                    try {
+                        const parsedError = JSON.parse(errorData);
+                        alert(`Error: ${parsedError.error || parsedError.detail || 'Unknown error'}`);
+                    } catch (e) {
+                        alert("An error occurred while processing your request.");
+                    }
                 } else {
                     alert("An error occurred while processing your request.");
                 }
