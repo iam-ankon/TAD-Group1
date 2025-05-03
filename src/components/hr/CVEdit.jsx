@@ -172,8 +172,8 @@ const CVEdit = () => {
               <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
             </div>
             <div style={formGroupStyle}>
-              <label style={labelStyle}>Age</label>
-              <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+              <label style={labelStyle}>Date of Birth</label>
+              <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
             </div>
             <div style={formGroupStyle}>
               <label style={labelStyle}>Reference</label>
