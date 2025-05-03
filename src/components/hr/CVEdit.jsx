@@ -117,15 +117,17 @@ const CVEdit = () => {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   };
 
+  // Updated to have 2 columns for side-by-side fields
   const formGridStyle = {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gridTemplateColumns: "1fr 1fr", // Two equal columns
     gap: "20px",
   };
 
   const formGroupStyle = {
     display: "flex",
     flexDirection: "column",
+    marginBottom: "15px",
   };
 
   const labelStyle = {
@@ -139,6 +141,7 @@ const CVEdit = () => {
     borderRadius: "5px",
     border: "1px solid #ccc",
     fontSize: "14px",
+    width: "100%", // Ensure inputs take full width of their container
   };
 
   const submitButtonStyle = {
@@ -150,7 +153,6 @@ const CVEdit = () => {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    alignSelf: "start",
     transition: "background-color 0.3s",
   };
 
@@ -162,7 +164,9 @@ const CVEdit = () => {
     display: "flex",
     justifyContent: "flex-start",
     marginTop: "20px",
+    gap: "10px",
   };
+
   return (
     <div style={containerStyle}>
       <div style={{ display: 'flex' }}>
@@ -172,53 +176,62 @@ const CVEdit = () => {
             <h2>Edit CV - {cv.name}</h2>
             <form onSubmit={handleSubmit}>
               <div style={formGridStyle}>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Name</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+                {/* Column 1 */}
+                <div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Name</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+                  </div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Position for</label>
+                    <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
+                  </div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Date of Birth</label>
+                    <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+                  </div>
                 </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Position for</label>
-                  <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
-                </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Date of Birth</label>
-                  <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
-                </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Reference</label>
-                  <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
-                </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Email</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
-                </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>Phone</label>
-                  <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
-                </div>
-                <div style={formGroupStyle}>
-                  <label style={labelStyle}>CV File</label>
-                  {formData.existing_cv && (
-                    <p style={{ marginBottom: '5px', fontSize: '14px' }}>
-                      Current file: {formData.existing_cv.split('/').pop()}
-                    </p>
-                  )}
-                  <input 
-                    type="file" 
-                    name="cv_file" 
-                    onChange={handleFileChange} 
-                    style={inputStyle} 
-                    accept=".pdf,.doc,.docx" 
-                  />
-                  <small style={{ color: '#666', marginTop: '5px' }}>
-                    Leave empty to keep the existing file
-                  </small>
+                
+                {/* Column 2 */}
+                <div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Reference</label>
+                    <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
+                  </div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Email</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
+                  </div>
+                  <div style={formGroupStyle}>
+                    <label style={labelStyle}>Phone</label>
+                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+                  </div>
                 </div>
               </div>
+              
+              {/* Full-width file input below the columns */}
+              <div style={formGroupStyle}>
+                <label style={labelStyle}>CV File</label>
+                {formData.existing_cv && (
+                  <p style={{ marginBottom: '5px', fontSize: '14px' }}>
+                    Current file: {formData.existing_cv.split('/').pop()}
+                  </p>
+                )}
+                <input 
+                  type="file" 
+                  name="cv_file" 
+                  onChange={handleFileChange} 
+                  style={inputStyle} 
+                  accept=".pdf,.doc,.docx" 
+                />
+                <small style={{ color: '#666', marginTop: '5px' }}>
+                  Leave empty to keep the existing file
+                </small>
+              </div>
+              
               <div style={buttonContainerStyle}>
                 <button 
                   type="submit" 
-                  onClick={handleSubmit} 
                   style={submitButtonStyle} 
                   disabled={isSubmitting}
                   onMouseEnter={(e) => (e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor)} 
@@ -229,7 +242,7 @@ const CVEdit = () => {
                 <button 
                   type="button" 
                   onClick={() => navigate(-1)} 
-                  style={{ ...submitButtonStyle, backgroundColor: '#ccc', marginLeft: '10px' }} 
+                  style={{ ...submitButtonStyle, backgroundColor: '#ccc' }} 
                   onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')} 
                   onMouseLeave={(e) => (e.target.style.backgroundColor = '#ccc')}
                 >
