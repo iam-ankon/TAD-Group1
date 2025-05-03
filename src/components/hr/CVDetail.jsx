@@ -31,28 +31,37 @@ const CVDetail = () => {
             try {
                 const response = await axios.post(
                     `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
-                    {
-                        qr_code: qrCodeImage,
-                    },
-                    { responseType: "arraybuffer" }
+                    { qr_code: qrCodeImage },
+                    { 
+                        responseType: "blob", // Expect binary response
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/pdf'
+                        }
+                    }
                 );
     
-                // Convert ArrayBuffer to a string if it's a text-based response
-                const text = new TextDecoder().decode(response.data);
-                console.log("Response text:", text);  // Check if there's any error message here
-    
-                // If it's a PDF or binary, continue processing it as before
+                // Create blob URL for the PDF
                 const pdfBlob = new Blob([response.data], { type: "application/pdf" });
                 const pdfUrl = URL.createObjectURL(pdfBlob);
+                
+                // Open in new tab
                 const pdfWindow = window.open(pdfUrl, "_blank");
-                pdfWindow.print();
+                
+                // Optional: auto-print
+                pdfWindow.onload = () => {
+                    pdfWindow.print();
+                };
             } catch (error) {
-                console.error("Error updating CV with QR code:", error.message);
-                if (error.response) {
-                    // Log detailed response data
-                    console.error("Response data:", error.response.data);
-                    console.error("Response status:", error.response.status);
-                    console.error("Response headers:", error.response.headers);
+                console.error("Error updating CV with QR code:", error);
+                
+                // Handle JSON error responses if any
+                if (error.response && error.response.data instanceof Blob) {
+                    const errorData = await error.response.data.text();
+                    console.error("Error details:", errorData);
+                    alert(`Error: ${JSON.parse(errorData).error}`);
+                } else {
+                    alert("An error occurred while processing your request.");
                 }
             }
         }
