@@ -254,16 +254,13 @@ const CVDetail = () => {
         if (!qrCodeRef.current || !cvDetails) return;
     
         try {
-            setIsLoading(true); // Set loading state to true
-            // Get the QR code as base64
+            setIsLoading(true);
             const qrCanvas = qrCodeRef.current;
             const qrCodeImage = qrCanvas.toDataURL("image/png");
             
-            // Create FormData to send the file
             const formData = new FormData();
             formData.append('qr_code', qrCodeImage);
             
-            // Make the request with proper headers
             const response = await axios.post(
                 `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
                 formData,
@@ -272,15 +269,13 @@ const CVDetail = () => {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },
-                    timeout: 30000 // 30 seconds timeout
+                    timeout: 30000
                 }
             );
-
-            // Handle the response
+    
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             
-            // Open in new window and print
             const newWindow = window.open(url, '_blank');
             if (newWindow) {
                 newWindow.onload = () => {
@@ -301,15 +296,19 @@ const CVDetail = () => {
             
             if (error.response) {
                 // Handle HTTP errors
-                if (error.response.status === 502) {
-                    errorMessage = "Server is temporarily unavailable. Please try again later.";
-                } else if (error.response.data instanceof Blob) {
+                if (error.response.status === 500) {
                     try {
+                        // Try to read the error message from the response
                         const errorText = await error.response.data.text();
-                        const errorData = JSON.parse(errorText);
-                        errorMessage = errorData.error || errorData.message || errorMessage;
+                        try {
+                            const errorData = JSON.parse(errorText);
+                            errorMessage = errorData.error || errorData.details || errorMessage;
+                        } catch {
+                            errorMessage = errorText || errorMessage;
+                        }
                     } catch (e) {
                         console.error("Error parsing error response:", e);
+                        errorMessage = "Server error (500) - Could not parse response";
                     }
                 }
             } else if (error.code === 'ERR_NETWORK') {
@@ -318,12 +317,11 @@ const CVDetail = () => {
                 errorMessage = "Request timed out. Please try again.";
             }
             
-            alert(errorMessage);
+            alert(`Error: ${errorMessage}`);
         } finally {
-            setIsLoading(false); // Set loading state to false when done
+            setIsLoading(false);
         }
     };
-
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
