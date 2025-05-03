@@ -27,7 +27,7 @@ const CVDetail = () => {
         if (qrCodeRef.current && cvDetails) {
             const qrCanvas = qrCodeRef.current;
             const qrCodeImage = qrCanvas.toDataURL("image/png");
-
+    
             try {
                 const response = await axios.post(
                     `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
@@ -36,16 +36,22 @@ const CVDetail = () => {
                     },
                     { responseType: "arraybuffer" }
                 );
-
+    
                 const pdfBlob = new Blob([response.data], { type: "application/pdf" });
                 const pdfUrl = URL.createObjectURL(pdfBlob);
                 const pdfWindow = window.open(pdfUrl, "_blank");
                 pdfWindow.print();
             } catch (error) {
-                console.error("Error updating CV with QR code:", error);
+                console.error("Error updating CV with QR code:", error.message);
+                if (error.response) {
+                    console.error("Response data:", error.response.data);
+                    console.error("Response status:", error.response.status);
+                    console.error("Response headers:", error.response.headers);
+                }
             }
         }
     };
+    
 
     const handleSelectForInterview = () => {
         if (cvDetails) {
