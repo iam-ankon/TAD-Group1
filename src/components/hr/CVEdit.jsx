@@ -153,6 +153,11 @@ const CVEdit = () => {
     backgroundColor: "#ccc",
     marginLeft: "10px",
   };
+  const buttonContainerStyle = {
+    display: "flex",
+    justifyContent: "flex-start",
+    marginTop: "20px",
+  };
   return (
     <div style={containerStyle}>
       <div style={{ display: 'flex' }}>
