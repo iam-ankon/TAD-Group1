@@ -37,6 +37,11 @@ const CVDetail = () => {
                     { responseType: "arraybuffer" }
                 );
     
+                // Convert ArrayBuffer to a string if it's a text-based response
+                const text = new TextDecoder().decode(response.data);
+                console.log("Response text:", text);  // Check if there's any error message here
+    
+                // If it's a PDF or binary, continue processing it as before
                 const pdfBlob = new Blob([response.data], { type: "application/pdf" });
                 const pdfUrl = URL.createObjectURL(pdfBlob);
                 const pdfWindow = window.open(pdfUrl, "_blank");
@@ -44,6 +49,7 @@ const CVDetail = () => {
             } catch (error) {
                 console.error("Error updating CV with QR code:", error.message);
                 if (error.response) {
+                    // Log detailed response data
                     console.error("Response data:", error.response.data);
                     console.error("Response status:", error.response.status);
                     console.error("Response headers:", error.response.headers);
