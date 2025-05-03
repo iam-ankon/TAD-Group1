@@ -163,7 +163,6 @@ const CVEdit = () => {
     justifyContent: "flex-start",
     marginTop: "20px",
   };
-
   return (
     <div style={containerStyle}>
       <div style={{ display: 'flex' }}>
