@@ -153,73 +153,83 @@ const CVEdit = () => {
     backgroundColor: "#ccc",
     marginLeft: "10px",
   };
-
   return (
     <div style={containerStyle}>
-      <div style={sidebarContainerStyle}>
+      <div style={{ display: 'flex' }}>
         <Sidebars />
+        <div style={{ flex: 1, overflow: 'auto' }}>
+          {/* Your page content here */}
+        </div>
       </div>
-
-      <div style={contentContainerStyle}>
-        <div style={formContainerStyle}>
-          <h2>Edit CV - {cv.name}</h2>
-          <form onSubmit={handleSubmit}>
-            <div style={formGridStyle}>
-              {["name", "position_for", "age", "reference", "email", "phone"].map((field) => (
-                <div key={field} style={formGroupStyle}>
-                  <label style={labelStyle}>{field.replace("_", " ").replace(/\b\w/g, l => l.toUpperCase())}</label>
-                  <input
-                    type={field === "age" ? "number" : field === "email" ? "email" : "text"}
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    required={["name", "position_for", "age", "email", "phone"].includes(field)}
-                    style={inputStyle}
-                  />
-                </div>
-              ))}
-
-              <div style={formGroupStyle}>
-                <label style={labelStyle}>CV File</label>
-                {formData.existing_cv && (
-                  <p style={{ marginBottom: '5px', fontSize: '14px' }}>
-                    Current file: {formData.existing_cv.split('/').pop()}
-                  </p>
-                )}
-                <input
-                  type="file"
-                  name="cv_file"
-                  onChange={handleFileChange}
-                  style={inputStyle}
-                  accept=".pdf,.doc,.docx"
-                />
-                <small style={{ color: '#666', marginTop: '5px' }}>
-                  Leave empty to keep the existing file
-                </small>
-              </div>
+      <div style={formContainerStyle}>
+        <h2>Edit CV - {cv.name}</h2>
+        <form onSubmit={handleSubmit}>
+          <div style={formGridStyle}>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Name</label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
             </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <button
-                type="submit"
-                style={submitButtonStyle}
-                disabled={isSubmitting}
-                onMouseEnter={(e) => (e.target.style.backgroundColor = "#2b6cb0")}
-                onMouseLeave={(e) => (e.target.style.backgroundColor = "#3182ce")}
-              >
-                {isSubmitting ? "Saving..." : "Save"}
-              </button>
-              <button
-                type="button"
-                style={cancelButtonStyle}
-                onClick={() => navigate(-1)}
-                onMouseEnter={(e) => (e.target.style.backgroundColor = "#bbb")}
-                onMouseLeave={(e) => (e.target.style.backgroundColor = "#ccc")}
-              >
-                Cancel
-              </button>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Position for</label>
+              <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
             </div>
-          </form>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Age</label>
+              <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+            </div>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Reference</label>
+              <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
+            </div>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Email</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
+            </div>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Phone</label>
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+            </div>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>CV File</label>
+              {formData.existing_cv && (
+                <p style={{ marginBottom: '5px', fontSize: '14px' }}>
+                  Current file: {formData.existing_cv.split('/').pop()}
+                </p>
+              )}
+              <input
+                type="file"
+                name="cv_file"
+                onChange={handleFileChange}
+                style={inputStyle}
+                accept=".pdf,.doc,.docx"
+              />
+              <small style={{ color: '#666', marginTop: '5px' }}>
+                Leave empty to keep the existing file
+              </small>
+            </div>
+          </div>
+        </form>
+        <div style={buttonContainerStyle}>
+
+          <button
+            type="submit"
+            style={submitButtonStyle}
+            disabled={isSubmitting}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#2b6cb0")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#3182ce")}
+          >
+            {isSubmitting ? "Saving..." : "Save"}
+          </button>
+          <button
+            type="button"
+            style={cancelButtonStyle}
+            onClick={() => navigate(-1)}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#bbb")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ccc")}
+          >
+            Cancel
+          </button>
+
         </div>
       </div>
     </div>
