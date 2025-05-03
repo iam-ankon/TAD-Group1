@@ -251,7 +251,10 @@ const CVDetail = () => {
     }, [id]);
 
     const generateQRCode = async () => {
-        if (!qrCodeRef.current || !cvDetails) return;
+        if (!qrCodeRef.current || !cvDetails) {
+            alert("QR code or CV details not available");
+            return;
+        }
     
         try {
             setIsLoading(true);
@@ -278,7 +281,20 @@ const CVDetail = () => {
             );
     
             // 4. Handle successful response
-            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            
+            // Check if response is actually a PDF
+            if (!blob.type.includes('pdf')) {
+                // Might be an error message
+                const errorText = await blob.text();
+                try {
+                    const errorData = JSON.parse(errorText);
+                    throw new Error(errorData.error || errorData.message || "Unknown error");
+                } catch {
+                    throw new Error(errorText || "Server returned non-PDF response");
+                }
+            }
+    
             const url = window.URL.createObjectURL(blob);
             
             // 5. Open PDF in new window
@@ -300,7 +316,6 @@ const CVDetail = () => {
             console.error("Error updating CV with QR code:", error);
             let errorMessage = "An error occurred while processing your request";
             
-            // Enhanced error handling
             if (error.response) {
                 try {
                     // Try to parse error response (might be JSON or text)
@@ -318,6 +333,8 @@ const CVDetail = () => {
                 errorMessage = "Network error. Please check your connection.";
             } else if (error.code === 'ECONNABORTED') {
                 errorMessage = "Request timed out. Please try again.";
+            } else if (error.message) {
+                errorMessage = error.message;
             }
             
             alert(`Error: ${errorMessage}`);
@@ -326,7 +343,7 @@ const CVDetail = () => {
         }
     };
 
-    
+
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
