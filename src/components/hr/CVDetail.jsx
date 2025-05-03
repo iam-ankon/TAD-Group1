@@ -224,7 +224,6 @@
 
 // export default CVDetail;
 
-
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -234,6 +233,7 @@ import Sidebars from './sidebars';
 const CVDetail = () => {
     const { id } = useParams();
     const [cvDetails, setCvDetails] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); // Added loading state
     const qrCodeRef = useRef(null);
     const navigate = useNavigate();
 
@@ -254,6 +254,7 @@ const CVDetail = () => {
         if (!qrCodeRef.current || !cvDetails) return;
     
         try {
+            setIsLoading(true); // Set loading state to true
             // Get the QR code as base64
             const qrCanvas = qrCodeRef.current;
             const qrCodeImage = qrCanvas.toDataURL("image/png");
@@ -261,9 +262,6 @@ const CVDetail = () => {
             // Create FormData to send the file
             const formData = new FormData();
             formData.append('qr_code', qrCodeImage);
-            
-            // Show loading state
-            setLoading(true);
             
             // Make the request with proper headers
             const response = await axios.post(
@@ -277,7 +275,7 @@ const CVDetail = () => {
                     timeout: 30000 // 30 seconds timeout
                 }
             );
-    
+
             // Handle the response
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
@@ -322,9 +320,10 @@ const CVDetail = () => {
             
             alert(errorMessage);
         } finally {
-            setLoading(false);
+            setIsLoading(false); // Set loading state to false when done
         }
     };
+
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
@@ -403,6 +402,10 @@ const CVDetail = () => {
             backgroundColor: "#005ea6",
             transform: "scale(1.05)",
         },
+        buttonDisabled: {
+            backgroundColor: "#cccccc",
+            cursor: "not-allowed",
+        }
     };
 
     return (
@@ -441,19 +444,27 @@ const CVDetail = () => {
 
                         <div style={styles.buttonContainer}>
                             <button
-                                style={styles.button}
-                                onMouseEnter={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+                                style={{
+                                    ...styles.button,
+                                    ...(isLoading ? styles.buttonDisabled : {}),
+                                }}
+                                onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
+                                onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = styles.button.backgroundColor)}
                                 onClick={generateQRCode}
+                                disabled={isLoading}
                             >
-                                Attach to CV
+                                {isLoading ? "Processing..." : "Attach to CV"}
                             </button>
 
                             <button
-                                style={styles.button}
-                                onMouseEnter={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+                                style={{
+                                    ...styles.button,
+                                    ...(isLoading ? styles.buttonDisabled : {}),
+                                }}
+                                onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
+                                onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = styles.button.backgroundColor)}
                                 onClick={handleSelectForInterview}
+                                disabled={isLoading}
                             >
                                 Selected for Interview
                             </button>
