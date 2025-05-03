@@ -24,54 +24,61 @@ const CVDetail = () => {
     }, [id]);
 
     const generateQRCode = async () => {
-        if (qrCodeRef.current && cvDetails) {
-            const qrCanvas = qrCodeRef.current;
-            const qrCodeImage = qrCanvas.toDataURL("image/png");
+        if (!qrCodeRef.current || !cvDetails) return;
     
-            try {
-                const response = await axios.post(
-                    `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
-                    { qr_code: qrCodeImage },
-                    { 
-                        responseType: "blob",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
+        const qrCanvas = qrCodeRef.current;
+        const qrCodeImage = qrCanvas.toDataURL("image/png");
+    
+        try {
+            const response = await axios.post(
+                `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
+                { qr_code: qrCodeImage },
+                { 
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                );
-    
-                // Check if response is PDF
-                if (response.headers['content-type'] === 'application/pdf') {
-                    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-                    const pdfUrl = URL.createObjectURL(pdfBlob);
-                    const pdfWindow = window.open(pdfUrl, "_blank");
-                    pdfWindow.onload = () => {
-                        pdfWindow.print();
-                    };
-                } else {
-                    // Handle non-PDF response (likely error)
-                    const errorText = await response.data.text();
-                    const errorData = JSON.parse(errorText);
-                    console.error("Server error:", errorData);
-                    alert(`Error: ${errorData.error || 'Unknown error'}`);
                 }
-            } catch (error) {
-                console.error("Error updating CV with QR code:", error);
-                if (error.response && error.response.data instanceof Blob) {
+            );
+    
+            // Create blob URL
+            const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+    
+            // Open in new tab and handle printing
+            const newWindow = window.open(pdfUrl, '_blank');
+            
+            if (!newWindow) {
+                alert('Please allow popups for this site to view the PDF');
+                return;
+            }
+    
+            // Add event listener for when the window loads
+            newWindow.onload = function() {
+                try {
+                    this.print();
+                } catch (e) {
+                    console.error("Print error:", e);
+                }
+            };
+    
+        } catch (error) {
+            console.error("Error updating CV with QR code:", error);
+            
+            // Handle error response
+            if (error.response?.data instanceof Blob) {
+                try {
                     const errorText = await error.response.data.text();
-                    try {
-                        const errorData = JSON.parse(errorText);
-                        alert(`Error: ${errorData.error || 'Unknown error'}`);
-                    } catch (e) {
-                        alert("An error occurred while processing your request.");
-                    }
-                } else {
-                    alert("An error occurred while processing your request.");
+                    const errorData = JSON.parse(errorText);
+                    alert(`Error: ${errorData.error || 'Server error'}`);
+                } catch (e) {
+                    alert("An error occurred while processing your request");
                 }
+            } else {
+                alert("An error occurred while processing your request");
             }
         }
     };
-
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
