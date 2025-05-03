@@ -29,7 +29,7 @@ const CVEdit = () => {
           reference: response.data.reference || "",
           email: response.data.email || "",
           phone: response.data.phone || "",
-          cv_file: response.data.cv_file || null,
+          cv_file: response.data.cv_file,
         });
       } catch (error) {
         console.error("Error fetching CV:", error);
@@ -85,6 +85,7 @@ const CVEdit = () => {
     }
   };
   
+
   if (!cv) return <div>Loading...</div>;
 
   const containerStyle = {
@@ -171,8 +172,8 @@ const CVEdit = () => {
               <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
             </div>
             <div style={formGroupStyle}>
-              <label style={labelStyle}>Date of Birth</label>
-              <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+              <label style={labelStyle}>Age</label>
+              <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
             </div>
             <div style={formGroupStyle}>
               <label style={labelStyle}>Reference</label>
@@ -188,7 +189,7 @@ const CVEdit = () => {
             </div>
             <div style={formGroupStyle}>
               <label style={labelStyle}>CV File (Leave empty to keep existing)</label>
-              <input type="file" name="cv_file" onChange={handleFileChange} style={inputStyle} />
+              <input type="file" name="cv_file" onChange={handleFileChange} style={inputStyle} accept=".pdf,.doc,.docx" />
             </div>
           </div>
         </form>
