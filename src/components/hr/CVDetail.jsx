@@ -29,63 +29,39 @@ const CVDetail = () => {
             const qrCodeImage = qrCanvas.toDataURL("image/png");
     
             try {
-                // First try with Accept: application/pdf
-                let response;
-                try {
-                    response = await axios.post(
-                        `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
-                        { qr_code: qrCodeImage },
-                        { 
-                            responseType: "blob",
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/pdf'
-                            }
+                const response = await axios.post(
+                    `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
+                    { qr_code: qrCodeImage },
+                    { 
+                        responseType: "blob",
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-                    );
-                } catch (pdfError) {
-                    // If PDF request fails, try without Accept header
-                    if (pdfError.response && pdfError.response.status === 406) {
-                        response = await axios.post(
-                            `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/update-cv-with-qr/`,
-                            { qr_code: qrCodeImage },
-                            { 
-                                responseType: "blob",
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            }
-                        );
-                    } else {
-                        throw pdfError;
                     }
-                }
+                );
     
-                // Handle successful response
-                const pdfBlob = new Blob([response.data], { type: response.headers['content-type'] });
-                
-                // Check if it's actually a PDF
-                if (pdfBlob.type.includes('pdf')) {
+                // Check if response is PDF
+                if (response.headers['content-type'] === 'application/pdf') {
+                    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
                     const pdfUrl = URL.createObjectURL(pdfBlob);
                     const pdfWindow = window.open(pdfUrl, "_blank");
                     pdfWindow.onload = () => {
                         pdfWindow.print();
                     };
                 } else {
-                    // Handle case where server returned JSON error
-                    const errorText = await pdfBlob.text();
+                    // Handle non-PDF response (likely error)
+                    const errorText = await response.data.text();
                     const errorData = JSON.parse(errorText);
                     console.error("Server error:", errorData);
-                    alert(`Error: ${errorData.error || errorData.detail || 'Unknown error'}`);
+                    alert(`Error: ${errorData.error || 'Unknown error'}`);
                 }
             } catch (error) {
                 console.error("Error updating CV with QR code:", error);
                 if (error.response && error.response.data instanceof Blob) {
-                    const errorData = await error.response.data.text();
-                    console.error("Error details:", errorData);
+                    const errorText = await error.response.data.text();
                     try {
-                        const parsedError = JSON.parse(errorData);
-                        alert(`Error: ${parsedError.error || parsedError.detail || 'Unknown error'}`);
+                        const errorData = JSON.parse(errorText);
+                        alert(`Error: ${errorData.error || 'Unknown error'}`);
                     } catch (e) {
                         alert("An error occurred while processing your request.");
                     }
@@ -95,7 +71,6 @@ const CVDetail = () => {
             }
         }
     };
-    
 
     const handleSelectForInterview = () => {
         if (cvDetails) {
