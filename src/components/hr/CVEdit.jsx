@@ -29,7 +29,7 @@ const CVEdit = () => {
           reference: response.data.reference || "",
           email: response.data.email || "",
           phone: response.data.phone || "",
-          cv_file: null,
+          cv_file: response.data.cv_file || null,
         });
       } catch (error) {
         console.error("Error fetching CV:", error);
@@ -56,7 +56,7 @@ const CVEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("name", formData.name);
     formDataToSubmit.append("position_for", formData.position_for);
@@ -64,15 +64,19 @@ const CVEdit = () => {
     formDataToSubmit.append("reference", formData.reference);
     formDataToSubmit.append("email", formData.email);
     formDataToSubmit.append("phone", formData.phone);
-
-    if (formData.cv_file) {
+  
+    if (formData.cv_file instanceof File) {
       formDataToSubmit.append("cv_file", formData.cv_file);
     }
-
+  
     try {
-      await axios.put(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`, formDataToSubmit, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(
+        `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`,
+        formDataToSubmit,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       alert("CV updated successfully!");
       navigate("/cv-list");
     } catch (error) {
@@ -80,7 +84,7 @@ const CVEdit = () => {
       alert("Failed to update CV");
     }
   };
-
+  
   if (!cv) return <div>Loading...</div>;
 
   const containerStyle = {
