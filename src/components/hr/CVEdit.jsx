@@ -88,6 +88,8 @@ const CVEdit = () => {
   if (!cv) return <div>Loading...</div>;
 
   // --- Styling ---
+
+
   const containerStyle = {
     display: "flex",
     fontFamily: "Segoe UI, sans-serif",
@@ -95,21 +97,13 @@ const CVEdit = () => {
     minHeight: "100vh",
   };
 
-  const sidebarContainerStyle = {
-    width: "250px",
-    backgroundColor: "#fff",
-  };
-
-  const contentContainerStyle = {
-    flex: 1,
-    padding: "30px",
-  };
-
   const formContainerStyle = {
+    flex: 1,
+    padding: "20px",
     backgroundColor: "#fff",
     borderRadius: "8px",
-    padding: "20px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    margin: "20px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   };
 
   const formGridStyle = {
@@ -136,6 +130,19 @@ const CVEdit = () => {
     fontSize: "14px",
   };
 
+
+
+  const buttonContainerStyle = {
+    display: "flex",
+    justifyContent: "flex-start",
+    marginTop: "20px",
+  };
+
+
+
+
+
+
   const submitButtonStyle = {
     marginTop: "30px",
     padding: "12px 20px",
@@ -153,11 +160,7 @@ const CVEdit = () => {
     backgroundColor: "#ccc",
     marginLeft: "10px",
   };
-  const buttonContainerStyle = {
-    display: "flex",
-    justifyContent: "flex-start",
-    marginTop: "20px",
-  };
+
   return (
     <div style={containerStyle}>
       <div style={{ display: 'flex' }}>
