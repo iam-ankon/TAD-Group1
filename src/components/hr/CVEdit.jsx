@@ -65,6 +65,7 @@ const CVEdit = () => {
     formDataToSubmit.append("email", formData.email);
     formDataToSubmit.append("phone", formData.phone);
   
+    // Only append cv_file if it's a new file (i.e., a File object)
     if (formData.cv_file instanceof File) {
       formDataToSubmit.append("cv_file", formData.cv_file);
     }
