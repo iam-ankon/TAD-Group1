@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Sidebars from './sidebars';
 
 const CVEdit = () => {
   const { id } = useParams();
   const [cv, setCv] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -15,6 +16,7 @@ const CVEdit = () => {
     email: "",
     phone: "",
     cv_file: null,
+    existing_cv: null, // To track the existing CV file
   });
 
   useEffect(() => {
@@ -29,7 +31,8 @@ const CVEdit = () => {
           reference: response.data.reference || "",
           email: response.data.email || "",
           phone: response.data.phone || "",
-          cv_file: response.data.cv_file,
+          cv_file: null, // Initialize as null for new uploads
+          existing_cv: response.data.cv_file, // Store the existing file
         });
       } catch (error) {
         console.error("Error fetching CV:", error);
@@ -56,7 +59,8 @@ const CVEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setIsSubmitting(true);
+
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("name", formData.name);
     formDataToSubmit.append("position_for", formData.position_for);
@@ -64,12 +68,18 @@ const CVEdit = () => {
     formDataToSubmit.append("reference", formData.reference);
     formDataToSubmit.append("email", formData.email);
     formDataToSubmit.append("phone", formData.phone);
-  
-    // Only append cv_file if it's a new file (i.e., a File object)
+
+    // Only append the file if a new one was selected
     if (formData.cv_file instanceof File) {
       formDataToSubmit.append("cv_file", formData.cv_file);
+    } else if (formData.existing_cv) {
+      // If no new file was selected, ensure the existing file is preserved
+      // This might require backend support - some APIs handle this automatically
+      // If your backend requires the file to be resent, you might need to:
+      // 1. Fetch the existing file and append it
+      // 2. Or modify your backend to not require the file on updates
     }
-  
+
     try {
       await axios.put(
         `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`,
@@ -82,13 +92,15 @@ const CVEdit = () => {
       navigate("/cv-list");
     } catch (error) {
       console.error("Error updating CV:", error);
-      alert("Failed to update CV");
+      alert(`Failed to update CV: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
-  
 
   if (!cv) return <div>Loading...</div>;
 
+  // Styles (same as before)
   const containerStyle = {
     display: "flex",
     fontFamily: "Segoe UI, sans-serif",
@@ -157,46 +169,76 @@ const CVEdit = () => {
       <div style={{ display: 'flex' }}>
         <Sidebars />
         <div style={{ flex: 1, overflow: 'auto' }}>
-          {/* Your page content here */}
-        </div>
-      </div>
-      <div style={formContainerStyle}>
-        <h2>Edit CV - {cv.name}</h2>
-        <form onSubmit={handleSubmit}>
-          <div style={formGridStyle}>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Position for</label>
-              <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Date of Birth</label>
-              <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Reference</label>
-              <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Email</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>Phone</label>
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
-            </div>
-            <div style={formGroupStyle}>
-              <label style={labelStyle}>CV File (Leave empty to keep existing)</label>
-              <input type="file" name="cv_file" onChange={handleFileChange} style={inputStyle} accept=".pdf,.doc,.docx" />
-            </div>
+          <div style={formContainerStyle}>
+            <h2>Edit CV - {cv.name}</h2>
+            <form onSubmit={handleSubmit}>
+              <div style={formGridStyle}>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Name</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Position for</label>
+                  <input type="text" name="position_for" value={formData.position_for} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Date of Birth</label>
+                  <input type="date" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Reference</label>
+                  <input type="text" name="reference" value={formData.reference} onChange={handleChange} style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Email</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>Phone</label>
+                  <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div style={formGroupStyle}>
+                  <label style={labelStyle}>CV File</label>
+                  {formData.existing_cv && (
+                    <p style={{ marginBottom: '5px', fontSize: '14px' }}>
+                      Current file: {formData.existing_cv.split('/').pop()}
+                    </p>
+                  )}
+                  <input 
+                    type="file" 
+                    name="cv_file" 
+                    onChange={handleFileChange} 
+                    style={inputStyle} 
+                    accept=".pdf,.doc,.docx" 
+                  />
+                  <small style={{ color: '#666', marginTop: '5px' }}>
+                    Leave empty to keep the existing file
+                  </small>
+                </div>
+              </div>
+              <div style={buttonContainerStyle}>
+                <button 
+                  type="submit" 
+                  onClick={handleSubmit} 
+                  style={submitButtonStyle} 
+                  disabled={isSubmitting}
+                  onMouseEnter={(e) => (e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor)} 
+                  onMouseLeave={(e) => (e.target.style.backgroundColor = submitButtonStyle.backgroundColor)}
+                >
+                  {isSubmitting ? 'Saving...' : 'Save'}
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => navigate(-1)} 
+                  style={{ ...submitButtonStyle, backgroundColor: '#ccc', marginLeft: '10px' }} 
+                  onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')} 
+                  onMouseLeave={(e) => (e.target.style.backgroundColor = '#ccc')}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-        <div style={buttonContainerStyle}>
-          <button type="submit" onClick={handleSubmit} style={submitButtonStyle} onMouseEnter={(e) => (e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor)} onMouseLeave={(e) => (e.target.style.backgroundColor = submitButtonStyle.backgroundColor)}>Save</button>
-          <button type="button" onClick={() => navigate(-1)} style={{ ...submitButtonStyle, backgroundColor: '#ccc', marginLeft: '10px' }} onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')} onMouseLeave={(e) => (e.target.style.backgroundColor = '#ccc')}>Cancel</button>
         </div>
       </div>
     </div>
