@@ -217,10 +217,16 @@ const CVEdit = () => {
             </div>
           </div>
         </form>
-        <div style={buttonContainerStyle}>
+        <form id="cvEditForm" onSubmit={handleSubmit}>
+          <div style={formGridStyle}>
+            {/* Your input fields here */}
+          </div>
+        </form>
 
+        <div style={buttonContainerStyle}>
           <button
             type="submit"
+            form="cvEditForm" // Link to form by ID
             style={submitButtonStyle}
             disabled={isSubmitting}
             onMouseEnter={(e) => (e.target.style.backgroundColor = "#2b6cb0")}
@@ -237,8 +243,8 @@ const CVEdit = () => {
           >
             Cancel
           </button>
-
         </div>
+
       </div>
     </div>
   );
