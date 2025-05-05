@@ -250,23 +250,23 @@ const CVDetail = () => {
         fetchCVDetails();
     }, [id]);
 
-    // Create QR code data with CV details and link
+    // Create QR code URL with data parameters
     const getQRCodeData = () => {
         if (!cvDetails) return "";
         
-        // Create an object with the CV details and the interview link
-        const qrData = {
-            id: cvDetails.id,
-            name: cvDetails.name,
-            position: cvDetails.position_for,
-            email: cvDetails.email,
-            phone: cvDetails.phone,
-            reference: cvDetails.reference,
-            interviewLink: `https://tad-group.vercel.app/interviews/${id}`
-        };
+        // Create URL with query parameters containing CV details
+        const baseUrl = "https://tad-group.vercel.app/interviews";
         
-        // Convert to JSON string
-        return JSON.stringify(qrData);
+        const params = new URLSearchParams({
+            id: cvDetails.id || id,
+            name: cvDetails.name || "",
+            position: cvDetails.position_for || "",
+            email: cvDetails.email || "",
+            phone: cvDetails.phone || "",
+            reference: cvDetails.reference || ""
+        });
+        
+        return `${baseUrl}?${params.toString()}`;
     };
 
     const generateQRCode = async () => {
@@ -481,7 +481,7 @@ const CVDetail = () => {
                                 includeMargin={true}
                             />
                             <p style={styles.qrDescription}>
-                                This QR code contains candidate details and a direct link to the interview page
+                                Scan this QR code with your mobile device to instantly transfer candidate details to the interview scheduling page
                             </p>
                         </div>
 
