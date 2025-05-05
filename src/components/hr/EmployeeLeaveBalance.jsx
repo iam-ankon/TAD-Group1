@@ -5,7 +5,7 @@ import Sidebars from './sidebars';
 
 const EmployeeLeaveBalance = () => {
   const [balances, setBalances] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,16 +21,6 @@ const EmployeeLeaveBalance = () => {
 
     fetchData();
   }, []);
-
-  const loadingStyle = {
-    padding: '20px',
-    textAlign: 'center',
-    fontSize: '16px',
-    color: '#555',
-    fontFamily: 'Segoe UI, sans-serif',
-  };
-
-  if (loading) return <div style={loadingStyle}>Loading...</div>;
 
   const containerStyle = {
     display: 'flex',
