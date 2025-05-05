@@ -1,11 +1,7 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Sidebars from './sidebars';
-
 
 const AddEmployee = () => {
     const navigate = useNavigate();
@@ -40,6 +36,7 @@ const AddEmployee = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // New state for loading
 
     useEffect(() => {
         const fetchCompanies = async () => {
@@ -96,6 +93,8 @@ const AddEmployee = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true); // Set loading to true when form is submitted
+        
         const employeeFormData = new FormData();
         Object.keys(formData).forEach((key) => {
             if (key === "image1" && formData[key]) {
@@ -104,8 +103,7 @@ const AddEmployee = () => {
                 formData[key].forEach(customerId => {
                     employeeFormData.append(key, customerId);
                 });
-            }
-             else {
+            } else {
                 employeeFormData.append(key, formData[key]);
             }
         });
@@ -138,7 +136,13 @@ const AddEmployee = () => {
                 permanent_address: "",
             });
             setShowPopup(true);
-            setTimeout(() => setShowPopup(false), 3000);
+            
+            // Wait a short time to show success message before redirecting
+            setTimeout(() => {
+                setIsLoading(false); // Set loading to false
+                navigate('/employees'); // Navigate to employees page
+            }, 1500);
+            
         } catch (error) {
             console.error('Error saving employee data:', error);
             if (error.response) {
@@ -150,6 +154,7 @@ const AddEmployee = () => {
                 console.error('Error setting up the request:', error.message);
             }
             setSuccessMessage("Error saving employee data. Please try again.");
+            setIsLoading(false); // Set loading to false if there's an error
         }
     };
 
@@ -162,13 +167,27 @@ const AddEmployee = () => {
             color: "#fff",
             border: "none",
             borderRadius: "5px",
-            cursor: "pointer",
+            cursor: isLoading ? "not-allowed" : "pointer",
             fontSize: "16px",
             fontWeight: "bold",
             transition: "background-color 0.3s, transform 0.2s",
             boxShadow: "2px 4px 6px rgba(0, 0, 0, 0.1)",
             width: '30%',
             marginTop: "50px",
+            opacity: isLoading ? 0.7 : 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        loadingSpinner: {
+            display: "inline-block",
+            width: "20px",
+            height: "20px",
+            border: "3px solid rgba(255,255,255,0.3)",
+            borderRadius: "50%",
+            borderTop: "3px solid #fff",
+            animation: "spin 1s linear infinite",
+            marginRight: "10px",
         },
         successMessage: {
             padding: "10px",
@@ -226,7 +245,6 @@ const AddEmployee = () => {
         checkboxInputChecked: {
             background: '#007bff',
             borderColor: '#007bff',
-        // Removed pseudo-element styling. Moved to CSS file.
         },
         checkboxLabel: {
             marginLeft: '0',
@@ -234,6 +252,14 @@ const AddEmployee = () => {
             cursor: 'pointer',
         },
     };
+
+    // Add keyframe animation for the spinner
+    const keyframes = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
 
     const sidebarStyle = {
         container: {
@@ -246,6 +272,7 @@ const AddEmployee = () => {
 
     return (
         <div style={sidebarStyle.container}>
+            <style>{keyframes}</style>
             <div style={{ display: 'flex' }}>
                 <Sidebars />
                 <div style={{ flex: 1, overflow: 'auto' }}>
@@ -304,6 +331,7 @@ const AddEmployee = () => {
                                     style={styles.input}
                                     value={formData[name] || ""}
                                     required={required}
+                                    disabled={isLoading}
                                 >
                                     <option value="">Select {label}</option>
                                     {options.map((opt, idx) => (
@@ -321,6 +349,7 @@ const AddEmployee = () => {
                                                 value={opt.value}
                                                 checked={formData.customer.includes(opt.value)}
                                                 onChange={handleCheckboxChange}
+                                                disabled={isLoading}
                                                 style={{
                                                     ...styles.checkboxInput,
                                                     ...(formData.customer.includes(opt.value) && styles.checkboxInputChecked),
@@ -338,6 +367,7 @@ const AddEmployee = () => {
                                     style={styles.input}
                                     value={formData[name] || ""}
                                     required={required}
+                                    disabled={isLoading}
                                 />
                             )}
                         </div>
@@ -345,7 +375,14 @@ const AddEmployee = () => {
 
                     <div>
                         <label style={styles.label}>Upload Image</label>
-                        <input type="file" name="image1" accept="image/*" onChange={handleFileChange} style={styles.fileInput} />
+                        <input 
+                            type="file" 
+                            name="image1" 
+                            accept="image/*" 
+                            onChange={handleFileChange} 
+                            style={styles.fileInput} 
+                            disabled={isLoading}
+                        />
                     </div>
 
                     <button
@@ -353,8 +390,16 @@ const AddEmployee = () => {
                         style={styles.button}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
+                        disabled={isLoading}
                     >
-                        Submit
+                        {isLoading ? (
+                            <>
+                                <div style={styles.loadingSpinner}></div>
+                                Saving...
+                            </>
+                        ) : (
+                            "Submit"
+                        )}
                     </button>
                 </form>
             </div>
