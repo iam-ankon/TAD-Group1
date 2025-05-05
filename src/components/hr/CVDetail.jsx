@@ -233,7 +233,7 @@ import Sidebars from './sidebars';
 const CVDetail = () => {
     const { id } = useParams();
     const [cvDetails, setCvDetails] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // Added loading state
+    const [isLoading, setIsLoading] = useState(false);
     const qrCodeRef = useRef(null);
     const navigate = useNavigate();
 
@@ -249,6 +249,25 @@ const CVDetail = () => {
 
         fetchCVDetails();
     }, [id]);
+
+    // Create QR code data with CV details and link
+    const getQRCodeData = () => {
+        if (!cvDetails) return "";
+        
+        // Create an object with the CV details and the interview link
+        const qrData = {
+            id: cvDetails.id,
+            name: cvDetails.name,
+            position: cvDetails.position_for,
+            email: cvDetails.email,
+            phone: cvDetails.phone,
+            reference: cvDetails.reference,
+            interviewLink: `https://tad-group.vercel.app/interviews/${id}`
+        };
+        
+        // Convert to JSON string
+        return JSON.stringify(qrData);
+    };
 
     const generateQRCode = async () => {
         if (!qrCodeRef.current || !cvDetails) {
@@ -335,7 +354,6 @@ const CVDetail = () => {
         }
     };
 
-
     const handleSelectForInterview = () => {
         if (cvDetails) {
             navigate("/interviews", {
@@ -389,8 +407,16 @@ const CVDetail = () => {
         },
         qrContainer: {
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
             marginTop: "30px",
+        },
+        qrDescription: {
+            fontSize: "14px",
+            color: "#666",
+            marginTop: "10px",
+            maxWidth: "300px",
+            textAlign: "center",
         },
         buttonContainer: {
             marginTop: "30px",
@@ -449,9 +475,14 @@ const CVDetail = () => {
                         <div style={styles.qrContainer}>
                             <QRCodeCanvas
                                 ref={qrCodeRef}
-                                value={`https://tad-group.vercel.app/interviews/${id}`}
+                                value={getQRCodeData()}
                                 size={200}
+                                level={"H"}
+                                includeMargin={true}
                             />
+                            <p style={styles.qrDescription}>
+                                This QR code contains candidate details and a direct link to the interview page
+                            </p>
                         </div>
 
                         <div style={styles.buttonContainer}>
