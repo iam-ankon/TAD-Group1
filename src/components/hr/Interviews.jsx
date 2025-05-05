@@ -492,7 +492,7 @@ const Interviews = () => {
   
             <div class="details-container">
               <div class="details-item"><span class="label">Position:</span> ${interview.position_for}</div>
-              <div class="details-item"><span class="label">Age:</span> ${interview.age}</div>
+              <div class="details-item"><span class="label">Date of Birth:</span> ${interview.age}</div>
               <div class="details-item"><span class="label">Reference:</span> ${interview.reference}</div>
               <div class="details-item"><span class="label">Email:</span> ${interview.email}</div>
               <div class="details-item"><span class="label">Phone:</span> ${interview.phone}</div>
@@ -677,7 +677,7 @@ const Interviews = () => {
         <h2>${interview.name}'s Interview</h2>
         <div class="details-container">
           <div class="details-item"><span class="label">Position:</span> ${interview.position_for}</div>
-          <div class="details-item"><span class="label">Age:</span> ${interview.age}</div>
+          <div class="details-item"><span class="label">Date of Birth:</span> ${interview.age}</div>
           <div class="details-item"><span class="label">Reference:</span> ${interview.reference}</div>
           <div class="details-item"><span class="label">Email:</span> ${interview.email}</div>
           <div class="details-item"><span class="label">Phone:</span> ${interview.phone}</div>
@@ -1050,7 +1050,7 @@ const Interviews = () => {
               <div style={style.section}>
                 <div style={style.detailsContainer}>
                   <div style={style.detailsItem}><span style={style.label}>Position:</span> {selectedInterview.position_for}</div>
-                  <div style={style.detailsItem}><span style={style.label}>Age:</span> {selectedInterview.age}</div>
+                  <div style={style.detailsItem}><span style={style.label}>Date of Birth:</span> {selectedInterview.age}</div>
                   <div style={style.detailsItem}><span style={style.label}>Reference:</span> {selectedInterview.reference}</div>
                   <div style={style.detailsItem}><span style={style.label}>Email:</span> {selectedInterview.email}</div>
                   <div style={style.detailsItem}><span style={style.label}>Phone:</span> {selectedInterview.phone}</div>
@@ -1185,9 +1185,9 @@ const Interviews = () => {
             />
           </div>
           <div>
-            <label>Age</label>
+            <label>Date of birth</label>
             <input
-              type="number"
+              type="date"
               name="age"
               value={formData.age}
               onChange={handleInputChange}
