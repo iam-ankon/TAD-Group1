@@ -361,27 +361,25 @@ const Interviews = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Create FormData object for the request
     const formDataToSend = new FormData();
     
     // Add all form fields to the FormData object
     Object.keys(formData).forEach((key) => {
-      // Handle special case for date fields
-      if (key === 'interview_date' && formData[key]) {
-        // Ensure date is in the correct format
-        formDataToSend.append(key, formData[key]);
-      } 
-      // Handle boolean values properly
-      else if (typeof formData[key] === 'boolean') {
-        formDataToSend.append(key, formData[key] ? 'true' : 'false');
-      }
-      // Handle all other fields
-      else {
-        formDataToSend.append(key, formData[key] === null ? '' : formData[key]);
+      // Skip disabled fields only if they're truly disabled (not just null)
+      if (formData[key] !== null && formData[key] !== undefined) {
+        // Handle boolean values properly
+        if (typeof formData[key] === 'boolean') {
+          formDataToSend.append(key, formData[key] ? 'true' : 'false');
+        } 
+        // Handle all other fields
+        else {
+          formDataToSend.append(key, formData[key]);
+        }
       }
     });
-
+  
     try {
       let response;
       if (selectedInterview) {
@@ -397,8 +395,7 @@ const Interviews = () => {
         });
         showToast("Interview added successfully", "success");
       }
-
-      console.log("Interview Response:", response.data);
+  
       fetchInterviews();
       
       if (!selectedInterview) {
@@ -409,27 +406,38 @@ const Interviews = () => {
       return response.data;
     } catch (error) {
       console.error("Error submitting interview:", error);
-      showToast(`Error: ${error.response?.data?.message || "Failed to submit interview"}`, "error");
+      // Show more detailed error message
+      const errorMessage = error.response?.data 
+        ? JSON.stringify(error.response.data)
+        : "Failed to submit interview";
+      showToast(`Error: ${errorMessage}`, "error");
       return null;
     }
   };
 
   const handleInterviewAction = async (e) => {
     e.preventDefault();
-
+  
+    // Validate required fields
+    const requiredFields = ['name', 'position_for', 'interview_date', 'place'];
+    const missingFields = requiredFields.filter(field => !formData[field]);
+  
+    if (missingFields.length > 0) {
+      showToast(`Please fill in all required fields: ${missingFields.join(', ')}`, "error");
+      return;
+    }
+  
     const actionType = selectedInterview ? "Update" : "Create";
     const isConfirmed = window.confirm(`Are you sure you want to ${actionType} this interview?`);
-
+  
     if (isConfirmed) {
       const newInterview = await handleSubmit(e);
-
+  
       if (newInterview?.id) {
         if (!selectedInterview) {
-          // For new interviews, redirect to the interview's page
           setSelectedInterview(newInterview);
           navigate(`/interviews?interview_id=${newInterview.id}`, { replace: true });
         } else {
-          // For updates, refresh the data
           fetchInterviews();
           window.scrollTo(0, 0);
         }
