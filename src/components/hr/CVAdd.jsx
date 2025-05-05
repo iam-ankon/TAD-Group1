@@ -13,6 +13,7 @@ const CVAdd = () => {
     phone: "",
     cvFile: null,
   });
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const navigate = useNavigate();
 
@@ -32,6 +33,8 @@ const CVAdd = () => {
       alert("Please select a CV file");
       return;
     }
+
+    setIsLoading(true); // Set loading to true when submitting
 
     const uploadData = new FormData();
     for (const key in formData) {
@@ -56,6 +59,8 @@ const CVAdd = () => {
     } catch (error) {
       console.error("Error uploading CV:", error);
       alert("Failed to upload CV");
+    } finally {
+      setIsLoading(false); // Set loading to false when done
     }
   };
 
@@ -104,7 +109,7 @@ const CVAdd = () => {
       borderRadius: "6px",
     },
     submitBtn: {
-      width: "150px", // Adjusted width for side-by-side
+      width: "150px",
       padding: "10px",
       backgroundColor: "#0078d4",
       color: "#fff",
@@ -112,9 +117,25 @@ const CVAdd = () => {
       border: "none",
       borderRadius: "6px",
       cursor: "pointer",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    submitBtnDisabled: {
+      width: "150px",
+      padding: "10px",
+      backgroundColor: "#0078d499", // Semi-transparent version
+      color: "#fff",
+      fontSize: "1rem",
+      border: "none",
+      borderRadius: "6px",
+      cursor: "not-allowed",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
     viewBtn: {
-      width: "150px", // Adjusted width for side-by-side
+      width: "150px",
       padding: "10px",
       backgroundColor: "#1a73e8",
       color: "#fff",
@@ -128,10 +149,27 @@ const CVAdd = () => {
       gap: "10px",
       marginTop: "20px",
     },
+    spinner: {
+      width: "20px",
+      height: "20px",
+      border: "3px solid rgba(255,255,255,0.3)",
+      borderRadius: "50%",
+      borderTopColor: "#fff",
+      animation: "spin 1s ease-in-out infinite",
+      marginRight: "8px",
+    },
   };
+
+  // Add CSS for the spinner animation
+  const spinnerStyles = `
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  `;
 
   return (
     <div style={styles.appContainer}>
+      <style>{spinnerStyles}</style> {/* Add the spinner animation */}
       <div style={{ display: 'flex' }}>
         <Sidebars />
         <div style={{ flex: 1, overflow: 'auto' }}>
@@ -179,7 +217,19 @@ const CVAdd = () => {
           </div>
         </form>
         <div style={styles.buttonContainer}>
-          <button type="submit" onClick={handleSubmit} style={styles.submitBtn}>Submit</button>
+          <button 
+            type="submit" 
+            onClick={handleSubmit} 
+            style={isLoading ? styles.submitBtnDisabled : styles.submitBtn}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <div style={styles.spinner}></div>
+                Processing...
+              </>
+            ) : "Submit"}
+          </button>
           <button onClick={() => navigate("/cv-list")} style={styles.viewBtn}>View All CVs</button>
         </div>
       </div>
