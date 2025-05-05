@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Sidebars from './sidebars';
 
 const API_URL = "https://tadbackend-5456.onrender.com/api/hrms/api/interviews/";
@@ -10,6 +10,8 @@ const Interviews = () => {
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const { id } = useParams();
+  const [candidateData, setCandidateData] = useState(null);
   const [interviews, setInterviews] = useState([]);
   const [selectedInterview, setSelectedInterview] = useState(null);
   const { name, position_for, age, email, phone, reference } = location.state || {};
@@ -73,6 +75,88 @@ const Interviews = () => {
     }
 
     return { interviewMark, interviewResult };
+  };
+
+  // Check for query parameters in URL first (from QR code scan)
+  useEffect(() => {
+    // Parse URL parameters
+    const queryParams = new URLSearchParams(location.search);
+
+    // Check if we have candidate data in URL params
+    if (queryParams.has('name') || queryParams.has('id')) {
+      const candidateId = queryParams.get('id');
+
+      // Create object from URL params
+      const urlData = {
+        id: candidateId,
+        name: queryParams.get('name') || '',
+        position_for: queryParams.get('position') || '',
+        age: queryParams.get('age') || '',
+        email: queryParams.get('email') || '',
+        phone: queryParams.get('phone') || '',
+        reference: queryParams.get('reference') || ''
+      };
+
+      // Set candidate data from URL
+      setCandidateData(urlData);
+
+      // Update form with URL data
+      setFormData(prevState => ({
+        ...prevState,
+        name: urlData.name,
+        position_for: urlData.position_for,
+        age: urlData.age,
+        email: urlData.email,
+        phone: urlData.phone,
+        reference: urlData.reference
+      }));
+
+      // If we have an ID but not all data, fetch full details
+      if (candidateId &&
+        (!urlData.name || !urlData.position_for || !urlData.email)) {
+        fetchCandidateData(candidateId);
+      }
+
+      // Remove query params to clean up URL but preserve current path
+      // This avoids issues if page is refreshed
+      navigate(location.pathname, { replace: true });
+    }
+    // If no URL params but we have location state, use that
+    else if (location.state) {
+      setCandidateData(location.state);
+      setFormData(prevState => ({
+        ...prevState,
+        name: location.state.name || '',
+        position_for: location.state.position_for || '',
+        age: location.state.age || '',
+        email: location.state.email || '',
+        phone: location.state.phone || '',
+        reference: location.state.reference || ''
+      }));
+    }
+    // If we have an ID from the URL path but nothing else
+    else if (id) {
+      fetchCandidateData(id);
+    }
+  }, [location, id, navigate]);
+
+  // Fetch candidate data from API
+  const fetchCandidateData = async (candidateId) => {
+    try {
+      const response = await axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${candidateId}/`);
+      setCandidateData(response.data);
+      setFormData(prevState => ({
+        ...prevState,
+        name: response.data.name || '',
+        position_for: response.data.position_for || '',
+        age: response.data.age || '',
+        email: response.data.email || '',
+        phone: response.data.phone || '',
+        reference: response.data.reference || ''
+      }));
+    } catch (error) {
+      console.error("Error fetching candidate data:", error);
+    }
   };
 
   useEffect(() => {
@@ -279,8 +363,13 @@ const Interviews = () => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key] ?? ""); // Ensure no null values
+    const formattedData = {
+      ...formData,
+      age: formData.age || null,  // Send as-is (should already be in YYYY-MM-DD format)
+    };
+
+    Object.keys(formattedData).forEach((key) => {
+      formDataToSend.append(key, formattedData[key] ?? "");
     });
 
     try {
@@ -297,15 +386,13 @@ const Interviews = () => {
         showToast("Interview added successfully", "success");
       }
 
-      console.log("Updated Interview Response:", response.data); // 🔍 Debugging
       fetchInterviews();
       resetForm();
-
-      return response.data; // Return the response data for further processing
+      return response.data;
     } catch (error) {
       console.error("Error submitting interview:", error);
       showToast("Error submitting interview", "error");
-      return null; // Return null in case of error
+      return null;
     }
   };
 
@@ -769,12 +856,12 @@ const Interviews = () => {
       color: "#333",
       fontSize: "16px",
       lineHeight: "1.5",
-      
+
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
       justifyContent: "space-between",
       zIndex: 1,
       overflowY: "auto",
-      overflowX: "hidden",    
+      overflowX: "hidden",
     },
     sidebar: {
       width: "280px",
@@ -1185,7 +1272,7 @@ const Interviews = () => {
             />
           </div>
           <div>
-            <label>Date of birth</label>
+            <label>Date of Birth</label>
             <input
               type="date"
               name="age"
