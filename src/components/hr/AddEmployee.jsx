@@ -8,6 +8,7 @@ const AddEmployee = () => {
     const location = useLocation();
     const { name, position_for, email, phone } = location.state || {};
 
+    const [isError, setIsError] = useState(false);
     const [formData, setFormData] = useState({
         employee_id: "",
         name: name || "",
@@ -109,6 +110,7 @@ const AddEmployee = () => {
         });
 
         try {
+            // Update to use the correct API endpoint
             const response = await axios.post("https://tadbackend-5456.onrender.com/api/hrms/api/employees/", employeeFormData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
@@ -145,15 +147,56 @@ const AddEmployee = () => {
             
         } catch (error) {
             console.error('Error saving employee data:', error);
+            let errorMessage = "Error saving employee data. Please try again.";
+            
             if (error.response) {
                 console.error('Server responded with:', error.response.data);
                 console.error('Status code:', error.response.status);
+                
+                // Check for specific SMTP Authentication error
+                if (error.response.status === 500 && 
+                    error.response.data && 
+                    error.response.data.includes("SMTPAuthenticationError")) {
+                    errorMessage = "Employee created successfully, but email notification failed to send. Please contact IT support.";
+                    setIsError(true); // Set error state to true to use different styling
+                    
+                    // Despite email error, employee might have been created, so reset form
+                    setFormData({
+                        employee_id: "",
+                        name: "",
+                        designation: "",
+                        email: "",
+                        personal_phone: "",
+                        joining_date: "",
+                        date_of_birth: "",
+                        mail_address: "",
+                        office_phone: "",
+                        reference_phone: "",
+                        job_title: "",
+                        department: "",
+                        customer: [],
+                        company: "",
+                        salary: "",
+                        reporting_leader: "",
+                        special_skills: "",
+                        remarks: "",
+                        image1: null,
+                        permanent_address: "",
+                    });
+                    
+                    // Still redirect to employees page after a delay since the employee was likely created
+                    setTimeout(() => {
+                        navigate('/employees');
+                    }, 3000);
+                }
             } else if (error.request) {
                 console.error('No response received:', error.request);
+                errorMessage = "No response from server. Please check your connection and try again.";
             } else {
                 console.error('Error setting up the request:', error.message);
             }
-            setSuccessMessage("Error saving employee data. Please try again.");
+            
+            setSuccessMessage(errorMessage);
             setIsLoading(false); // Set loading to false if there's an error
         }
     };
@@ -192,6 +235,14 @@ const AddEmployee = () => {
         successMessage: {
             padding: "10px",
             backgroundColor: "#4CAF50",
+            color: "#fff",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            textAlign: "center",
+        },
+        errorMessage: {
+            padding: "10px",
+            backgroundColor: "#ff9800", // Orange for warnings
             color: "#fff",
             marginBottom: "20px",
             borderRadius: "5px",
@@ -282,7 +333,7 @@ const AddEmployee = () => {
 
             <div style={{ flexGrow: 1, padding: "20px" }}>
                 <h2>Add Employee</h2>
-                {successMessage && <div style={styles.successMessage}>{successMessage}</div>}
+                {successMessage && <div style={isError ? styles.errorMessage : styles.successMessage}>{successMessage}</div>}
                 <div style={styles.popup}>{successMessage}</div>
                 <form onSubmit={handleSubmit} style={styles.form}>
                     {[
