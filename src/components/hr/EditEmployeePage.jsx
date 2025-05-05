@@ -6,7 +6,7 @@ import Sidebars from './sidebars';
 const EditEmployeePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [employee, setEmployee] = useState({
     employee_id: "",
     name: "",
@@ -101,39 +101,39 @@ const EditEmployeePage = () => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
-
-      // Append all fields except customer and image1
+  
       Object.keys(employee).forEach((key) => {
         if (key !== 'customer' && key !== 'image1' && employee[key] !== null && employee[key] !== undefined) {
           formData.append(key, employee[key]);
         }
       });
-
-      // Handle image
+  
       if (employee.image1 && typeof employee.image1 === 'object') {
         formData.append('image1', employee.image1);
       }
-
-      // First update the employee
+  
       await axios.put(
         `https://tadbackend-5456.onrender.com/api/hrms/api/employees/${id}/`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
-
-      // Then update customers separately
+  
       await axios.patch(
         `https://tadbackend-5456.onrender.com/api/hrms/api/employees/${id}/update_customers/`,
         { customers: employee.customer }
       );
-
+  
       navigate(`/employee/${id}`);
     } catch (error) {
       console.error("Error updating employee:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+  
 
   const containerStyle = {
     display: "flex",
@@ -433,13 +433,23 @@ const EditEmployeePage = () => {
         </form>
         <button
           type="button"
-          style={submitButtonStyle}
+          style={{
+            ...submitButtonStyle,
+            backgroundColor: isLoading ? "#ccc" : submitButtonStyle.backgroundColor,
+            cursor: isLoading ? "not-allowed" : "pointer",
+          }}
           onClick={handleSubmit}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor)}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = submitButtonStyle.backgroundColor)}
+          disabled={isLoading}
+          onMouseEnter={(e) => {
+            if (!isLoading) e.target.style.backgroundColor = submitButtonHoverStyle.backgroundColor;
+          }}
+          onMouseLeave={(e) => {
+            if (!isLoading) e.target.style.backgroundColor = submitButtonStyle.backgroundColor;
+          }}
         >
-          Update Employee
+          {isLoading ? "Updating..." : "Update Employee"}
         </button>
+
       </div>
     </div>
   );
