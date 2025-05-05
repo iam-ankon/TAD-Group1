@@ -259,8 +259,8 @@ const EmployeeDetailPage = () => {
   if (loading) {
     return (
       <div className="employee-detail-container">
-        <div className="sidebar-wrapper">
-          <Sidebars />
+    
+         
           <div className="content-wrapper">
             <div className="employee-detail-card" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
               <div className="loading-spinner">
@@ -276,7 +276,7 @@ const EmployeeDetailPage = () => {
               </div>
             </div>
           </div>
-        </div>
+
         <style>{`
           @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -290,15 +290,15 @@ const EmployeeDetailPage = () => {
   if (!employee) {
     return (
       <div className="employee-detail-container">
-        <div className="sidebar-wrapper">
-          <Sidebars />
+        
+          
           <div className="content-wrapper">
             <div className="employee-detail-card">
               <p>Employee not found</p>
             </div>
           </div>
         </div>
-      </div>
+    
     );
   }
   return (
