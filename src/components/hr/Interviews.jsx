@@ -214,30 +214,41 @@ const Interviews = () => {
     const { name, value } = e.target;
 
     setFormData((prev) => {
-      const updatedValue = isNaN(value) ? value : parseInt(value) || "";
+      let updatedValue;
+
+      // Special handling for age field
+      if (name === 'age') {
+        if (value === '') {
+          updatedValue = '';
+        } else {
+          // Convert date to age (number of years)
+          const birthDate = new Date(value);
+          const ageDiff = Date.now() - birthDate.getTime();
+          const ageDate = new Date(ageDiff);
+          updatedValue = Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
+      }
+      // Handle numeric fields
+      else if (['education', 'job_knowledge', 'work_experience', 'communication',
+        'personality', 'potential', 'general_knowledge', 'assertiveness'].includes(name)) {
+        updatedValue = value === '' ? null : parseInt(value) || 0;
+      }
+      // Handle other fields
+      else {
+        updatedValue = value;
+      }
 
       const updatedFormData = {
         ...prev,
         [name]: updatedValue,
       };
 
-      // List of integer fields that should trigger recalculation
-      const integerFields = [
-        "education",
-        "job_knowledge",
-        "work_experience",
-        "communication",
-        "personality",
-        "potential",
-        "general_knowledge",
-        "assertiveness",
-      ];
-
-      // If the field updated is in the integer fields list, recalculate the interview mark
-      if (integerFields.includes(name)) {
+      // Recalculate interview mark if needed
+      if (['education', 'job_knowledge', 'work_experience', 'communication',
+        'personality', 'potential', 'general_knowledge', 'assertiveness'].includes(name)) {
         const { interviewMark, interviewResult } = calculateInterviewMark(updatedFormData);
-        updatedFormData.interview_mark = interviewMark;  // Set the calculated interview mark
-        updatedFormData.interview_result = interviewResult;  // Set the interview result (Poor, Adequate, etc.)
+        updatedFormData.interview_mark = interviewMark;
+        updatedFormData.interview_result = interviewResult;
       }
 
       return updatedFormData;
@@ -361,17 +372,31 @@ const Interviews = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    const dataToSend = {
+      ...formData,
+      age: formData.age ? parseInt(formData.age) : null,
+    };
+
+    // Remove null/undefined values
+    Object.keys(dataToSend).forEach(key => {
+      if (dataToSend[key] === null || dataToSend[key] === undefined) {
+        delete dataToSend[key];
+      }
+    });
+
+
+
     // Convert form data to a plain object first
     const formDataObj = {};
     Object.keys(formData).forEach(key => {
       // Convert boolean values to strings
       if (typeof formData[key] === 'boolean') {
         formDataObj[key] = formData[key] ? 'true' : 'false';
-      } 
+      }
       // Convert empty strings to null for numeric fields
       else if (formData[key] === '' && [
-        'education', 'job_knowledge', 'work_experience', 
+        'education', 'job_knowledge', 'work_experience',
         'communication', 'personality', 'potential',
         'general_knowledge', 'assertiveness', 'interview_mark'
       ].includes(key)) {
@@ -382,7 +407,7 @@ const Interviews = () => {
         formDataObj[key] = formData[key];
       }
     });
-  
+
     // Create FormData object
     const formDataToSend = new FormData();
     Object.entries(formDataObj).forEach(([key, value]) => {
@@ -390,17 +415,17 @@ const Interviews = () => {
         formDataToSend.append(key, value);
       }
     });
-  
+
     // Debug: Log what we're sending
     console.log('Submitting:', Object.fromEntries(formDataToSend.entries()));
-  
+
     try {
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       };
-  
+
       let response;
       if (selectedInterview) {
         response = await axios.put(`${API_URL}${selectedInterview.id}/`, formDataToSend, config);
@@ -409,7 +434,7 @@ const Interviews = () => {
         response = await axios.post(API_URL, formDataToSend, config);
         showToast("Interview added successfully", "success");
       }
-  
+
       fetchInterviews();
       if (!selectedInterview) {
         setSelectedInterview(response.data);
@@ -435,11 +460,11 @@ const Interviews = () => {
 
   const handleInterviewAction = async (e) => {
     e.preventDefault();
-  
+
     // Required fields validation
     const requiredFields = [
-      'name', 
-      'position_for', 
+      'name',
+      'position_for',
       'age',
       'email',
       'phone',
@@ -447,20 +472,20 @@ const Interviews = () => {
       'interview_date',
       'place',
     ];
-  
+
     const missingFields = requiredFields.filter(field => {
       const value = formData[field];
       return value === null || value === undefined || value === '';
     });
-  
+
     if (missingFields.length > 0) {
       showToast(`Missing required fields: ${missingFields.join(', ')}`, "error");
       return;
     }
-  
+
     const actionType = selectedInterview ? "Update" : "Create";
     const isConfirmed = window.confirm(`Are you sure you want to ${actionType} this interview?`);
-  
+
     if (isConfirmed) {
       const newInterview = await handleSubmit(e);
       if (newInterview?.id) {
@@ -1334,10 +1359,13 @@ const Interviews = () => {
             <input
               type="date"
               name="age"
-              value={formData.age}
+              value={formData.age instanceof Date ? formData.age.toISOString().split('T')[0] : formData.age || ''}
               onChange={handleInputChange}
               style={style.input}
             />
+            {formData.age && typeof formData.age === 'number' && (
+              <span style={{ marginLeft: '10px' }}>Age: {formData.age}</span>
+            )}
           </div>
           <div>
             <label>Reference</label>
