@@ -119,7 +119,7 @@ const Interviews = () => {
       setFormData(prevState => ({
         ...prevState,
         name: urlData.name,
-        position_for: urlData.position_for,
+        position: urlData.position_for,
         age: urlData.age,
         email: urlData.email,
         phone: urlData.phone,
@@ -142,7 +142,7 @@ const Interviews = () => {
       setFormData(prevState => ({
         ...prevState,
         name: location.state.name || '',
-        position_for: location.state.position_for || '',
+        position: location.state.position_for || '',
         age: location.state.age || '',
         email: location.state.email || '',
         phone: location.state.phone || '',
@@ -163,7 +163,7 @@ const Interviews = () => {
       setFormData(prevState => ({
         ...prevState,
         name: response.data.name || '',
-        position_for: response.data.position_for || '',
+        position: response.data.position_for || '',
         age: response.data.age || '',
         email: response.data.email || '',
         phone: response.data.phone || '',
