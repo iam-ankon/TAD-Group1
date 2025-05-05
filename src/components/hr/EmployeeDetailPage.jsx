@@ -254,8 +254,8 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
-  if (loading) return <div className="loading-spinner">Loading...</div>;
-  if (!employee) return <p>Employee not found</p>;
+  
+  if (!employee) return ;
 
   return (
     <div className="employee-detail-container">
