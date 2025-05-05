@@ -1050,7 +1050,7 @@ const Interviews = () => {
               <div style={style.section}>
                 <div style={style.detailsContainer}>
                   <div style={style.detailsItem}><span style={style.label}>Position:</span> {selectedInterview.position_for}</div>
-                  <div style={style.detailsItem}><span style={style.label}>Date of Birth:</span> {selectedInterview.age}</div>
+                  <div style={style.detailsItem}><span style={style.label}>Age:</span> {selectedInterview.age}</div>
                   <div style={style.detailsItem}><span style={style.label}>Reference:</span> {selectedInterview.reference}</div>
                   <div style={style.detailsItem}><span style={style.label}>Email:</span> {selectedInterview.email}</div>
                   <div style={style.detailsItem}><span style={style.label}>Phone:</span> {selectedInterview.phone}</div>
@@ -1185,9 +1185,9 @@ const Interviews = () => {
             />
           </div>
           <div>
-            <label>Date of Birth</label>
+            <label>Age</label>
             <input
-              type="date"
+              type="number"
               name="age"
               value={formData.age}
               onChange={handleInputChange}
