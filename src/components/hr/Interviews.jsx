@@ -128,6 +128,7 @@ const Interviews = () => {
         ...prevState,
         name: location.state.name || '',
         position_for: location.state.position_for || '',
+        age: location.state.age || '',
         email: location.state.email || '',
         phone: location.state.phone || '',
         reference: location.state.reference || ''
@@ -147,6 +148,7 @@ const Interviews = () => {
         ...prevState,
         name: response.data.name || '',
         position_for: response.data.position_for || '',
+        age: response.data.age || '',
         email: response.data.email || '',
         phone: response.data.phone || '',
         reference: response.data.reference || ''
