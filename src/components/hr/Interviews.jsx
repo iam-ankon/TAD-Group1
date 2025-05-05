@@ -440,16 +440,12 @@ const Interviews = () => {
     const requiredFields = [
       'name', 
       'position_for', 
+      'age',
+      'email',
+      'phone',
+      'reference',
       'interview_date',
       'place',
-      'education',
-      'job_knowledge',
-      'work_experience',
-      'communication',
-      'personality',
-      'potential',
-      'general_knowledge',
-      'assertiveness'
     ];
   
     const missingFields = requiredFields.filter(field => {
