@@ -77,21 +77,6 @@ const Interviews = () => {
     return { interviewMark, interviewResult };
   };
 
-  useEffect(() => {
-    // Show popup whenever interviewData changes
-    if (formData.interview_mark || formData.interview_result) {
-      setShowPopup(true);
-    }
-  }, [formData]);
-
-  // Fetching interview data
-  useEffect(() => {
-    if (location.state && location.state.interview) {
-      setSelectedInterview(location.state.interview);
-      setFormData(location.state.interview);
-    }
-  }, [location]);
-
   // Check for query parameters in URL first (from QR code scan)
   useEffect(() => {
     // Parse URL parameters
@@ -143,7 +128,6 @@ const Interviews = () => {
         ...prevState,
         name: location.state.name || '',
         position_for: location.state.position_for || '',
-        age: location.state.age || '',
         email: location.state.email || '',
         phone: location.state.phone || '',
         reference: location.state.reference || ''
@@ -155,7 +139,6 @@ const Interviews = () => {
     }
   }, [location, id, navigate]);
 
-  // Fetch candidate data from API
   const fetchCandidateData = async (candidateId) => {
     try {
       const response = await axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${candidateId}/`);
@@ -164,7 +147,6 @@ const Interviews = () => {
         ...prevState,
         name: response.data.name || '',
         position_for: response.data.position_for || '',
-        age: response.data.age || '',
         email: response.data.email || '',
         phone: response.data.phone || '',
         reference: response.data.reference || ''
@@ -173,6 +155,22 @@ const Interviews = () => {
       console.error("Error fetching candidate data:", error);
     }
   };
+
+
+  useEffect(() => {
+    // Show popup whenever interviewData changes
+    if (formData.interview_mark || formData.interview_result) {
+      setShowPopup(true);
+    }
+  }, [formData]);
+
+  // Fetching interview data
+  useEffect(() => {
+    if (location.state && location.state.interview) {
+      setSelectedInterview(location.state.interview);
+      setFormData(location.state.interview);
+    }
+  }, [location]);
 
   useEffect(() => {
     const cvDetails = location.state;  // Get the CV details passed via location.state

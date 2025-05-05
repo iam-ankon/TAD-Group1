@@ -260,7 +260,8 @@ const CVDetail = () => {
         const params = new URLSearchParams({
             id: cvDetails.id || id,
             name: cvDetails.name || "",
-            position: cvDetails.position_for || "",
+            position_for: cvDetails.position_for || "",
+            age: cvDetails.age || "",
             email: cvDetails.email || "",
             phone: cvDetails.phone || "",
             reference: cvDetails.reference || ""
