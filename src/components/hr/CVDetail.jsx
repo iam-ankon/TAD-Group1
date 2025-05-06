@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -146,18 +145,19 @@ const CVDetail = () => {
             display: "flex",
             height: "100vh",
             fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-            backgroundColor: '#eef2f7',
+            backgroundColor: "#DCEEF3",
         },
         contentContainer: {
             flex: 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            
         },
         card: {
             width: "100%",
             maxWidth: "600px",
-            backgroundColor: "white",
+            backgroundColor: "#A7D5E1",
             padding: "30px",
             borderRadius: "12px",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -203,7 +203,7 @@ const CVDetail = () => {
         },
         button: {
             padding: "12px 25px",
-            backgroundColor: "#0078D4",
+            backgroundColor: "#006DAA",
             color: "white",
             border: "none",
             borderRadius: "8px",
