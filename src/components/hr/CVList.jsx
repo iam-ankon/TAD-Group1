@@ -219,7 +219,7 @@ const CVList = () => {
                             <th style={styles.th}>Phone</th>
                             <th style={styles.th}>Reference</th>
                             <th style={styles.th}>CV File</th>
-                            <th style={styles.th}>Barcode</th>
+                            <th style={styles.th}>QRcode</th>
                             <th style={styles.th}>Actions</th>
                         </tr>
                     </thead>
@@ -239,7 +239,7 @@ const CVList = () => {
                                 </td>
                                 <td style={styles.td}>
                                     <Link to={`/cv-detail/${cv.id}`} style={styles.barcodeButton}>
-                                        <FaBarcode /> QRcode
+                                        <FaBarcode />
                                     </Link>
                                 </td>
                                 <td style={styles.td}>
