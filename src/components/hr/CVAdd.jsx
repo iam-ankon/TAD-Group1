@@ -67,8 +67,8 @@ const CVAdd = () => {
   const styles = {
     appContainer: {
       display: "flex",
-      height: "100vh",
-      fontFamily: "Segoe UI, sans-serif",
+      minheight: "100vh",
+      fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
       backgroundColor: "#f7fafc",
     },
     formContainer: {

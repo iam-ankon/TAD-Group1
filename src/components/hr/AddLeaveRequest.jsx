@@ -122,8 +122,10 @@ const AddLeaveRequest = () => {
   };
 
   const containerStyle = {
-    display: 'flex',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    display: "flex",
+    height: "100vh",
+    fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+    backgroundColor: "#f4f6f9",
   };
 
   const mainContentStyle = {

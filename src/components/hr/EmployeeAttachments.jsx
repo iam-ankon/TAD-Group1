@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Sidebars from './sidebars';
 
 const EmployeeAttachments = () => {
   const { id } = useParams();
@@ -27,7 +28,6 @@ const EmployeeAttachments = () => {
       file,
       description: "",
     }));
-    // Append new files to existing ones
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
   };
 
@@ -38,10 +38,15 @@ const EmployeeAttachments = () => {
   };
 
   const handleUpload = async () => {
+    if (files.length === 0) {
+      alert("Please select at least one file to upload");
+      return;
+    }
+
     const formData = new FormData();
     files.forEach((fileObj) => {
       formData.append("file", fileObj.file);
-      formData.append("description", fileObj.description);  // Include description
+      formData.append("description", fileObj.description);
     });
     formData.append("employee", id);
 
@@ -55,13 +60,11 @@ const EmployeeAttachments = () => {
       );
       fetchAttachments();
       alert("Files uploaded successfully!");
-      
-      // Clear the file input and description fields after upload
       setFiles([]);
-      document.getElementById("fileInput").value = ""; // Reset file input
-
+      document.getElementById("fileInput").value = "";
     } catch (error) {
       console.error("Error uploading files:", error);
+      alert("Error uploading files. Please try again.");
     }
   };
 
@@ -77,10 +80,13 @@ const EmployeeAttachments = () => {
       alert("File deleted successfully!");
     } catch (error) {
       console.error("Error deleting file:", error);
+      alert("Error deleting file. Please try again.");
     }
   };
 
   const handleEditDescription = (attachmentId, newDescription) => {
+    if (newDescription === null) return; // User cancelled
+    
     axios.patch(
       `https://tadbackend-5456.onrender.com/api/hrms/api/employee_attachments/${attachmentId}/`,
       { description: newDescription }
@@ -91,175 +97,304 @@ const EmployeeAttachments = () => {
       })
       .catch((error) => {
         console.error("Error updating description:", error);
+        alert("Error updating description. Please try again.");
       });
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}>Employee Attachments</h2>
-      <input
-        type="file"
-        multiple
-        onChange={handleFileChange}
-        id="fileInput"
-        style={styles.fileInput}
-      />
-      {files.map((fileObj, index) => (
-        <div key={index} style={styles.fileContainer}>
-          <span style={styles.fileName}>{fileObj.file.name}</span>
-          <input
-            type="text"
-            placeholder="Enter file description"
-            value={fileObj.description}
-            onChange={(event) => handleTextChange(index, event)}
-            style={styles.descriptionInput}
-          />
-        </div>
-      ))}
-      <button onClick={handleUpload} style={styles.uploadButton}>
-        Upload
-      </button>
+      <Sidebars />
+      <div style={styles.content}>
+        <div style={styles.card}>
+          <h2 style={styles.heading}>Employee Attachments</h2>
+          
+          <div style={styles.uploadSection}>
+            <div style={styles.fileInputContainer}>
+              <label htmlFor="fileInput" style={styles.fileInputLabel}>
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  id="fileInput"
+                  style={styles.fileInput}
+                />
+              </label>
+              <button onClick={handleUpload} style={styles.uploadButton} disabled={files.length === 0}>
+                Upload {files.length > 0 ? `(${files.length})` : ''}
+              </button>
+            </div>
 
-      <h3 style={styles.uploadedFilesHeading}>Uploaded Files</h3>
-      <ul style={styles.fileList}>
-        {attachments.map((attachment) => (
-          <li key={attachment.id} style={styles.listItem}>
-            <a
-              href={attachment.file.startsWith("http") ? attachment.file : `http://127.0.0.1:8000${attachment.file}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={styles.fileLink}
-            >
-              {attachment.file.split("/").pop()}
-            </a>
-            <span style={styles.uploadDate}>
-              ({new Date(attachment.uploaded_at).toLocaleString()})
-            </span>
-            <span style={styles.descriptionText}>
-              Description:{" "}
-              <span style={styles.italicText}>
-                {attachment.description || "No description"}
-              </span>
-            </span>
-            <button
-              onClick={() => handleEditDescription(attachment.id, prompt("Enter new description:", attachment.description || ""))}
-              style={styles.editButton}
-            >
-              ✏️
-            </button>
-            <button
-              onClick={() => handleDelete(attachment.id)}
-              style={styles.deleteButton}
-            >
-              ❌
-            </button>
-          </li>
-        ))}
-      </ul>
+            {files.length > 0 && (
+              <div style={styles.selectedFiles}>
+                <h4 style={styles.selectedFilesHeading}>Files to Upload:</h4>
+                {files.map((fileObj, index) => (
+                  <div key={index} style={styles.fileItem}>
+                    <span style={styles.fileName}>{fileObj.file.name}</span>
+                    <input
+                      type="text"
+                      placeholder="Enter description (optional)"
+                      value={fileObj.description}
+                      onChange={(event) => handleTextChange(index, event)}
+                      style={styles.descriptionInput}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div style={styles.attachmentsSection}>
+            <h3 style={styles.sectionHeading}>Uploaded Files</h3>
+            {attachments.length === 0 ? (
+              <p style={styles.noFiles}>No files uploaded yet</p>
+            ) : (
+              <ul style={styles.fileList}>
+                {attachments.map((attachment) => (
+                  <li key={attachment.id} style={styles.listItem}>
+                    <div style={styles.fileInfo}>
+                      <a
+                        href={attachment.file.startsWith("http") ? attachment.file : `http://127.0.0.1:8000${attachment.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.fileLink}
+                      >
+                        {attachment.file.split("/").pop()}
+                      </a>
+                      <span style={styles.uploadDate}>
+                        {new Date(attachment.uploaded_at).toLocaleString()}
+                      </span>
+                    </div>
+                    <div style={styles.descriptionContainer}>
+                      <span style={styles.descriptionText}>
+                        {attachment.description || "No description"}
+                      </span>
+                    </div>
+                    <div style={styles.actions}>
+                      <button
+                        onClick={() => handleEditDescription(
+                          attachment.id, 
+                          prompt("Enter new description:", attachment.description || "")
+                        )}
+                        style={styles.editButton}
+                        title="Edit description"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(attachment.id)}
+                        style={styles.deleteButton}
+                        title="Delete file"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-// Inline styles
 const styles = {
   container: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "20px",
-    backgroundColor: "#f4f7fc",
+    display: "flex",
+    minHeight: "100vh",
+    backgroundColor: "#f5f7fa",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+  },
+  content: {
+    flex: 1,
+    padding: "24px",
+    overflow: "auto",
+  },
+  card: {
+    backgroundColor: "#ffffff",
     borderRadius: "8px",
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    padding: "24px",
   },
   heading: {
     fontSize: "24px",
     fontWeight: "600",
     color: "#2c3e50",
-    marginBottom: "20px",
+    marginBottom: "24px",
+    paddingBottom: "12px",
+    borderBottom: "1px solid #eaeaea",
   },
-  fileInput: {
-    fontSize: "14px",
-    marginRight: "10px",
-    padding: "10px",
-    backgroundColor: "#ffffff",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
+  sectionHeading: {
+    fontSize: "18px",
+    fontWeight: "600",
+    color: "#2c3e50",
+    margin: "16px 0",
   },
-  fileContainer: {
-    marginTop: "10px",
+  uploadSection: {
+    marginBottom: "32px",
+    padding: "16px",
+    backgroundColor: "#f8f9fa",
+    borderRadius: "6px",
+  },
+  fileInputContainer: {
     display: "flex",
     alignItems: "center",
+    gap: "12px",
+    marginBottom: "16px",
   },
-  fileName: {
-    marginRight: "10px",
-  },
-  descriptionInput: {
-    padding: "8px",
-    fontSize: "14px",
-    border: "1px solid #ddd",
+  fileInputLabel: {
+    padding: "10px 16px",
+    backgroundColor: "#e9ecef",
+    color: "#495057",
     borderRadius: "4px",
-    width: "250px",
-    marginRight: "10px",
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: "500",
+    transition: "background-color 0.2s",
+    ":hover": {
+      backgroundColor: "#dee2e6",
+    },
+  },
+  fileInput: {
+    display: "none",
   },
   uploadButton: {
-    backgroundColor: "#3498db",
-    color: "white",
     padding: "10px 20px",
+    backgroundColor: "#4e73df",
+    color: "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
-    fontSize: "16px",
-    marginTop: "10px",
+    fontSize: "14px",
+    fontWeight: "500",
+    transition: "background-color 0.2s",
+    ":hover": {
+      backgroundColor: "#3a5ab5",
+    },
+    ":disabled": {
+      backgroundColor: "#cccccc",
+      cursor: "not-allowed",
+    },
   },
-  uploadedFilesHeading: {
-    marginTop: "20px",
-    fontSize: "20px",
+  selectedFiles: {
+    marginTop: "16px",
+  },
+  selectedFilesHeading: {
+    fontSize: "14px",
     fontWeight: "600",
-    color: "#2c3e50",
+    color: "#495057",
+    marginBottom: "8px",
+  },
+  fileItem: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    marginBottom: "8px",
+    padding: "8px",
+    backgroundColor: "#ffffff",
+    borderRadius: "4px",
+    border: "1px solid #eaeaea",
+  },
+  fileName: {
+    flex: 1,
+    fontSize: "14px",
+    color: "#495057",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  descriptionInput: {
+    flex: 2,
+    padding: "8px",
+    fontSize: "14px",
+    border: "1px solid #ced4da",
+    borderRadius: "4px",
+    minWidth: "200px",
+  },
+  attachmentsSection: {
+    marginTop: "24px",
+  },
+  noFiles: {
+    color: "#6c757d",
+    fontStyle: "italic",
+    textAlign: "center",
+    padding: "16px",
   },
   fileList: {
-    listStyleType: "none",
-    padding: "0",
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
   },
   listItem: {
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
     padding: "12px 0",
-    borderBottom: "1px solid #e0e0e0",
+    borderBottom: "1px solid #eaeaea",
+    ":last-child": {
+      borderBottom: "none",
+    },
+  },
+  fileInfo: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    marginBottom: "8px",
   },
   fileLink: {
-    fontSize: "14px",
-    color: "#3498db",
-    marginRight: "15px",
+    color: "#4e73df",
     textDecoration: "none",
+    fontSize: "14px",
+    fontWeight: "500",
+    ":hover": {
+      textDecoration: "underline",
+    },
   },
   uploadDate: {
     fontSize: "12px",
-    color: "#7f8c8d",
-    marginRight: "15px",
+    color: "#6c757d",
+  },
+  descriptionContainer: {
+    marginBottom: "8px",
   },
   descriptionText: {
-    fontSize: "12px",
-  },
-  italicText: {
+    fontSize: "14px",
+    color: "#495057",
     fontStyle: "italic",
   },
+  actions: {
+    display: "flex",
+    gap: "8px",
+    marginTop: "8px",
+  },
   editButton: {
-    marginLeft: "10px",
     padding: "6px 12px",
-    fontSize: "12px",
-    backgroundColor: "#f39c12",
-    color: "white",
+    backgroundColor: "#f6c23e",
+    color: "#ffffff",
+    border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: "500",
+    transition: "background-color 0.2s",
+    ":hover": {
+      backgroundColor: "#dda20a",
+    },
   },
   deleteButton: {
-    marginLeft: "10px",
     padding: "6px 12px",
-    fontSize: "12px",
-    backgroundColor: "#e74c3c",
-    color: "white",
+    backgroundColor: "#e74a3b",
+    color: "#ffffff",
+    border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: "500",
+    transition: "background-color 0.2s",
+    ":hover": {
+      backgroundColor: "#be2617",
+    },
   },
 };
 

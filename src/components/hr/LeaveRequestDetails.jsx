@@ -325,8 +325,9 @@ const LeaveRequestDetails = () => {
     };
     const containerStyle = {
         display: 'flex',
+        fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+        backgroundColor: '#f4f6f9',
         minHeight: '100vh',
-        backgroundColor: '#f8fafc'
     };
 
     return (

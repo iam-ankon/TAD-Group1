@@ -137,8 +137,9 @@ const EditEmployeePage = () => {
 
   const containerStyle = {
     display: "flex",
-    fontFamily: "Segoe UI, sans-serif",
-    backgroundColor: "#f3f6fb",
+    minheight: "100vh",
+    fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+    backgroundColor: "#f7fafc",
   };
 
   const formContainerStyle = {

@@ -24,7 +24,7 @@ const EmployeeLeaveBalance = () => {
 
   const containerStyle = {
     display: 'flex',
-    fontFamily: 'Segoe UI, sans-serif',
+    fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
     backgroundColor: '#eef2f7',
     minHeight: '100vh',
   };

@@ -848,20 +848,13 @@ const Interviews = () => {
 
   const style = {
     container: {
-      display: "flex",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      height: "92vh",
-      overflow: "hidden",
       backgroundColor: "#f0f0f0",
-      color: "#333",
-      fontSize: "16px",
-      lineHeight: "1.5",
-
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-      justifyContent: "space-between",
-      zIndex: 1,
       overflowY: "auto",
       overflowX: "hidden",
+      display: "flex",
+      height: "100vh",
+      fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
     },
     sidebar: {
       width: "280px",
