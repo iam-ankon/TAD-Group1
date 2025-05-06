@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -110,7 +109,7 @@ const HRWorkPage = () => {
 
 
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#eef2f7', fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif", }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#DCEEF3',fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif", }}>
       {/* Sidebar */}
       <div style={{ display: 'flex' }}>
         <Sidebars />
@@ -135,7 +134,7 @@ const HRWorkPage = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', transition: 'box-shadow 0.3s ease-in-out', cursor: 'pointer', ':hover': { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' } }}
+                style={{ backgroundColor: '#C2E2EA', padding: '1.5rem', borderRadius: '1rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', transition: 'box-shadow 0.3s ease-in-out', cursor: 'pointer', ':hover': { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' } }}
                 onClick={() => navigate(stat.link)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -160,12 +159,12 @@ const HRWorkPage = () => {
           {/* Quick Actions */}
           <div style={{ marginBottom: '2rem' }}>
             <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151', marginBottom: '1rem' }}>Quick Actions</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4rem' }}>
               {quickActions.map((action, index) => (
                 <Link
                   key={index}
                   to={action.link}
-                  style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', transition: 'box-shadow 0.3s ease-in-out', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', ':hover': { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' } }}
+                  style={{ backgroundColor: '#65AFFF', padding: '1rem', borderRadius: '1rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', transition: 'box-shadow 0.3s ease-in-out', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', ':hover': { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' } }}
                 >
                   <div style={{ marginRight: '0.75rem', padding: '0.5rem', backgroundColor: '#eff6ff', borderRadius: '0.375rem', color: '#2563eb' }}>
                     {action.icon}
@@ -177,7 +176,7 @@ const HRWorkPage = () => {
           </div>
 
           {/* Upcoming Interviews */}
-          <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', marginBottom: '2rem' }}>
+          <div style={{ backgroundColor: '#B9D6F2', borderRadius: '1.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb', marginBottom: '2rem' }}>
             <div style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
               <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Interviews</h2>
             </div>
@@ -212,7 +211,7 @@ const HRWorkPage = () => {
           {/* Pending Leave Requests and Today's Attendance */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             {/* Pending Leave Requests */}
-            <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
+            <div style={{ backgroundColor: '#72BBCE', borderRadius: '1.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
               <div style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
                 <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Pending Leave Requests</h2>
               </div>
@@ -247,7 +246,7 @@ const HRWorkPage = () => {
             </div>
 
             {/* Today's Attendance */}
-            <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
+            <div style={{ backgroundColor: '#63B0E3', borderRadius: '1.5rem', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', border: '1px solid #e5e7eb' }}>
               <div style={{ padding: '1rem', borderBottom: '1px solid #e5e7eb' }}>
                 <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#374151' }}>Today's Attendance</h2>
               </div>

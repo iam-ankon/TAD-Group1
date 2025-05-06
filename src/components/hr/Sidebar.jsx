@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMenu } from "react-icons/fi";
 import { FiUsers, FiCalendar, FiMail, FiFileText, FiDollarSign, FiTerminal, FiSend, FiLogOut, FiPieChart, FiBriefcase, FiClock, FiHome } from 'react-icons/fi';
-import logo from '../../assets/texweave_Logo_1.png';
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state (open/close)
@@ -63,7 +62,7 @@ const Sidebar = () => {
         <div className="sidebar-header">
           {/* Logo Section */}
           <div className="logo">
-            <img src={logo} alt="Logo" className="logo-image" />
+            <img src="/public/texweave_Logo_1.png" alt="Logo" className="logo-image" />
           </div>
           <button onClick={handleDashboardClick} className="sidebar-title">
             Dashboard
@@ -121,7 +120,7 @@ const Sidebar = () => {
           top: 0;
           height: 100vh;
           width: 250px;
-          background: linear-gradient(135deg, #2b6cb0, #3182ce);
+          background: linear-gradient(135deg,rgb(127, 137, 147),rgb(46, 116, 181));
           color: white;
           transition: 0.3s ease-in-out;
           display: flex;
@@ -164,7 +163,7 @@ const Sidebar = () => {
           position: fixed;
           top: 15px;
           left: 15px;
-          background: #2b6cb0;
+          background:rgb(95, 111, 129);
           color: white;
           border: none;
           padding: 10px 12px;
@@ -182,7 +181,7 @@ const Sidebar = () => {
           left: 0;
           width: 100%;  /* Full screen width */
           height: 70px;  /* Adjust to the height that fits the buttons */
-          background-color: #3182ce;
+          background-color:rgb(55, 72, 89);
           z-index: 5;  /* Ensure it's below the sidebar */
         }
 
@@ -236,7 +235,7 @@ const Sidebar = () => {
           left: 0;
           width: 100%;  /* Full screen width */
           height: 70px;  /* Adjust to the height that fits the buttons */
-          background-color: #3182ce;
+          background-color:rgb(89, 130, 168);
           z-index: 10;  /* Ensure it's below the buttons */
         }
 
