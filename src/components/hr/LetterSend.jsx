@@ -61,7 +61,7 @@ const LetterSend = () => {
     },
     sidebar: {
       width: "230px",
-      backgroundColor: "#f3f6fb",
+      backgroundColor: '#eef2f7',
       height: "100vh",
       padding: "20px 15px",
       boxShadow: "2px 0 5px rgba(0, 0, 0, 0.05)",
@@ -88,7 +88,7 @@ const LetterSend = () => {
       flex: 1,
       overflowY: "auto",
       padding: "30px",
-      backgroundColor: "#f3f3f3",
+      backgroundColor: '#eef2f7',
     },
     heading: {
       fontSize: "26px",
