@@ -279,9 +279,13 @@ const AdminProvision = () => {
         }  
 
         .search-bar {
+          padding: 10px;
           margin-bottom: 20px;
           width: 100%;
           max-width: 500px;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+          font-size: 1rem;
         }
 
         .search-bar input {
@@ -327,7 +331,8 @@ const AdminProvision = () => {
           border: none;
           border-radius: 4px;
           cursor: pointer;
-          margin-bottom: 20px;
+          margin-bottom: 30px;
+          transition: background-color 0.3s ease;
         }
 
         .add-button:hover {
