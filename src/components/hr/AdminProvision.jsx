@@ -264,10 +264,11 @@ const AdminProvision = () => {
         .main-content {
           display: flex;
           flex-direction: column;
-          padding: 40px;
-          background-color: #f4f7fc;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           align-items: center;
+          padding: 40px;
+          background-color: #eef2f7;
+          min-height: 100vh;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .heading {
           font-size: 2.5rem;
