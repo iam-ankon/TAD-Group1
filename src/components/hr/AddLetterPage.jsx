@@ -101,13 +101,13 @@ const AddLetterPage = () => {
     display: "flex",
     height: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: '#eef2f7',
+    backgroundColor: "#DCEEF3",
   };
 
   const mainContentStyle = {
     flex: 1,
     padding: "30px",
-    backgroundColor: "#f4f4f9",
+    backgroundColor: "#DCEEF3",
   };
 
   const formContainerStyle = {
@@ -117,6 +117,7 @@ const AddLetterPage = () => {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     maxWidth: "600px",
     margin: "0 auto",
+    backgroundColor: '#A7D5E1',
   };
 
   const formHeaderStyle = {
@@ -140,6 +141,7 @@ const AddLetterPage = () => {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
+    backgroundColor: "#DCEEF3",
   };
 
   const selectStyle = {
@@ -147,6 +149,7 @@ const AddLetterPage = () => {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
+    backgroundColor: "#DCEEF3",
   };
 
   const buttonStyle = {
