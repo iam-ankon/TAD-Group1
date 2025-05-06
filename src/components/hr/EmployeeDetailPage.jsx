@@ -664,7 +664,7 @@ const EmployeeDetailPage = () => {
     const fetchEmployeeDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/employees/${id}/`);
+        const response = await getEmployeeById(id);
         if (!response.ok) throw new Error("Employee not found");
         const data = await response.json();
         setEmployee(data);
