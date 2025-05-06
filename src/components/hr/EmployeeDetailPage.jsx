@@ -665,6 +665,7 @@ const EmployeeDetailPage = () => {
       try {
         setLoading(true);
         const response = await getEmployeeById(id);
+        setEmployee(response.data);
         if (!response.ok) throw new Error("Employee not found");
         const data = await response.json();
         setEmployee(data);
