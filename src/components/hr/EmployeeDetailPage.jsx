@@ -149,13 +149,13 @@
 //             <div class="print-header">
 //               <h2>Employee Details</h2>
 //             </div>
-            
+
 //             <div class="profile-section">
 //               <div class="profile-images">
 //                 <img src="${employee.image1}" alt="Employee" class="profile-image" />
 //                 ${employee.image2 ? `<img src="${employee.image2}" alt="Employee Secondary" class="profile-image" />` : ''}
 //               </div>
-              
+
 //               <div class="basic-info">
 //                 <h3>${employee.name}</h3>
 //                 <p class="designation">${employee.designation}</p>
@@ -858,10 +858,17 @@ const EmployeeDetailPage = () => {
         <Sidebars />
         <div className="content-wrapper">
           {loading ? (
-            <div style={{ textAlign: "center", marginTop: "40px" }}>
-              <p>Loading Employee details...</p>
+            <div style={{
+              display: "flex", justifyContent: "center",
+              alignItems: "center", height: "80vh", flexDirection: "column"
+            }}>
+              <div className="spinner" />
+              <p style={{ marginTop: "16px", fontSize: "18px", color: "#555" }}>
+                Loading employee details...
+              </p>
             </div>
           ) : (
+
             <div className="employee-detail-card">
               <div className="employee-header">
                 <h2><FaUserTie /> Employee Details</h2>
@@ -892,82 +899,82 @@ const EmployeeDetailPage = () => {
               </div>
 
               <div className="detail-sections">
-                  <div className="detail-section">
-                    <h4><FaBuilding /> Company Information</h4>
-                    <div className="detail-row">
-                      <span>Company:</span>
-                      <span>{employee.company_name || employee.company}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Job Title:</span>
-                      <span>{employee.job_title}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Salary:</span>
-                      <span>৳{employee.salary}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Joining Date:</span>
-                      <span>{employee.joining_date}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Reporting Leader:</span>
-                      <span>{employee.reporting_leader}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Customers:</span>
-                      <span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span>
-                    </div>
+                <div className="detail-section">
+                  <h4><FaBuilding /> Company Information</h4>
+                  <div className="detail-row">
+                    <span>Company:</span>
+                    <span>{employee.company_name || employee.company}</span>
                   </div>
-
-                  <div className="detail-section">
-                    <h4><FaEnvelope /> Contact Information</h4>
-                    <div className="detail-row email-row">
-                      <span>Email:</span>
-                      <span>{employee.email}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Personal Phone:</span>
-                      <span>{employee.personal_phone}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Office Phone:</span>
-                      <span>{employee.office_phone}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Reference Phone:</span>
-                      <span>{employee.reference_phone || "N/A"}</span>
-                    </div>
+                  <div className="detail-row">
+                    <span>Job Title:</span>
+                    <span>{employee.job_title}</span>
                   </div>
-
-                  <div className="detail-section">
-                    <h4><FaMapMarkerAlt /> Address Information</h4>
-                    <div className="detail-row">
-                      <span>Mailing Address:</span>
-                      <span>{employee.mail_address}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Permanent Address:</span>
-                      <span>{employee.permanent_address}</span>
-                    </div>
+                  <div className="detail-row">
+                    <span>Salary:</span>
+                    <span>৳{employee.salary}</span>
                   </div>
-
-                  <div className="detail-section">
-                    <h4><FaCalendarAlt /> Personal Information</h4>
-                    <div className="detail-row">
-                      <span>Date of Birth:</span>
-                      <span>{employee.date_of_birth}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Special Skills:</span>
-                      <span>{employee.special_skills || "N/A"}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Remarks:</span>
-                      <span>{employee.remarks || "N/A"}</span>
-                    </div>
+                  <div className="detail-row">
+                    <span>Joining Date:</span>
+                    <span>{employee.joining_date}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Reporting Leader:</span>
+                    <span>{employee.reporting_leader}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Customers:</span>
+                    <span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span>
                   </div>
                 </div>
+
+                <div className="detail-section">
+                  <h4><FaEnvelope /> Contact Information</h4>
+                  <div className="detail-row email-row">
+                    <span>Email:</span>
+                    <span>{employee.email}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Personal Phone:</span>
+                    <span>{employee.personal_phone}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Office Phone:</span>
+                    <span>{employee.office_phone}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Reference Phone:</span>
+                    <span>{employee.reference_phone || "N/A"}</span>
+                  </div>
+                </div>
+
+                <div className="detail-section">
+                  <h4><FaMapMarkerAlt /> Address Information</h4>
+                  <div className="detail-row">
+                    <span>Mailing Address:</span>
+                    <span>{employee.mail_address}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Permanent Address:</span>
+                    <span>{employee.permanent_address}</span>
+                  </div>
+                </div>
+
+                <div className="detail-section">
+                  <h4><FaCalendarAlt /> Personal Information</h4>
+                  <div className="detail-row">
+                    <span>Date of Birth:</span>
+                    <span>{employee.date_of_birth}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Special Skills:</span>
+                    <span>{employee.special_skills || "N/A"}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Remarks:</span>
+                    <span>{employee.remarks || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -978,6 +985,20 @@ const EmployeeDetailPage = () => {
           min-height: 100vh;
           background-color: #f5f7fa;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .spinner {
+          width: 48px;
+          height: 48px;
+          border: 6px solid #e0e0e0;
+          border-top-color: #3498db;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
         }
 
         .sidebar-wrapper {
