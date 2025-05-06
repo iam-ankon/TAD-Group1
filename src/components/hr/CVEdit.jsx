@@ -23,7 +23,7 @@ const CVEdit = () => {
     const fetchCV = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/employee/details/api/CVAdd/${id}/`);
         setFormData({
           name: response.data.name,
           position_for: response.data.position_for || "",
@@ -36,7 +36,6 @@ const CVEdit = () => {
         });
       } catch (error) {
         console.error("Error fetching CV:", error);
-        alert("Failed to load CV details. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -72,7 +71,7 @@ const CVEdit = () => {
 
     try {
       await axios.put(
-        `https://tadbackend-5456.onrender.com/api/hrms/api/CVAdd/${id}/`,
+        `http://127.0.0.1:8000/api/employee/details/api/CVAdd/${id}/`,
         formDataToSubmit,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -82,17 +81,16 @@ const CVEdit = () => {
       navigate("/cv-list");
     } catch (error) {
       console.error("Error updating CV:", error);
-      alert(`Failed to update CV: ${error.response?.data?.message || error.message}`);
+      alert("Failed to update CV");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Styles
   const styles = {
     container: {
       display: "flex",
-      Height: "100vh",
+      minHeight: "100vh",
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       backgroundColor: "#f5f7fa",
     },
@@ -100,6 +98,18 @@ const CVEdit = () => {
       flex: 1,
       padding: "24px",
       overflow: "auto",
+      display: "flex",
+      flexDirection: "column",
+    },
+    loadingContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+    },
+    loadingText: {
+      fontSize: "18px",
+      color: "#4a5568",
     },
     card: {
       backgroundColor: "#ffffff",
@@ -107,6 +117,7 @@ const CVEdit = () => {
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
       padding: "24px",
       maxWidth: "800px",
+      width: "100%",
       margin: "0 auto",
     },
     heading: {
@@ -140,12 +151,6 @@ const CVEdit = () => {
       border: "1px solid #e2e8f0",
       borderRadius: "4px",
       backgroundColor: "#f8fafc",
-      transition: "border-color 0.2s",
-      ":focus": {
-        borderColor: "#3182ce",
-        outline: "none",
-        backgroundColor: "#fff",
-      },
     },
     fileInputContainer: {
       marginTop: "8px",
@@ -167,7 +172,6 @@ const CVEdit = () => {
       fontWeight: "500",
       borderRadius: "4px",
       cursor: "pointer",
-      transition: "background-color 0.2s",
       border: "none",
     },
     submitButton: {
@@ -188,11 +192,6 @@ const CVEdit = () => {
         backgroundColor: "#cbd5e0",
       },
     },
-    loadingText: {
-      textAlign: "center",
-      padding: "40px",
-      color: "#4a5568",
-    },
   };
 
   return (
@@ -200,7 +199,9 @@ const CVEdit = () => {
       <Sidebars />
       <div style={styles.content}>
         {isLoading ? (
-          <p style={styles.loadingText}>Loading CV details...</p>
+          <div style={styles.loadingContainer}>
+            <p style={styles.loadingText}>Loading CV details...</p>
+          </div>
         ) : (
           <div style={styles.card}>
             <h2 style={styles.heading}>Edit CV</h2>
