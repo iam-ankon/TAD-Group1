@@ -84,7 +84,7 @@ const EditEmployeeTermination = () => {
                     justify-content: center;
                     align-items: center;
                     height: 100vh;
-                    background-color: #f4f7fc;
+                    background-color: #eef2f7;
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 }
               

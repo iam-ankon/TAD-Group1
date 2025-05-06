@@ -322,7 +322,7 @@ const EmployeeDetailPage = () => {
         .employee-detail-container {
           display: flex;
           min-height: 100vh;
-          background-color: #f5f7fa;
+          background-color: #eef2f7;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .spinner {

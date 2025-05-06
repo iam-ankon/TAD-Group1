@@ -67,6 +67,7 @@ const EmployeeTermination = () => {
       display: "flex",
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       minHeight: "100vh",
+      backgroundColor: '#eef2f7',
     },
     content: {
       flex: 1,

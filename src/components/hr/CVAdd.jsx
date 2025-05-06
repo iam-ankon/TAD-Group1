@@ -69,7 +69,7 @@ const CVAdd = () => {
       display: "flex",
       height: "100vh",
       fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: "#f7fafc",
+      backgroundColor: '#eef2f7',
     },
     formContainer: {
       backgroundColor: "#fff",

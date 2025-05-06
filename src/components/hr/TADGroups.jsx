@@ -50,6 +50,7 @@ const styles = {
     display: "flex",
     height: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+    backgroundColor: '#eef2f7',
   },
   sidebar: {
     width: "230px",

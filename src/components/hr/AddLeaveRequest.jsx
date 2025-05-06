@@ -125,7 +125,7 @@ const AddLeaveRequest = () => {
     display: "flex",
     minheight: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: "#f4f6f9",
+    backgroundColor: '#eef2f7',
   };
 
   const mainContentStyle = {

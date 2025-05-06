@@ -202,7 +202,7 @@ const AddEmployee = () => {
     };
 
     const styles = {
-        container: { padding: "20px", maxWidth: "1000px", margin: "auto", backgroundColor: "#f4f4f4", borderRadius: "8px" },
+        container: { padding: "20px", maxWidth: "1000px", margin: "auto", backgroundColor: '#eef2f7', borderRadius: "8px" },
         input: { width: "100%", padding: "8px", marginBottom: "10px" },
         button: {
             padding: "10px",

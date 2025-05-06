@@ -139,7 +139,7 @@ const EditEmployeePage = () => {
     display: "flex",
     minheight: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: "#f7fafc",
+    backgroundColor: '#eef2f7',
   };
 
   const formContainerStyle = {

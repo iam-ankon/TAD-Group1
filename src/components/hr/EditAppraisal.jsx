@@ -154,32 +154,9 @@ const containerStyle = {
   display: "flex",
   minheight: "100vh",
   fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-  backgroundColor: "#f7fafc",
+  backgroundColor: '#eef2f7',
 };
 
-const sidebarStyle = {
-  width: "230px",
-  backgroundColor: "#f3f6fb",
-  height: "100vh",
-  padding: "20px 15px",
-  boxShadow: "2px 0 5px rgba(0, 0, 0, 0.05)",
-};
 
-const sidebarHeaderStyle = {
-  fontSize: "20px",
-  fontWeight: "bold",
-  marginBottom: "20px",
-  color: "#0078D4",
-};
-
-const sidebarLinkStyle = {
-  display: "block",
-  padding: "10px",
-  margin: "5px 0",
-  textDecoration: "none",
-  color: "#333",
-  borderRadius: "6px",
-  transition: "0.3s",
-};
 
 export default EditAppraisal;

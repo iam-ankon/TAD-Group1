@@ -113,7 +113,7 @@ const FinanceProvision = () => {
     container: {
       display: "flex",
       minHeight: "100vh",
-      backgroundColor: "#f9fafb",
+      backgroundColor: '#eef2f7',
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     },
     mainContent: {

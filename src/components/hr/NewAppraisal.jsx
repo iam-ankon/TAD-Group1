@@ -273,7 +273,7 @@ const NewAppraisal = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#f9fafb", minHeight: "100vh", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+    <div style={{ backgroundColor: '#eef2f7', minHeight: "100vh", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
       <div style={{ display: "flex" }}>
         <Sidebars />
         <div style={{ flex: 1, overflow: "auto" }}>

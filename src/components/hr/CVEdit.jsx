@@ -92,7 +92,7 @@ const CVEdit = () => {
       display: "flex",
       minHeight: "100vh",
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: "#f5f7fa",
+      backgroundColor: '#eef2f7',
     },
     content: {
       flex: 1,

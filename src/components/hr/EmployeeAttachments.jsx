@@ -204,7 +204,7 @@ const styles = {
   container: {
     display: "flex",
     minHeight: "100vh",
-    backgroundColor: "#f5f7fa",
+    backgroundColor: '#eef2f7',
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   content: {

@@ -848,7 +848,7 @@ const Interviews = () => {
 
   const style = {
     container: {
-      backgroundColor: "#f0f0f0",
+      backgroundColor: '#eef2f7',
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
       overflowY: "auto",
       overflowX: "hidden",

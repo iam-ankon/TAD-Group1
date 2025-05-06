@@ -110,7 +110,7 @@ const HRWorkPage = () => {
 
 
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f4f7fc', fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif", }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#eef2f7', fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif", }}>
       {/* Sidebar */}
       <div style={{ display: 'flex' }}>
         <Sidebars />
