@@ -145,8 +145,7 @@ const CVList = () => {
             fontSize: '0.85rem',
             textDecoration: "none", // Added to remove underline
             padding: "8px 10px",
-            borderRadius: "4px",
-            display: "flex",
+            borderRadius: "53px",
             alignItems: "center",
             gap: "3px",
         },
