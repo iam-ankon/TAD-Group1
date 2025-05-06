@@ -97,7 +97,7 @@ const EditCVPage = () => {
 
   const containerStyle = {
     display: "flex",
-    height: "100vh",
+    minheight: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
     backgroundColor: "#f7fafc",
   };
