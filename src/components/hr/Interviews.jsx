@@ -1093,21 +1093,28 @@ const Interviews = () => {
         <button style={{ ...style.button, ...style.buttonPrint }} onClick={printAllInterviews}>
           🖨️ Print All Interviews
         </button>
-        <ul className="interview-list">
-          {interviews
-            .filter((interview) =>
-              interview.name.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((interview) => (
-              <li
-                key={interview.id}
-                style={style.interviewItem}
-                onClick={() => handleInterviewClick(interview)}
-              >
-                {interview.name}
-              </li>
-            ))}
-        </ul>
+        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+          <ul className="interview-list" style={{ margin: 0, padding: 0 }}>
+            {interviews
+              .filter((interview) =>
+                interview.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((interview) => (
+                <li
+                  key={interview.id}
+                  style={{
+                    ...style.interviewItem,
+                    padding: '10px',
+                    borderBottom: '1px solid #ccc',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleInterviewClick(interview)}
+                >
+                  {interview.name}
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
 
       <div style={style.content}>
