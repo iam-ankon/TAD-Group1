@@ -245,7 +245,7 @@ const EmployeeDetailPage = () => {
         </body>
       </html>
     `);
-    
+
     printWindow.document.close();
     setTimeout(() => {
       printWindow.focus();
@@ -254,28 +254,26 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
-  
-  
+
+
   if (loading) {
     return (
       <div className="employee-detail-container">
-    
-         
-          <div className="content-wrapper">
-            <div className="employee-detail-card" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-              <div className="loading-spinner">
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  border: '4px solid #f3f3f3',
-                  borderTop: '4px solid #3498db',
-                  borderRadius: '50%',
-                  animation: 'spin 1s linear infinite'
-                }}></div>
-                <p>Loading employee data...</p>
-              </div>
+        <div className="content-wrapper">
+          <div className="employee-detail-card" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+            <div className="loading-spinner">
+              <div style={{
+                width: '40px',
+                height: '40px',
+                border: '4px solid #f3f3f3',
+                borderTop: '4px solid #3498db',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }}></div>
+              <p>Loading employee data...</p>
             </div>
           </div>
+        </div>
 
         <style>{`
           @keyframes spin {
@@ -290,15 +288,15 @@ const EmployeeDetailPage = () => {
   if (!employee) {
     return (
       <div className="employee-detail-container">
-        
-          
-          <div className="content-wrapper">
-            <div className="employee-detail-card">
-              <p>Employee not found</p>
-            </div>
+
+
+        <div className="content-wrapper">
+          <div className="employee-detail-card">
+            <p>Employee not found</p>
           </div>
         </div>
-    
+      </div>
+
     );
   }
   return (
@@ -306,123 +304,129 @@ const EmployeeDetailPage = () => {
       <div className="sidebar-wrapper">
         <Sidebars />
         <div className="content-wrapper">
-          <div className="employee-detail-card">
-            <div className="employee-header">
-              <h2>
-                <FaUserTie className="header-icon" />
-                Employee Details
-              </h2>
-              <div className="action-buttons">
-                <button onClick={() => navigate(`/edit-employee/${id}`)} className="btn-edit">
-                  <FaEdit /> Edit
-                </button>
-                <button onClick={() => navigate(-1)} className="btn-back">
-                  <FaArrowLeft /> Back
-                </button>
-                <button onClick={handlePrint} className="btn-print">
-                  <FaPrint /> Print
-                </button>
+          {loading ? (
+            <div style={styles.loadingContainer}>
+              <p style={styles.loadingText}>Loading Employee details...</p>
+            </div>
+          ) : (
+            <div className="employee-detail-card">
+              <div className="employee-header">
+                <h2>
+                  <FaUserTie className="header-icon" />
+                  Employee Details
+                </h2>
+                <div className="action-buttons">
+                  <button onClick={() => navigate(`/edit-employee/${id}`)} className="btn-edit">
+                    <FaEdit /> Edit
+                  </button>
+                  <button onClick={() => navigate(-1)} className="btn-back">
+                    <FaArrowLeft /> Back
+                  </button>
+                  <button onClick={handlePrint} className="btn-print">
+                    <FaPrint /> Print
+                  </button>
+                </div>
+              </div>
+
+              <div id="printable-area">
+                <div className="print-header">
+                  <h2>Employee Details</h2>
+                </div>
+
+                <div className="profile-section">
+                  <div className="profile-images">
+                    <img src={employee.image1} alt="Employee" className="profile-image" />
+                    {employee.image2 && <img src={employee.image2} alt="Employee Secondary" className="profile-image" />}
+                  </div>
+
+                  <div className="basic-info">
+                    <h3>{employee.name}</h3>
+                    <p className="designation">{employee.designation}</p>
+                    <p className="department">{employee.department}</p>
+                    <p className="employee-id">Employee ID: {employee.employee_id}</p>
+                  </div>
+                </div>
+
+                <div className="detail-sections">
+                  <div className="detail-section">
+                    <h4><FaBuilding /> Company Information</h4>
+                    <div className="detail-row">
+                      <span>Company:</span>
+                      <span>{employee.company_name || employee.company}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Job Title:</span>
+                      <span>{employee.job_title}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Salary:</span>
+                      <span>৳{employee.salary}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Joining Date:</span>
+                      <span>{employee.joining_date}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Reporting Leader:</span>
+                      <span>{employee.reporting_leader}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Customers:</span>
+                      <span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span>
+                    </div>
+                  </div>
+
+                  <div className="detail-section">
+                    <h4><FaEnvelope /> Contact Information</h4>
+                    <div className="detail-row email-row">
+                      <span>Email:</span>
+                      <span>{employee.email}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Personal Phone:</span>
+                      <span>{employee.personal_phone}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Office Phone:</span>
+                      <span>{employee.office_phone}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Reference Phone:</span>
+                      <span>{employee.reference_phone || "N/A"}</span>
+                    </div>
+                  </div>
+
+                  <div className="detail-section">
+                    <h4><FaMapMarkerAlt /> Address Information</h4>
+                    <div className="detail-row">
+                      <span>Mailing Address:</span>
+                      <span>{employee.mail_address}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Permanent Address:</span>
+                      <span>{employee.permanent_address}</span>
+                    </div>
+                  </div>
+
+                  <div className="detail-section">
+                    <h4><FaCalendarAlt /> Personal Information</h4>
+                    <div className="detail-row">
+                      <span>Date of Birth:</span>
+                      <span>{employee.date_of_birth}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Special Skills:</span>
+                      <span>{employee.special_skills || "N/A"}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span>Remarks:</span>
+                      <span>{employee.remarks || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div id="printable-area">
-              <div className="print-header">
-                <h2>Employee Details</h2>
-              </div>
-              
-              <div className="profile-section">
-                <div className="profile-images">
-                  <img src={employee.image1} alt="Employee" className="profile-image" />
-                  {employee.image2 && <img src={employee.image2} alt="Employee Secondary" className="profile-image" />}
-                </div>
-                
-                <div className="basic-info">
-                  <h3>{employee.name}</h3>
-                  <p className="designation">{employee.designation}</p>
-                  <p className="department">{employee.department}</p>
-                  <p className="employee-id">Employee ID: {employee.employee_id}</p>
-                </div>
-              </div>
-
-              <div className="detail-sections">
-                <div className="detail-section">
-                  <h4><FaBuilding /> Company Information</h4>
-                  <div className="detail-row">
-                    <span>Company:</span>
-                    <span>{employee.company_name || employee.company}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Job Title:</span>
-                    <span>{employee.job_title}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Salary:</span>
-                    <span>৳{employee.salary}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Joining Date:</span>
-                    <span>{employee.joining_date}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Reporting Leader:</span>
-                    <span>{employee.reporting_leader}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Customers:</span>
-                    <span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span>
-                  </div>
-                </div>
-
-                <div className="detail-section">
-                  <h4><FaEnvelope /> Contact Information</h4>
-                  <div className="detail-row email-row">
-                    <span>Email:</span>
-                    <span>{employee.email}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Personal Phone:</span>
-                    <span>{employee.personal_phone}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Office Phone:</span>
-                    <span>{employee.office_phone}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Reference Phone:</span>
-                    <span>{employee.reference_phone || "N/A"}</span>
-                  </div>
-                </div>
-
-                <div className="detail-section">
-                  <h4><FaMapMarkerAlt /> Address Information</h4>
-                  <div className="detail-row">
-                    <span>Mailing Address:</span>
-                    <span>{employee.mail_address}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Permanent Address:</span>
-                    <span>{employee.permanent_address}</span>
-                  </div>
-                </div>
-
-                <div className="detail-section">
-                  <h4><FaCalendarAlt /> Personal Information</h4>
-                  <div className="detail-row">
-                    <span>Date of Birth:</span>
-                    <span>{employee.date_of_birth}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Special Skills:</span>
-                    <span>{employee.special_skills || "N/A"}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Remarks:</span>
-                    <span>{employee.remarks || "N/A"}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
