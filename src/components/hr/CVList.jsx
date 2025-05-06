@@ -98,13 +98,13 @@ const CVList = () => {
         },
         th: {
             color: "white",
-            padding: "12px",
+            padding: "10px",
             textAlign: "left",
             fontWeight: "600",
             backgroundColor: "#63B0E3",
         },
         td: {
-            padding: "12px",
+            padding: "5px",
             cursor: "pointer",
             backgroundColor: '#A7D5E1',
             fontSize: '0.9rem',
@@ -122,11 +122,8 @@ const CVList = () => {
             padding: "8px 10px",
             cursor: "pointer",
             border: "none",
-            borderRadius: "4px",
-            display: "flex",
-            alignItems: "center",
-            gap: "3px",
-            fontSize: '0.85rem',
+            borderRadius: "53px",
+            marginBottom: "5px",
         },
         editButton: {
             backgroundColor: "#5bc0de",
@@ -248,10 +245,10 @@ const CVList = () => {
                                 </td>
                                 <td style={styles.td}>
                                     <button style={{ ...styles.actionButton, ...styles.editButton }} onClick={() => handleEdit(cv.id)}>
-                                        <FaEdit /> Edit
+                                        <FaEdit />
                                     </button>
                                     <button style={{ ...styles.actionButton, ...styles.deleteButton }} onClick={() => handleDelete(cv.id)}>
-                                        <FaTrash /> Delete
+                                        <FaTrash /> 
                                     </button>
                                 </td>
                             </tr>

@@ -120,7 +120,7 @@ const HRWorkPage = () => {
       {/* Main Content */}
       <div style={{ flex: 1, overflow: 'auto' }}>
         {/* Header */}
-        <header style={{ backgroundColor: 'white', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' }}>
+        <header style={{ backgroundColor: '#DCEEF3', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' }}>
           <div style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#374151' }}>HR Dashboard</h1>
             <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>{formattedDate}</div>
