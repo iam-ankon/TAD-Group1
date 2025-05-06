@@ -666,15 +666,8 @@ const EmployeeDetailPage = () => {
         setLoading(true);
         const response = await getEmployeeById(id);
         setEmployee(response.data);
-        if (!response.ok) throw new Error("Employee not found");
-        const data = await response.json();
-        setEmployee(data);
+      
 
-        // If there's customer data in employee object:
-        if (data.customers && Array.isArray(data.customers)) {
-          const names = data.customers.map((c) => c.name);
-          setCustomerNames(names);
-        }
       } catch (error) {
         console.error("Error fetching employee:", error);
         setEmployee(null);
