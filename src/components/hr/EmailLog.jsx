@@ -125,7 +125,7 @@ const styles = {
   content: {
     flex: 1,
     padding: '40px',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#eef2f7',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -150,7 +150,7 @@ const styles = {
     transition: 'background-color 0.3s ease',
   },
   tableContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#eef2f7',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
     overflow: 'hidden',
