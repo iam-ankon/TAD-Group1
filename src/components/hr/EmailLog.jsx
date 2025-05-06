@@ -102,7 +102,7 @@ const styles = {
   },
   sidebar: {
     width: '230px',
-    backgroundColor: '#f3f6fb',
+    backgroundColor: '#eef2f7',
     height: '100vh',
     padding: '20px 15px',
     boxShadow: '2px 0 5px rgba(0, 0, 0, 0.05)',
