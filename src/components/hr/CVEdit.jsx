@@ -92,7 +92,7 @@ const CVEdit = () => {
       display: "flex",
       minHeight: "100vh",
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: '#eef2f7',
+      backgroundColor: "#DCEEF3",
     },
     content: {
       flex: 1,
@@ -112,7 +112,7 @@ const CVEdit = () => {
       color: "#4a5568",
     },
     card: {
-      backgroundColor: "#ffffff",
+      backgroundColor: '#A7D5E1',
       borderRadius: "8px",
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
       padding: "24px",
@@ -150,7 +150,7 @@ const CVEdit = () => {
       fontSize: "14px",
       border: "1px solid #e2e8f0",
       borderRadius: "4px",
-      backgroundColor: "#f8fafc",
+      backgroundColor: "#DCEEF3",
     },
     fileInputContainer: {
       marginTop: "8px",
