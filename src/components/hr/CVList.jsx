@@ -44,7 +44,7 @@ const CVList = () => {
         container: {
             display: "flex",
             minHeight: "100vh",
-            backgroundColor: '#eef2f7',
+            backgroundColor: "#DCEEF3",
             fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         },
         mainContent: {
@@ -76,20 +76,16 @@ const CVList = () => {
             flexGrow: '1',
             padding: '0',
             outline: 'none',
+            backgroundColor: "#DCEEF3",
         },
         addButton: {
             padding: "10px 15px",
-            backgroundColor: "#0078D4",
-            color: "#fff",
+            backgroundColor: "#006DAA",
+            color: "white",
             border: "none",
             cursor: "pointer",
             borderRadius: "4px",
-            fontWeight: "600",
-            boxShadow: "0 2px 3px rgba(0, 0, 0, 0.1)",
-            transition: 'background-color 0.3s',
-            ':hover': {
-                backgroundColor: '#005ea6',
-            }
+            textDecoration: "none", // Added to remove underline
         },
         table: {
             width: "100%",
@@ -101,18 +97,16 @@ const CVList = () => {
             backgroundColor: "white",
         },
         th: {
-            backgroundColor: "#0078D4",
             color: "white",
             padding: "12px",
             textAlign: "left",
             fontWeight: "600",
-            borderBottom: '1px solid #005ea6',
+            backgroundColor: "#63B0E3",
         },
         td: {
             padding: "12px",
-            borderBottom: "1px solid #e0e0e0",
             cursor: "pointer",
-            backgroundColor: 'inherit',
+            backgroundColor: '#A7D5E1',
             fontSize: '0.9rem',
         },
         tr: {
@@ -146,11 +140,18 @@ const CVList = () => {
             color: "#0078D4",
             fontWeight: "600",
             fontSize: '0.9rem',
+            textDecoration: "none", // Added to remove underline
         },
         barcodeButton: {
             backgroundColor: "#28a745",
             color: "white",
             fontSize: '0.85rem',
+            textDecoration: "none", // Added to remove underline
+            padding: "8px 10px",
+            borderRadius: "4px",
+            display: "flex",
+            alignItems: "center",
+            gap: "3px",
         },
         pagination: {
             display: "flex",
@@ -199,10 +200,10 @@ const CVList = () => {
                 <div style={styles.header}>
                     <h2>All CVs</h2>
                     <div style={styles.buttonContainer}>
-                        <Link to="/cv-add" style={styles.addButton}>+ Add CV</Link>
+                        <Link to="/cv-add" style={styles.addButton}>Add CV</Link>
                     </div>
                 </div>
-                <div style = {styles.searchInput}>
+                <div style={styles.searchInput}>
                     <FaSearch />
                     <input
                         type="text"
@@ -217,7 +218,7 @@ const CVList = () => {
                         <tr>
                             <th style={styles.th}>Name</th>
                             <th style={styles.th}>Position For</th>
-                            <th style={styles.th}>Date of Birth</th>
+                            <th style={styles.th}>Age</th>
                             <th style={styles.th}>Email</th>
                             <th style={styles.th}>Phone</th>
                             <th style={styles.th}>Reference</th>
@@ -228,7 +229,7 @@ const CVList = () => {
                     </thead>
                     <tbody>
                         {currentCvs.map((cv) => (
-                            <tr key={cv.id} style = {styles.tr}>
+                            <tr key={cv.id} style={styles.tr}>
                                 <td style={styles.td}>{cv.name}</td>
                                 <td style={styles.td}>{cv.position_for}</td>
                                 <td style={styles.td}>{cv.age}</td>
@@ -242,7 +243,7 @@ const CVList = () => {
                                 </td>
                                 <td style={styles.td}>
                                     <Link to={`/cv-detail/${cv.id}`} style={styles.barcodeButton}>
-                                        <FaBarcode /> Barcode
+                                        <FaBarcode /> QRcode
                                     </Link>
                                 </td>
                                 <td style={styles.td}>
