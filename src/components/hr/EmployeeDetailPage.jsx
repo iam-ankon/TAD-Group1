@@ -644,14 +644,39 @@ const EmployeeDetailPage = () => {
   const [customerNames, setCustomerNames] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const fetchEmployeeDetails = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await getEmployeeById(id);
+  //       setEmployee(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching employee details", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchEmployeeDetails();
+  // }, [id]);
+
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
         setLoading(true);
-        const response = await getEmployeeById(id);
-        setEmployee(response.data);
+        const response = await fetch(`/api/employees/${id}/`);
+        if (!response.ok) throw new Error("Employee not found");
+        const data = await response.json();
+        setEmployee(data);
+
+        // If there's customer data in employee object:
+        if (data.customers && Array.isArray(data.customers)) {
+          const names = data.customers.map((c) => c.name);
+          setCustomerNames(names);
+        }
       } catch (error) {
-        console.error("Error fetching employee details", error);
+        console.error("Error fetching employee:", error);
+        setEmployee(null);
       } finally {
         setLoading(false);
       }
@@ -840,17 +865,17 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
-  if (!employee) {
-    return (
-      <div className="employee-detail-container">
-        <div className="content-wrapper">
-          <div className="employee-detail-card">
-            <p>Employee not found</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (!employee) {
+  //   return (
+  //     <div className="employee-detail-container">
+  //       <div className="content-wrapper">
+  //         <div className="employee-detail-card">
+  //           <p>Employee not found</p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="employee-detail-container">
@@ -867,8 +892,7 @@ const EmployeeDetailPage = () => {
                 Loading employee details...
               </p>
             </div>
-          ) : (
-
+          ) : employee ? (
             <div className="employee-detail-card">
               <div className="employee-header">
                 <h2><FaUserTie /> Employee Details</h2>
@@ -901,80 +925,42 @@ const EmployeeDetailPage = () => {
               <div className="detail-sections">
                 <div className="detail-section">
                   <h4><FaBuilding /> Company Information</h4>
-                  <div className="detail-row">
-                    <span>Company:</span>
-                    <span>{employee.company_name || employee.company}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Job Title:</span>
-                    <span>{employee.job_title}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Salary:</span>
-                    <span>৳{employee.salary}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Joining Date:</span>
-                    <span>{employee.joining_date}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Reporting Leader:</span>
-                    <span>{employee.reporting_leader}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Customers:</span>
-                    <span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span>
-                  </div>
+                  <div className="detail-row"><span>Company:</span><span>{employee.company_name || employee.company}</span></div>
+                  <div className="detail-row"><span>Job Title:</span><span>{employee.job_title}</span></div>
+                  <div className="detail-row"><span>Salary:</span><span>৳{employee.salary}</span></div>
+                  <div className="detail-row"><span>Joining Date:</span><span>{employee.joining_date}</span></div>
+                  <div className="detail-row"><span>Reporting Leader:</span><span>{employee.reporting_leader}</span></div>
+                  <div className="detail-row"><span>Customers:</span><span>{customerNames.length > 0 ? customerNames.join(", ") : "N/A"}</span></div>
                 </div>
 
                 <div className="detail-section">
                   <h4><FaEnvelope /> Contact Information</h4>
-                  <div className="detail-row email-row">
-                    <span>Email:</span>
-                    <span>{employee.email}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Personal Phone:</span>
-                    <span>{employee.personal_phone}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Office Phone:</span>
-                    <span>{employee.office_phone}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Reference Phone:</span>
-                    <span>{employee.reference_phone || "N/A"}</span>
-                  </div>
+                  <div className="detail-row email-row"><span>Email:</span><span>{employee.email}</span></div>
+                  <div className="detail-row"><span>Personal Phone:</span><span>{employee.personal_phone}</span></div>
+                  <div className="detail-row"><span>Office Phone:</span><span>{employee.office_phone}</span></div>
+                  <div className="detail-row"><span>Reference Phone:</span><span>{employee.reference_phone || "N/A"}</span></div>
                 </div>
 
                 <div className="detail-section">
                   <h4><FaMapMarkerAlt /> Address Information</h4>
-                  <div className="detail-row">
-                    <span>Mailing Address:</span>
-                    <span>{employee.mail_address}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Permanent Address:</span>
-                    <span>{employee.permanent_address}</span>
-                  </div>
+                  <div className="detail-row"><span>Mailing Address:</span><span>{employee.mail_address}</span></div>
+                  <div className="detail-row"><span>Permanent Address:</span><span>{employee.permanent_address}</span></div>
                 </div>
 
                 <div className="detail-section">
                   <h4><FaCalendarAlt /> Personal Information</h4>
-                  <div className="detail-row">
-                    <span>Date of Birth:</span>
-                    <span>{employee.date_of_birth}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Special Skills:</span>
-                    <span>{employee.special_skills || "N/A"}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Remarks:</span>
-                    <span>{employee.remarks || "N/A"}</span>
-                  </div>
+                  <div className="detail-row"><span>Date of Birth:</span><span>{employee.date_of_birth}</span></div>
+                  <div className="detail-row"><span>Special Skills:</span><span>{employee.special_skills || "N/A"}</span></div>
+                  <div className="detail-row"><span>Remarks:</span><span>{employee.remarks || "N/A"}</span></div>
                 </div>
               </div>
+            </div>
+          ) : (
+            <div className="employee-detail-card">
+              <p>Employee not found.</p>
+              <button onClick={() => navigate(-1)} className="btn-back">
+                <FaArrowLeft /> Back
+              </button>
             </div>
           )}
         </div>
@@ -1217,3 +1203,4 @@ const EmployeeDetailPage = () => {
 };
 
 export default EmployeeDetailPage;
+
