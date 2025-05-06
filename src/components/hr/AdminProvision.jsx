@@ -267,7 +267,7 @@ const AdminProvision = () => {
           align-items: center;
           padding: 40px;
           background-color: #eef2f7;
-          min-height: 100vh;
+          height: 100vh;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .heading {
@@ -284,7 +284,7 @@ const AdminProvision = () => {
           width: 100%;
           max-width: 500px;
           border-radius: 4px;
-          border: 1px solid #ccc;
+      
           font-size: 1rem;
         }
 
@@ -293,7 +293,7 @@ const AdminProvision = () => {
           padding: 10px;
           font-size: 1rem;
           border-radius: 4px;
-          border: 1px solid #ccc;
+    
         }
 
         .card-container {
