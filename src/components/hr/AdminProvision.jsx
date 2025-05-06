@@ -327,7 +327,7 @@ const AdminProvision = () => {
         .main-content {
           flex: 1;
           padding: 2rem;
-          margin-left: 90px;
+          margin-left: 60px;
         }
         
         .header-section {
