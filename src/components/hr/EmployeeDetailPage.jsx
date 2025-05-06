@@ -255,36 +255,6 @@ const EmployeeDetailPage = () => {
   };
 
 
-
-  if (loading) {
-    return (
-      <div className="employee-detail-container">
-        <div className="content-wrapper">
-          <div className="employee-detail-card" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-            <div className="loading-spinner">
-              <div style={{
-                width: '40px',
-                height: '40px',
-                border: '4px solid #f3f3f3',
-                borderTop: '4px solid #3498db',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite'
-              }}></div>
-              <p>Loading employee data...</p>
-            </div>
-          </div>
-        </div>
-
-        <style>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   if (!employee) {
     return (
       <div className="employee-detail-container">
