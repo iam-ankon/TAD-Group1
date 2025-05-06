@@ -845,11 +845,9 @@ const Interviews = () => {
   };
 
 
-
   const style = {
-    container: {
-      backgroundColor: '#eef2f7',
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    container: {  
+      backgroundColor: "#DCEEF3",
       overflowY: "auto",
       overflowX: "hidden",
       display: "flex",
@@ -882,7 +880,10 @@ const Interviews = () => {
       backgroundColor: "#28a745",
     },
     interviewItem: {
-      backgroundColor: "#f0f0f0",
+      backgroundColor: "#63B0E3",
+      padding: "10px",
+      marginBottom: "10px",
+      borderRadius: "53px",
       cursor: "pointer",
     },
     interviewItemHover: {
@@ -907,6 +908,7 @@ const Interviews = () => {
       padding: "10px",
       border: "1px solid #ddd",
       borderRadius: "5px",
+      
     },
     btnSubmit: {
       padding: "10px",
@@ -1059,7 +1061,6 @@ const Interviews = () => {
 
 
   };
-
 
   return (
     <div
