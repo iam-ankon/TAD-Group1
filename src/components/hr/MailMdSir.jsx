@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Sidebars from "./sidebars";
 
 const MailMdSir = () => {
   const [email, setEmail] = useState("");
@@ -55,70 +56,52 @@ const MailMdSir = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.heading}>Send Interview Details</h2>
+    <div style={styles.wrapper}>
+      <Sidebars />
+      <div style={styles.content}>
+        <div style={styles.card}>
+          <h2 style={styles.heading}>Send Interview Details</h2>
 
-        <div style={styles.detailsContainer}>
-          <h3>Interview Details</h3>
-          <p><strong>Name:</strong> {interviewDetails.name}</p>
-          <p><strong>Position:</strong> {interviewDetails.position_for}</p>
-          <p><strong>Age:</strong> {interviewDetails.age}</p>
-          <p><strong>Reference:</strong> {interviewDetails.reference}</p>
-          <p><strong>Email:</strong> {interviewDetails.email}</p>
-          <p><strong>Phone:</strong> {interviewDetails.phone}</p>
-          <p><strong>Interview Date:</strong> {new Date(interviewDetails.interview_date).toLocaleString()}</p>
-          <p><strong>Place:</strong> {interviewDetails.place}</p>
-          <p><strong>Interview Mark:</strong> {interviewDetails.interview_mark}</p>
-          <p><strong>Interview Result:</strong> {interviewDetails.interview_result}</p>
-          <p><strong>Education:</strong> {interviewDetails.education}</p>
-          <p><strong>Job Knowledge:</strong> {interviewDetails.job_knowledge}</p>
-          <p><strong>Work Experience:</strong> {interviewDetails.work_experience}</p>
-          <p><strong>Communication:</strong> {interviewDetails.communication}</p>
-          <p><strong>Personality:</strong> {interviewDetails.personality}</p>
-          <p><strong>Potential:</strong> {interviewDetails.potential}</p>
-          <p><strong>General Knowledge:</strong> {interviewDetails.general_knowledge}</p>
-          <p><strong>Assertiveness:</strong> {interviewDetails.assertiveness}</p>
-          <p><strong>Current Remuneration:</strong> {interviewDetails.current_remuneration}</p>
-          <p><strong>Expected Package:</strong> {interviewDetails.expected_package}</p>
-          <p><strong>Notice Period Required:</strong> {interviewDetails.notice_period_required}</p>
-          <p><strong>Recommendation:</strong> {interviewDetails.recommendation}</p>
-          <p><strong>Immediate Recruitment:</strong> {interviewDetails.immediate_recruitment ? "Yes" : "No"}</p>
-          <p><strong>On Hold:</strong> {interviewDetails.on_hold ? "Yes" : "No"}</p>
-          <p><strong>No Good:</strong> {interviewDetails.no_good ? "Yes" : "No"}</p>
-          <p><strong>Interview Questions:</strong> {interviewDetails.interview_questions || "No questions recorded"}</p>
-          <p><strong>MD Sir Notes:</strong> {interviewDetails.interview_notes || "No notes available"}</p>
+          <div style={styles.detailsContainer}>
+            <h3 style={styles.subHeading}>Interview Details</h3>
+            {Object.entries(interviewDetails).map(([key, value]) => (
+              <p key={key}>
+                <strong style={{ textTransform: "capitalize" }}>{key.replace(/_/g, ' ')}:</strong>{" "}
+                {typeof value === "boolean" ? (value ? "Yes" : "No") : value || "N/A"}
+              </p>
+            ))}
+          </div>
+
+          <div style={styles.inputContainer}>
+            <label htmlFor="email" style={styles.label}>Recipient's Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+              placeholder="Enter recipient's email"
+            />
+          </div>
+
+          <button
+            onClick={handleSendMail}
+            style={{
+              ...styles.button,
+              backgroundColor: loading ? "#ccc" : styles.button.backgroundColor,
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
+            onMouseOver={(e) => {
+              if (!loading) e.target.style.backgroundColor = styles.buttonHover.backgroundColor;
+            }}
+            onMouseOut={(e) => {
+              if (!loading) e.target.style.backgroundColor = styles.button.backgroundColor;
+            }}
+            disabled={loading}
+          >
+            {loading ? "Sending..." : "Send Email"}
+          </button>
         </div>
-
-        <div style={styles.inputContainer}>
-          <label htmlFor="email" style={styles.label}>Recipient's Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            placeholder="Enter recipient's email"
-          />
-        </div>
-
-        <button
-          onClick={handleSendMail}
-          style={{
-            ...styles.button,
-            backgroundColor: loading ? "#ccc" : styles.button.backgroundColor, // Grey when loading
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
-          onMouseOver={(e) => {
-            if (!loading) e.target.style.backgroundColor = styles.buttonHover.backgroundColor;
-          }}
-          onMouseOut={(e) => {
-            if (!loading) e.target.style.backgroundColor = styles.button.backgroundColor;
-          }}
-          disabled={loading}
-        >
-          {loading ? "Sending..." : "Send Email"}
-        </button>
       </div>
     </div>
   );
@@ -128,38 +111,51 @@ export default MailMdSir;
 
 // Styles
 const styles = {
-  container: {
+  wrapper: {
+    display: "flex",
+    minHeight: "100vh",
+    backgroundColor: "#DCEEF3",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+  },
+  content: {
+    flex: 1,
+    padding: "30px",
+    overflowY: "auto",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: "#F3F3F3",
-    padding: "20px",
+    alignItems: "flex-start",
   },
   card: {
-    backgroundColor: "#FFFFFF",
-    padding: "20px",
+    backgroundColor: '#A7D5E1',
+    padding: "25px",
     borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "90%",
-    maxWidth: "600px",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+    width: "100%",
+    maxWidth: "800px",
   },
   heading: {
-    fontSize: "22px",
+    fontSize: "24px",
     fontWeight: "bold",
-    color: "#444",
-    marginBottom: "15px",
+    color: "#333",
+    marginBottom: "20px",
     textAlign: "center",
   },
+  subHeading: {
+    fontSize: "18px",
+    fontWeight: "600",
+    marginBottom: "10px",
+  },
   detailsContainer: {
-    backgroundColor: "#F9F9F9",
-    padding: "15px",
+    backgroundColor: "#DCEEF3",
+    padding: "15px 20px",
     borderRadius: "8px",
-    marginBottom: "15px",
+    marginBottom: "20px",
     border: "1px solid #E0E0E0",
+    maxHeight: "400px",
+    overflowY: "auto",
   },
   inputContainer: {
-    marginBottom: "15px",
+    marginBottom: "20px",
   },
   label: {
     display: "block",
@@ -175,19 +171,19 @@ const styles = {
     borderRadius: "5px",
     fontSize: "14px",
     outline: "none",
-    transition: "border 0.3s",
+    boxSizing: "border-box",
+    backgroundColor: "#DCEEF3",
   },
   button: {
-    width: "100%",
-    padding: "10px",
+    width: "30%",
+    padding: "12px",
     backgroundColor: "#0078D4",
     color: "white",
     fontSize: "16px",
     fontWeight: "bold",
     border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "background 0.3s",
+    borderRadius: "6px",
+    transition: "background 0.3s ease",
   },
   buttonHover: {
     backgroundColor: "#005A9E",
