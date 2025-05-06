@@ -233,7 +233,7 @@ const ITProvision = () => {
           flex-direction: column;
           align-items: center;
           padding: 40px;
-          background-color: #f4f7fc;
+          background-color: #eef2f7;
           min-height: 100vh;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }

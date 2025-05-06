@@ -119,7 +119,7 @@ const FinanceProvision = () => {
     mainContent: {
       flex: 1,
       padding: "30px",
-      backgroundColor: "#f9fbfc",
+      backgroundColor: '#eef2f7',
     },
     header: {
       display: "flex",
