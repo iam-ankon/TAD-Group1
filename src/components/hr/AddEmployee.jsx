@@ -316,7 +316,7 @@ const AddEmployee = () => {
         container: {
             display: "flex",
             fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            backgroundColor: "#f4f4f4",
+            backgroundColor: '#eef2f7',
             minHeight: "100vh",
         },
     };
