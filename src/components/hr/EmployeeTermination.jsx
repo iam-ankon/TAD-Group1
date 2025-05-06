@@ -72,7 +72,7 @@ const EmployeeTermination = () => {
     content: {
       flex: 1,
       padding: "20px",
-      backgroundColor: "#f4f4f4",
+      backgroundColor: '#eef2f7',
       borderRadius: "8px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     },
