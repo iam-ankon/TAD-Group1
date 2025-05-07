@@ -59,14 +59,14 @@ const EditLeaveRequest = () => {
     const containerStyle = {
         display: 'flex',
         fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-        backgroundColor: '#eef2f7',
+        backgroundColor: "#DCEEF3",
         minHeight: '100vh',
     };
 
     const mainContentStyle = {
         flex: 1,
         padding: '30px',
-        backgroundColor: '#f4f4f9',
+        backgroundColor: '#A7D5E1',
     };
 
     const formContainerStyle = {
@@ -83,6 +83,7 @@ const EditLeaveRequest = () => {
         padding: '15px',
         border: '1px solid #e0e0e0',
         borderRadius: '6px',
+        backgroundColor: "#DCEEF3",
     };
 
     const sectionHeaderStyle = {
