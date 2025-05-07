@@ -79,7 +79,7 @@ const EmployeeLeave = () => {
             {/* Main Content */}
             <div style={{
                 margin: '1px auto',
-                marginLeft: '23px',
+                marginLeft: '2px',
                 maxWidth: '90%',
                 backgroundColor: '#A7D5E1',
                 border: '1px solid #d1dbe8',
