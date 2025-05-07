@@ -57,38 +57,13 @@ const LetterSend = () => {
       display: "flex",
       height: "100vh",
       fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: '#eef2f7',
-    },
-    sidebar: {
-      width: "230px",
-      backgroundColor: '#eef2f7',
-      height: "100vh",
-      padding: "20px 15px",
-      boxShadow: "2px 0 5px rgba(0, 0, 0, 0.05)",
-    },
-    sidebarHeader: {
-      fontSize: "20px",
-      fontWeight: "bold",
-      marginBottom: "20px",
-      color: "#0078D4",
-    },
-    sidebarLink: {
-      display: "block",
-      padding: "10px",
-      margin: "5px 0",
-      textDecoration: "none",
-      color: "#333",
-      borderRadius: "6px",
-      transition: "0.3s",
-    },
-    sidebarLinkHover: {
-      backgroundColor: "#e1eaff",
+      backgroundColor: "#DCEEF3",
     },
     mainContent: {
       flex: 1,
       overflowY: "auto",
       padding: "30px",
-      backgroundColor: '#eef2f7',
+      backgroundColor: "#A7D5E1",
     },
     heading: {
       fontSize: "26px",
@@ -100,8 +75,9 @@ const LetterSend = () => {
       padding: "10px",
       borderRadius: "5px",
       border: "1px solid #ccc",
-      width: "100%",
+      width: "30%",
       marginBottom: "20px",
+      backgroundColor: "#DCEEF3",
     },
     addButton: {
       padding: "10px 20px",
@@ -116,9 +92,10 @@ const LetterSend = () => {
       display: "flex",
       flexWrap: "wrap",
       gap: "20px",
+      
     },
     card: {
-      backgroundColor: "white",
+      backgroundColor: "#DCEEF3",
       padding: "20px",
       borderRadius: "8px",
       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",

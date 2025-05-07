@@ -97,21 +97,19 @@ const EditCVPage = () => {
 
   const containerStyle = {
     display: "flex",
-    minheight: "100vh",
+    height: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: '#eef2f7',
+    backgroundColor: "#DCEEF3",
   };
-
-
 
   const mainContentStyle = {
     flex: 1,
     padding: "30px",
-    backgroundColor: "#f4f4f9",
+    backgroundColor: "#A7D5E1",
   };
 
   const formContainerStyle = {
-    backgroundColor: "#fff",
+    backgroundColor: "#DCEEF3",
     padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -127,12 +125,14 @@ const EditCVPage = () => {
 
   const inputGroupStyle = {
     marginBottom: "20px",
+    
   };
 
   const labelStyle = {
     display: "block",
     marginBottom: "8px",
     fontWeight: "600",
+    
   };
 
   const inputStyle = {
@@ -140,6 +140,7 @@ const EditCVPage = () => {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
+    backgroundColor: "#A7D5E1",
   };
 
   const selectStyle = {
@@ -147,6 +148,7 @@ const EditCVPage = () => {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
+    backgroundColor: "#A7D5E1",
   };
 
   const buttonStyle = {

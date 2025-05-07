@@ -214,19 +214,18 @@ const Sidebar = () => {
 
         /* HR Work Button */
         .hr-work-btn {
-          display: block;
-          margin: 20px auto;
-          padding: 10px 20px;
-          font-size: 16px;
-          background-color: #3182ce;
-          color: white;
+          background: none;
           border: none;
-          border-radius: 4px;
+          color: white;
+          font-size: 0.5rem;
           cursor: pointer;
+          padding: 10px 20px;
+          margin-top: 20px;
+          transition: background 0.3s ease;
         }
 
         .hr-work-btn:hover {
-          background-color: #2b6cb0;
+          background-color: rgba(255, 255, 255, 0.2);
         }
 
         /* Full Screen Blue Bar Below the Buttons */
