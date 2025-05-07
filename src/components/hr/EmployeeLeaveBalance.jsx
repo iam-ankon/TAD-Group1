@@ -25,7 +25,7 @@ const EmployeeLeaveBalance = () => {
   const containerStyle = {
     display: 'flex',
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: '#eef2f7',
+    backgroundColor: '#A7D5E1',
     minHeight: '100vh',
   };
 
@@ -45,12 +45,12 @@ const EmployeeLeaveBalance = () => {
 
   const tableContainerStyle = {
     overflowX: 'auto',
-    backgroundColor: '#fff',
+    backgroundColor: "#DCEEF3",
     padding: '20px',
     borderRadius: '12px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
   };
-
+  
   const tableStyle = {
     width: '100%',
     borderCollapse: 'collapse',

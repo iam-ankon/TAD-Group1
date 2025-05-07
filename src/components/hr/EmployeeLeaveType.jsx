@@ -74,7 +74,7 @@ const EmployeeLeaveTypes = () => {
     const containerStyle = {
         display: 'flex',
         fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
-        backgroundColor: '#eef2f7',
+        backgroundColor: '#A7D5E1',
         minHeight: '100vh',
     };
 
@@ -88,8 +88,9 @@ const EmployeeLeaveTypes = () => {
         padding: '20px 30px',
         borderRadius: '8px',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-        maxWidth: '800px',
+        maxWidth: '900px',
         margin: '0 auto',
+        backgroundColor: '#DCEEF3',
     };
 
     const headingStyle = {
