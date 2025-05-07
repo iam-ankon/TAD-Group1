@@ -122,16 +122,15 @@ const AddLeaveRequest = () => {
   };
 
   const containerStyle = {
-    display: "flex",
-    minheight: "100vh",
-    fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: '#eef2f7',
+    display: 'flex',
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    
   };
 
   const mainContentStyle = {
     flex: 1,
     padding: '30px',
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#A7D5E1',
   };
 
   const headingStyle = {
@@ -163,6 +162,7 @@ const AddLeaveRequest = () => {
     borderRadius: '6px',
     border: '1px solid #ccc',
     fontSize: '14px',
+    backgroundColor: '#DCEEF3',
   };
 
   const textareaStyle = { ...inputStyle, height: '80px' };

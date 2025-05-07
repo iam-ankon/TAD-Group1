@@ -81,7 +81,7 @@ const EmployeeLeave = () => {
                 margin: '1px auto',
                 marginLeft: '23px',
                 maxWidth: '90%',
-                backgroundColor: '#f3f6fb',
+                backgroundColor: '#A7D5E1',
                 border: '1px solid #d1dbe8',
                 padding: '20px',
                 borderRadius: '8px',
