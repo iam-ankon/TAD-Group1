@@ -95,7 +95,7 @@ const AddEmployee = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true); // Set loading to true when form is submitted
-        
+
         const employeeFormData = new FormData();
         Object.keys(formData).forEach((key) => {
             if (key === "image1" && formData[key]) {
@@ -138,28 +138,28 @@ const AddEmployee = () => {
                 permanent_address: "",
             });
             setShowPopup(true);
-            
+
             // Wait a short time to show success message before redirecting
             setTimeout(() => {
                 setIsLoading(false); // Set loading to false
                 navigate('/employees'); // Navigate to employees page
             }, 1500);
-            
+
         } catch (error) {
             console.error('Error saving employee data:', error);
             let errorMessage = "Error saving employee data. Please try again.";
-            
+
             if (error.response) {
                 console.error('Server responded with:', error.response.data);
                 console.error('Status code:', error.response.status);
-                
+
                 // Check for specific SMTP Authentication error
-                if (error.response.status === 500 && 
-                    error.response.data && 
+                if (error.response.status === 500 &&
+                    error.response.data &&
                     error.response.data.includes("SMTPAuthenticationError")) {
                     errorMessage = "Employee created successfully, but email notification failed to send. Please contact IT support.";
                     setIsError(true); // Set error state to true to use different styling
-                    
+
                     // Despite email error, employee might have been created, so reset form
                     setFormData({
                         employee_id: "",
@@ -183,7 +183,7 @@ const AddEmployee = () => {
                         image1: null,
                         permanent_address: "",
                     });
-                    
+
                     // Still redirect to employees page after a delay since the employee was likely created
                     setTimeout(() => {
                         navigate('/employees');
@@ -195,15 +195,15 @@ const AddEmployee = () => {
             } else {
                 console.error('Error setting up the request:', error.message);
             }
-            
+
             setSuccessMessage(errorMessage);
             setIsLoading(false); // Set loading to false if there's an error
         }
     };
 
     const styles = {
-        container: { padding: "20px", maxWidth: "1000px", margin: "auto", backgroundColor: '#eef2f7', borderRadius: "8px" },
-        input: { width: "100%", padding: "8px", marginBottom: "10px" },
+        container: { padding: "20px", maxWidth: "1000px", margin: "auto", backgroundColor: '#A7D5E1', borderRadius: "8px" },
+        input: { width: "100%", padding: "8px", marginBottom: "10px", backgroundColor: "#DCEEF3", },
         button: {
             padding: "10px",
             backgroundColor: isHovered ? "#005ea6" : "#0078D4",
@@ -235,14 +235,6 @@ const AddEmployee = () => {
         successMessage: {
             padding: "10px",
             backgroundColor: "#4CAF50",
-            color: "#fff",
-            marginBottom: "20px",
-            borderRadius: "5px",
-            textAlign: "center",
-        },
-        errorMessage: {
-            padding: "10px",
-            backgroundColor: "#ff9800", // Orange for warnings
             color: "#fff",
             marginBottom: "20px",
             borderRadius: "5px",
@@ -316,7 +308,7 @@ const AddEmployee = () => {
         container: {
             display: "flex",
             fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            backgroundColor: '#eef2f7',
+            backgroundColor: '#A7D5E1',
             minHeight: "100vh",
         },
     };
@@ -426,12 +418,12 @@ const AddEmployee = () => {
 
                     <div>
                         <label style={styles.label}>Upload Image</label>
-                        <input 
-                            type="file" 
-                            name="image1" 
-                            accept="image/*" 
-                            onChange={handleFileChange} 
-                            style={styles.fileInput} 
+                        <input
+                            type="file"
+                            name="image1"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            style={styles.fileInput}
                             disabled={isLoading}
                         />
                     </div>

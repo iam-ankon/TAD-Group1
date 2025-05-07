@@ -233,7 +233,7 @@ const EmployeeDetails = () => {
         .employee-list-container {
           display: flex;
           min-height: 100vh;
-          background-color: #eef2f7;
+          background-color: #A7D5E1;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -249,7 +249,7 @@ const EmployeeDetails = () => {
         }
 
         .employee-list-card {
-          background: white;
+          background: #DCEEF3;
           border-radius: 12px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           padding: 2rem;
@@ -291,7 +291,7 @@ const EmployeeDetails = () => {
         }
 
         .btn-add {
-          background-color: #0078d4;
+          background-color:rgb(73, 142, 194);
           color: white;
         }
 
@@ -352,7 +352,7 @@ const EmployeeDetails = () => {
         }
 
         .employee-table th {
-          background-color: #0078d4;
+          background-color:rgb(95, 145, 183);
           color: white;
           padding: 1rem;
           text-align: left;

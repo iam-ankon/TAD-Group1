@@ -104,28 +104,28 @@ const EditEmployeePage = () => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-  
+
       Object.keys(employee).forEach((key) => {
         if (key !== 'customer' && key !== 'image1' && employee[key] !== null && employee[key] !== undefined) {
           formData.append(key, employee[key]);
         }
       });
-  
+
       if (employee.image1 && typeof employee.image1 === 'object') {
         formData.append('image1', employee.image1);
       }
-  
+
       await axios.put(
         `https://tadbackend-5456.onrender.com/api/hrms/api/employees/${id}/`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
-  
+
       await axios.patch(
         `https://tadbackend-5456.onrender.com/api/hrms/api/employees/${id}/update_customers/`,
         { customers: employee.customer }
       );
-  
+
       navigate(`/employee/${id}`);
     } catch (error) {
       console.error("Error updating employee:", error);
@@ -133,19 +133,19 @@ const EditEmployeePage = () => {
       setIsLoading(false);
     }
   };
-  
+
 
   const containerStyle = {
     display: "flex",
     minheight: "100vh",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-    backgroundColor: '#eef2f7',
+    backgroundColor: "#DCEEF3",
   };
 
   const formContainerStyle = {
     flex: 1,
     padding: "20px",
-    backgroundColor: "#fff",
+    backgroundColor: "#A7D5E1",
     borderRadius: "8px",
     margin: "20px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -166,6 +166,7 @@ const EditEmployeePage = () => {
     fontWeight: "bold",
     marginBottom: "6px",
     fontSize: "14px",
+
   };
 
   const inputStyle = {
@@ -173,6 +174,7 @@ const EditEmployeePage = () => {
     borderRadius: "5px",
     border: "1px solid #ccc",
     fontSize: "14px",
+    backgroundColor: "#DCEEF3",
   };
 
   const textareaStyle = {
@@ -182,6 +184,7 @@ const EditEmployeePage = () => {
     resize: "vertical",
     minHeight: "80px",
     fontSize: "14px",
+    backgroundColor: "#DCEEF3",
   };
 
   const selectStyle = {
@@ -189,7 +192,7 @@ const EditEmployeePage = () => {
     borderRadius: "5px",
     border: "1px solid #ccc",
     fontSize: "14px",
-    backgroundColor: "white",
+    backgroundColor: "#DCEEF3",
   };
 
   const submitButtonStyle = {
@@ -230,7 +233,7 @@ const EditEmployeePage = () => {
     padding: "12px",
     border: "1px solid #e2e8f0",
     borderRadius: "8px",
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#DCEEF3",
   };
 
   const checkboxItemStyle = {
@@ -266,7 +269,7 @@ const EditEmployeePage = () => {
   };
 
   const checkedStyle = {
-    backgroundColor: "#3182ce",
+    backgroundColor: "#DCEEF3",
     borderColor: "#3182ce",
   };
 
@@ -290,6 +293,7 @@ const EditEmployeePage = () => {
     color: "#4a5568",
     userSelect: "none",
     marginLeft: "8px",
+
   };
 
 

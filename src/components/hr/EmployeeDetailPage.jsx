@@ -218,18 +218,6 @@ const EmployeeDetailPage = () => {
     }, 500);
   };
 
-  // if (!employee) {
-  //   return (
-  //     <div className="employee-detail-container">
-  //       <div className="content-wrapper">
-  //         <div className="employee-detail-card">
-  //           <p>Employee not found</p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="employee-detail-container">
       <div className="sidebar-wrapper">
@@ -322,7 +310,7 @@ const EmployeeDetailPage = () => {
         .employee-detail-container {
           display: flex;
           min-height: 100vh;
-          background-color: #eef2f7;
+          background-color: #A7D5E1;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .spinner {
@@ -352,7 +340,7 @@ const EmployeeDetailPage = () => {
         }
 
         .employee-detail-card {
-          background: white;
+          background: #DCEEF3;
           border-radius: 12px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           padding: 2rem;
@@ -482,7 +470,7 @@ const EmployeeDetailPage = () => {
         }
 
         .detail-section {
-          background: #f8f9fa;
+          background: #A7D5E1;
           border-radius: 8px;
           padding: 1.2rem;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
