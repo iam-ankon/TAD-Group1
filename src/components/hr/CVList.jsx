@@ -102,6 +102,7 @@ const CVList = () => {
             textAlign: "left",
             fontWeight: "600",
             backgroundColor: "#63B0E3",
+            borderBottom: '2px solid #e5e7eb',
         },
         td: {
             padding: "5px",
