@@ -109,7 +109,7 @@ const CVList = () => {
             cursor: "pointer",
             backgroundColor: '#A7D5E1',
             fontSize: '0.9rem',
-            borderBottom: '1px solid #e5e7eb',
+            borderBottom: '2px solid #e5e7eb',
         },
         tr: {
             '&:nth-child(even)': {
