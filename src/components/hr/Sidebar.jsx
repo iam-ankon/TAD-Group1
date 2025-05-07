@@ -217,7 +217,7 @@ const Sidebar = () => {
           background: none;
           border: none;
           color: white;
-          font-size: 0.5rem;
+          font-size: 1rem;
           cursor: pointer;
           padding: 10px 20px;
           margin-top: 20px;
