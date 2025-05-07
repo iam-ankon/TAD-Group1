@@ -179,7 +179,7 @@ const Attendance = () => {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      backgroundColor: '#eef2f7',
+      backgroundColor: '#A7D5E1',
       fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
     }}>
       {/* Sidebar */}
@@ -264,7 +264,7 @@ const Attendance = () => {
         {/* Attendance Form */}
         {showForm && (
           <div style={{
-            backgroundColor: 'white',
+            backgroundColor: '#DCEEF3',
             border: '1px solid #e5e7eb',
             borderRadius: '0.5rem',
             padding: '1.5rem',
@@ -393,7 +393,7 @@ const Attendance = () => {
 
         {/* Attendance Table */}
         <div style={{
-          backgroundColor: 'white',
+          backgroundColor: '#DCEEF3',
           border: '1px solid #e5e7eb',
           borderRadius: '0.5rem',
           padding: '1.5rem',
